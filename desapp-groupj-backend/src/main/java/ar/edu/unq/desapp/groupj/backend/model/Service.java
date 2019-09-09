@@ -1,3 +1,5 @@
+package ar.edu.unq.desapp.groupj.backend.model;
+
 import java.util.Date;
 
 public class Service {

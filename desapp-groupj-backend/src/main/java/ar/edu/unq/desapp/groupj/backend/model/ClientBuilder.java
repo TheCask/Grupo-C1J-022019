@@ -1,3 +1,5 @@
+package ar.edu.unq.desapp.groupj.backend.model;
+
 public class ClientBuilder {
     public static ClientBuilder aClient() {
         return new ClientBuilder();
