@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import java.util.Date;
 
 public class Menu {
-    private Business        business;
+    private Service         service;
     private String          name;
     private String          description;
     private MenuCategory    category;
@@ -21,12 +21,12 @@ public class Menu {
 
     private Menu() {}
 
-    public Menu(Business business, String name, String description,
+    public Menu(Service service, String name, String description,
             MenuCategory category, float deliveryValue, Date availableFrom,
             Date availableTo, DeliveryShift deliveryShifts[], float averageDeliveryTime,
             float price, int minimumAmount1, float minimumAmount1Price,
             int minimumAmount2, float minimumAmount2Price, int maximumDailySales ) {
-        this.setBusiness(business);
+        this.setService(service);
         this.setName(name);
         this.setDescription(description);
         this.setCategory(category);
@@ -43,12 +43,12 @@ public class Menu {
         this.setMaximumDailySales(maximumDailySales);
     }
 
-    public Business getBusiness() {
-        return business;
+    public Service getService() {
+        return service;
     }
 
-    public void setBusiness(Business business) {
-        this.business = business;
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public String getName() {
@@ -165,7 +165,7 @@ public class Menu {
 
 
     public static class Builder {
-        private Business        business;
+        private Service         service;
         private String          name;
         private String          description;
         private MenuCategory    category;
@@ -181,8 +181,8 @@ public class Menu {
         private float           minimumAmount2Price;
         private int             maximumDailySales;
 
-        public Builder(Business business, String name) {
-            this.business = business;
+        public Builder(Service service, String name) {
+            this.service = service;
             this.name = name;
         }
 
@@ -252,7 +252,7 @@ public class Menu {
         }
 
         public Menu build() {
-            return new Menu(this.business,
+            return new Menu(this.service,
                             this.name,
                             this.description,
                             this.category ,
