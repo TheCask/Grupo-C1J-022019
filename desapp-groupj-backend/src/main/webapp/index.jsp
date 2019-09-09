@@ -47,6 +47,12 @@
     parameters include optional parameters, as well as mode-specific parameters.
     -->
     <iframe width="600" height="450" frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyANpONg-CznLpHdRPClvLm_0NH53mOcEhE
+            &origin=Bernal+Argentina
+            &destination=La+Plata+Argentina
+            &avoid=tolls" allowfullscreen>
+    </iframe>
+    <iframe width="600" height="450" frameborder="0" style="border:0"
             src="https://www.google.com/maps/embed/v1/place?q=Lebensohn+52%2C+Bernal%2C+Buenos+Aires%2C+Argentina&key=AIzaSyANpONg-CznLpHdRPClvLm_0NH53mOcEhE"
             allowfullscreen>
     </iframe>
@@ -61,18 +67,44 @@
         };
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-        var unqPosition = {lat: -34.706513,lng: -58.278518};
+        /*
+        var unqPosition = {lat: -34.706513, lng: -58.278518};
         var marker = new google.maps.Marker({
             position: unqPosition,
             map: map,
             title: 'UNQ'
         });
+        */
 
-        var rocaBernalPosition = {lat: -34.709475,lng: -58.280314};
+        var rocaBernalPosition = {lat: -34.709475, lng: -58.280314};
         var marker = new google.maps.Marker({
             position: rocaBernalPosition,
             map: map,
             title: 'ROCA'
+        });
+
+        var geocoder = new google.maps.Geocoder;
+
+        /*
+        latitude=marker.getPosition().lat();
+        longitude=marker.getPosition().lng();
+        */
+
+        var latlng = {lat: parseFloat(-34.706513), lng: parseFloat(-58.278518)};
+        geocoder.geocode({'location': latlng}, function (results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    var marker = new google.maps.Marker({
+                        position: results[0].place_id,
+                        map: map,
+                        title: 'UNQ'
+                    });
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
         });
     }
 </script>
