@@ -8,15 +8,20 @@ public class Service {
     String site;
     String mail;
     String phone;
-    int deliveryRadius;
+    int deliveryZone;
 
-    public Service(String name, String city, String address, String description, String mail, String phone, int deliveryRadius) {
+    public Service(String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
         this.name = name;
         this.city = city;
         this.address = address;
         this.description = description;
         this.mail = mail;
         this.phone = phone;
-        this.deliveryRadius = deliveryRadius;
+        this.deliveryZone = deliveryZone;
+    }
+
+    public Service addSite(String aSite) {
+        this.site = aSite;
+        return this;
     }
 }
