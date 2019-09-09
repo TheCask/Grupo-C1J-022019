@@ -1,3 +1,5 @@
+package ar.edu.unq.desapp.groupj.backend.model;
+
 public class Client {
     private String firstName;
     private String lastName;
