@@ -1,9 +1,24 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.Date;
 import java.util.List;
 
 public class Menu {
+    private static final int MIN_NAME_LENGTH = 4;
+    private static final int MAX_NAME_LENGTH = 30;
+    private static final int MIN_DESCRIPTION_LENGTH = 20;
+    private static final int MAX_DESCRIPTION_LENGTH = 40;
+    private static final double MIN_DELIVERY_VALUE = 10.0;
+    private static final double MAX_DELIVERY_VALUE = 40.0;
+    private static final int BOTTOM_MINIMUM_AMOUNT_1 = 10;
+    private static final int TOP_MINIMUM_AMOUNT_1 = 70;
+    private static final int BOTTOM_MINIMUM_AMOUNT_2 = 40;
+    private static final int TOP_MINIMUM_AMOUNT_2 = 150;
+    private static final double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
+    private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
+
     private Service         service;
     private String          name;
     private String          description;
@@ -57,6 +72,7 @@ public class Menu {
     }
 
     public void setName(String name) {
+        validateStringLength(name,MIN_NAME_LENGTH,MAX_NAME_LENGTH,"Name");
         this.name = name;
     }
 
@@ -65,6 +81,7 @@ public class Menu {
     }
 
     public void setDescription(String description) {
+        validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
         this.description = description;
     }
 
@@ -81,6 +98,7 @@ public class Menu {
     }
 
     public void setDeliveryValue(double deliveryValue) {
+        validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
         this.deliveryValue = deliveryValue;
     }
 
@@ -129,6 +147,7 @@ public class Menu {
     }
 
     public void setMinimumAmount1(int minimumAmount1) {
+        validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
         this.minimumAmount1 = minimumAmount1;
     }
 
@@ -137,6 +156,7 @@ public class Menu {
     }
 
     public void setMinimumAmount1Price(double minimumAmount1Price) {
+        validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount1Price = minimumAmount1Price;
     }
 
@@ -145,6 +165,7 @@ public class Menu {
     }
 
     public void setMinimumAmount2(int minimumAmount2) {
+        validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
         this.minimumAmount2 = minimumAmount2;
     }
 
@@ -153,6 +174,7 @@ public class Menu {
     }
 
     public void setMinimumAmount2Price(double minimumAmount2Price) {
+        validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount2Price = minimumAmount2Price;
     }
 
@@ -163,6 +185,23 @@ public class Menu {
     public void setMaximumDailySales(int maximumDailySales) {
         this.maximumDailySales = maximumDailySales;
     }
+
+    private void validateStringLength(String value, int minimumLength, int maximumLength, String propertyName) {
+        if( !(value.length() >= minimumLength && value.length() <= maximumLength) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene una longitud incorrecta.");
+    }
+
+    private void validateIntValue(int value, int minimum, int maximum, String propertyName) {
+        if( !(value >= minimum && value <= maximum) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
+
+    private void validateDoubleValue(double value, double minimum, double maximum, String propertyName) {
+        if( !(value >= minimum && value <= maximum) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
+
+
 
 
     public static class Builder {

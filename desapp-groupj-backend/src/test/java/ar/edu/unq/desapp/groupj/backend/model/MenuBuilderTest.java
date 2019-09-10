@@ -13,17 +13,17 @@ public class MenuBuilderTest {
         Menu menu = Menu.Builder.aMenu().
                     withService(mock(Service.class)).
                     withName("Fugazetta Rellena").
-                    withDescription("Alta fugazzeta papuuu").
+                    withDescription("Alta fugazzeta papuuu!!!!!!").
                     withCategory(MenuCategory.Pizza).
-                    withDeliveryValue(0.0).
+                    withDeliveryValue(10.0).
                     withAvailableFrom(mock(Date.class)).
                     withAvailableTo(mock(Date.class)).
                     withDeliveryShifts(null).
                     withAverageDeliveryTime(1).
                     withPrice(100.0).
-                    withMinimumAmount1(3).
+                    withMinimumAmount1(13).
                     withMinimumAmount1Price(90).
-                    withMinimumAmount2(10).
+                    withMinimumAmount2(41).
                     withMinimumAmount2Price(70).
                     withMaximumDailySales(50).
                     build();

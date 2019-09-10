@@ -19,16 +19,16 @@ public class MenuTest {
                 withName("Fugazetta Rellena").
                 withDescription("Alta fugazzeta papuuu").
                 withCategory(MenuCategory.Pizza).
-                withDeliveryValue(0.0).
+                withDeliveryValue(20.0).
                 withAvailableFrom(mock(Date.class)).
                 withAvailableTo(mock(Date.class)).
                 withDeliveryShifts(null).
                 withAverageDeliveryTime(1).
                 withPrice(100.0).
-                withMinimumAmount1(3).
-                withMinimumAmount1Price(90).
-                withMinimumAmount2(10).
-                withMinimumAmount2Price(70).
+                withMinimumAmount1(13).
+                withMinimumAmount1Price(600).
+                withMinimumAmount2(50).
+                withMinimumAmount2Price(500).
                 withMaximumDailySales(50).
                 build();
     }
@@ -39,16 +39,16 @@ public class MenuTest {
                 "Fugazetta Rellena",
                 "Alta fugazzeta papuuu",
                 MenuCategory.Pizza,
-                0.0,
+                20.0,
                 mock(Date.class),
                 mock(Date.class),
                 null,
                 1,
                 100.0,
-                3,
-                90,
-                10,
-                70,
+                13,
+                600,
+                50,
+                500,
                 50);
 
         assertEquals( 100.0, m.getPrice() );
@@ -74,7 +74,7 @@ public class MenuTest {
 
     @Test
     public void testDescriptionAccessors() {
-        String description = "Alta Redonda Ameo!";
+        String description = "Alta Redonda Ameo!!!!!";
 
         this.menu.setDescription(description);
 
@@ -92,7 +92,7 @@ public class MenuTest {
 
     @Test
     public void testDeliveryValueAccessors() {
-        double deliveryValue = 6.7;
+        double deliveryValue = 26.7;
 
         this.menu.setDeliveryValue(deliveryValue);
 
@@ -146,7 +146,7 @@ public class MenuTest {
 
     @Test
     public void testMinimumAmount1Accessors() {
-        int amount = 3;
+        int amount = 13;
 
         this.menu.setMinimumAmount1(amount);
 
@@ -164,7 +164,7 @@ public class MenuTest {
 
     @Test
     public void testMinimumAmount2Accessors() {
-        int amount = 3;
+        int amount = 43;
 
         this.menu.setMinimumAmount2(amount);
 
@@ -187,6 +187,41 @@ public class MenuTest {
         this.menu.setMaximumDailySales(sales);
 
         assertEquals( sales, this.menu.getMaximumDailySales() );
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetNameInvalidLengthRaisesException() {
+        this.menu.setName("FYI");
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetDescriptionInvalidLengthRaisesException() {
+        this.menu.setName("FYI");
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetInvalidDeliveryValueRaisesException() {
+        this.menu.setDeliveryValue(0.0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetInvalidMinimumAmount1RaisesException() {
+        this.menu.setMinimumAmount1(0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetInvalidMinimumAmount1PriceRaisesException() {
+        this.menu.setMinimumAmount1Price(2000);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetInvalidMinimumAmount2RaisesException() {
+        this.menu.setMinimumAmount2(0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetInvalidMinimumAmount2PriceRaisesException() {
+        this.menu.setMinimumAmount2Price(2000);
     }
 
 }
