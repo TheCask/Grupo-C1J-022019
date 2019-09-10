@@ -1,29 +1,30 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Menu {
     private Service         service;
     private String          name;
     private String          description;
     private MenuCategory    category;
-    private double           deliveryValue;
+    private double          deliveryValue;
     private Date            availableFrom;
     private Date            availableTo;
-    private DeliveryShift[]   deliveryShifts;
-    private double           averageDeliveryTime;
-    private double           price; //?
+    private List<DeliveryShift> deliveryShifts;
+    private double          averageDeliveryTime;
+    private double          price; //?
     private int             minimumAmount1;
-    private double           minimumAmount1Price;
+    private double          minimumAmount1Price;
     private int             minimumAmount2;
-    private double           minimumAmount2Price;
+    private double          minimumAmount2Price;
     private int             maximumDailySales;
 
     private Menu() {}
 
     public Menu(Service service, String name, String description,
             MenuCategory category, double deliveryValue, Date availableFrom,
-            Date availableTo, DeliveryShift deliveryShifts[], double averageDeliveryTime,
+            Date availableTo, List<DeliveryShift> deliveryShifts, double averageDeliveryTime,
             double price, int minimumAmount1, double minimumAmount1Price,
             int minimumAmount2, double minimumAmount2Price, int maximumDailySales ) {
         this.setService(service);
@@ -99,11 +100,11 @@ public class Menu {
         this.availableTo = availableTo;
     }
 
-    public DeliveryShift[] getDeliveryShifts() {
+    public List<DeliveryShift> getDeliveryShifts() {
         return deliveryShifts;
     }
 
-    public void setDeliveryShifts(DeliveryShift[] deliveryShifts) {
+    public void setDeliveryShifts(List<DeliveryShift> deliveryShifts) {
         this.deliveryShifts = deliveryShifts;
     }
 
@@ -169,16 +170,16 @@ public class Menu {
         private String          name;
         private String          description;
         private MenuCategory    category;
-        private double           deliveryValue;
+        private double          deliveryValue;
         private Date            availableFrom;
         private Date            availableTo;
-        private DeliveryShift   deliveryShifts[];
-        private double           averageDeliveryTime;
-        private double           price;
+        private List<DeliveryShift>   deliveryShifts;
+        private double          averageDeliveryTime;
+        private double          price;
         private int             minimumAmount1;
-        private double           minimumAmount1Price;
+        private double          minimumAmount1Price;
         private int             minimumAmount2;
-        private double           minimumAmount2Price;
+        private double          minimumAmount2Price;
         private int             maximumDailySales;
 
         private Builder(){}
@@ -222,7 +223,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withDeliveryShifts(DeliveryShift deliveryShifts[]) {
+        public Builder withDeliveryShifts(List<DeliveryShift> deliveryShifts) {
             this.deliveryShifts = deliveryShifts;
             return this;
         }
