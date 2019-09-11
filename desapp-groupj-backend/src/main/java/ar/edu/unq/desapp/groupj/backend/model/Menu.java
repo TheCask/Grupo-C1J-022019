@@ -1,31 +1,46 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Menu {
+    private static final int MIN_NAME_LENGTH = 4;
+    private static final int MAX_NAME_LENGTH = 30;
+    private static final int MIN_DESCRIPTION_LENGTH = 20;
+    private static final int MAX_DESCRIPTION_LENGTH = 40;
+    private static final double MIN_DELIVERY_VALUE = 10.0;
+    private static final double MAX_DELIVERY_VALUE = 40.0;
+    private static final int BOTTOM_MINIMUM_AMOUNT_1 = 10;
+    private static final int TOP_MINIMUM_AMOUNT_1 = 70;
+    private static final int BOTTOM_MINIMUM_AMOUNT_2 = 40;
+    private static final int TOP_MINIMUM_AMOUNT_2 = 150;
+    private static final double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
+    private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
+
     private Service         service;
     private String          name;
     private String          description;
     private MenuCategory    category;
-    private float           deliveryValue;
+    private double          deliveryValue;
     private Date            availableFrom;
     private Date            availableTo;
-    private DeliveryShift[]   deliveryShifts;
-    private float           averageDeliveryTime;
-    private float           price; //?
+    private List<DeliveryShift> deliveryShifts;
+    private double          averageDeliveryTime;
+    private double          price; //?
     private int             minimumAmount1;
-    private float           minimumAmount1Price;
+    private double          minimumAmount1Price;
     private int             minimumAmount2;
-    private float           minimumAmount2Price;
+    private double          minimumAmount2Price;
     private int             maximumDailySales;
+    private List<Rate>      rates;
 
     private Menu() {}
 
     public Menu(Service service, String name, String description,
-            MenuCategory category, float deliveryValue, Date availableFrom,
-            Date availableTo, DeliveryShift deliveryShifts[], float averageDeliveryTime,
-            float price, int minimumAmount1, float minimumAmount1Price,
-            int minimumAmount2, float minimumAmount2Price, int maximumDailySales ) {
+            MenuCategory category, double deliveryValue, Date availableFrom,
+            Date availableTo, List<DeliveryShift> deliveryShifts, double averageDeliveryTime,
+            double price, int minimumAmount1, double minimumAmount1Price,
+            int minimumAmount2, double minimumAmount2Price, int maximumDailySales ) {
         this.setService(service);
         this.setName(name);
         this.setDescription(description);
@@ -56,6 +71,7 @@ public class Menu {
     }
 
     public void setName(String name) {
+        validateStringLength(name,MIN_NAME_LENGTH,MAX_NAME_LENGTH,"Name");
         this.name = name;
     }
 
@@ -64,6 +80,7 @@ public class Menu {
     }
 
     public void setDescription(String description) {
+        validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
         this.description = description;
     }
 
@@ -75,11 +92,12 @@ public class Menu {
         this.category = category;
     }
 
-    public float getDeliveryValue() {
+    public double getDeliveryValue() {
         return deliveryValue;
     }
 
-    public void setDeliveryValue(float deliveryValue) {
+    public void setDeliveryValue(double deliveryValue) {
+        validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
         this.deliveryValue = deliveryValue;
     }
 
@@ -99,27 +117,27 @@ public class Menu {
         this.availableTo = availableTo;
     }
 
-    public DeliveryShift[] getDeliveryShifts() {
+    public List<DeliveryShift> getDeliveryShifts() {
         return deliveryShifts;
     }
 
-    public void setDeliveryShifts(DeliveryShift[] deliveryShifts) {
+    public void setDeliveryShifts(List<DeliveryShift> deliveryShifts) {
         this.deliveryShifts = deliveryShifts;
     }
 
-    public float getAverageDeliveryTime() {
+    public double getAverageDeliveryTime() {
         return averageDeliveryTime;
     }
 
-    public void setAverageDeliveryTime(float averageDeliveryTime) {
+    public void setAverageDeliveryTime(double averageDeliveryTime) {
         this.averageDeliveryTime = averageDeliveryTime;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -128,14 +146,16 @@ public class Menu {
     }
 
     public void setMinimumAmount1(int minimumAmount1) {
+        validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
         this.minimumAmount1 = minimumAmount1;
     }
 
-    public float getMinimumAmount1Price() {
+    public double getMinimumAmount1Price() {
         return minimumAmount1Price;
     }
 
-    public void setMinimumAmount1Price(float minimumAmount1Price) {
+    public void setMinimumAmount1Price(double minimumAmount1Price) {
+        validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount1Price = minimumAmount1Price;
     }
 
@@ -144,14 +164,16 @@ public class Menu {
     }
 
     public void setMinimumAmount2(int minimumAmount2) {
+        validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
         this.minimumAmount2 = minimumAmount2;
     }
 
-    public float getMinimumAmount2Price() {
+    public double getMinimumAmount2Price() {
         return minimumAmount2Price;
     }
 
-    public void setMinimumAmount2Price(float minimumAmount2Price) {
+    public void setMinimumAmount2Price(double minimumAmount2Price) {
+        validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount2Price = minimumAmount2Price;
     }
 
@@ -163,27 +185,72 @@ public class Menu {
         this.maximumDailySales = maximumDailySales;
     }
 
+    public void setRates(List<Rate> rates) {
+        this.rates = rates;
+    }
+
+    public void addRate(Rate rate) {
+        this.rates.add(rate);
+    }
+
+    public int getRateCount() { return this.rates.size(); }
+
+    public int getAverageRate() {
+        int rateSum = this.rates.stream().
+                                map( x -> x.getValue() ).
+                                reduce(0,Integer::sum );
+        return rateSum / getRateCount();
+    }
+
+    private void validateStringLength(String value, int minimumLength, int maximumLength, String propertyName) {
+        if( !(value.length() >= minimumLength && value.length() <= maximumLength) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene una longitud incorrecta.");
+    }
+
+    private void validateIntValue(int value, int minimum, int maximum, String propertyName) {
+        if( !(value >= minimum && value <= maximum) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
+
+    private void validateDoubleValue(double value, double minimum, double maximum, String propertyName) {
+        if( !(value >= minimum && value <= maximum) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
+
+
+
 
     public static class Builder {
         private Service         service;
         private String          name;
         private String          description;
         private MenuCategory    category;
-        private float           deliveryValue;
+        private double          deliveryValue;
         private Date            availableFrom;
         private Date            availableTo;
-        private DeliveryShift   deliveryShifts[];
-        private float           averageDeliveryTime;
-        private float           price;
+        private List<DeliveryShift>   deliveryShifts;
+        private double          averageDeliveryTime;
+        private double          price;
         private int             minimumAmount1;
-        private float           minimumAmount1Price;
+        private double          minimumAmount1Price;
         private int             minimumAmount2;
-        private float           minimumAmount2Price;
+        private double          minimumAmount2Price;
         private int             maximumDailySales;
 
-        public Builder(Service service, String name) {
+        private Builder(){}
+
+        public static Builder aMenu() {
+            return new Builder();
+        }
+
+        public Builder withService(Service service) {
             this.service = service;
+            return this;
+        }
+
+        public Builder withName(String name) {
             this.name = name;
+            return this;
         }
 
         public Builder withDescription(String description) {
@@ -196,7 +263,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withDeliveryValue(float deliveryValue) {
+        public Builder withDeliveryValue(double deliveryValue) {
             this.deliveryValue = deliveryValue;
             return this;
         }
@@ -211,7 +278,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withDeliveryShifts(DeliveryShift deliveryShifts[]) {
+        public Builder withDeliveryShifts(List<DeliveryShift> deliveryShifts) {
             this.deliveryShifts = deliveryShifts;
             return this;
         }
@@ -221,7 +288,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withPrice(float price) {
+        public Builder withPrice(double price) {
             this.price = price;
             return this;
         }
@@ -231,7 +298,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withMinimumAmount1Price(float minimumAmount1Price) {
+        public Builder withMinimumAmount1Price(double minimumAmount1Price) {
             this.minimumAmount1Price = minimumAmount1Price;
             return this;
         }
@@ -241,7 +308,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withMinimumAmount2Price(float minimumAmount2Price) {
+        public Builder withMinimumAmount2Price(double minimumAmount2Price) {
             this.minimumAmount2Price = minimumAmount2Price;
             return this;
         }
