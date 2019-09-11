@@ -67,14 +67,13 @@
         };
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-        /*
         var unqPosition = {lat: -34.706513, lng: -58.278518};
         var marker = new google.maps.Marker({
             position: unqPosition,
             map: map,
             title: 'UNQ'
         });
-        */
+
 
         var rocaBernalPosition = {lat: -34.709475, lng: -58.280314};
         var marker = new google.maps.Marker({
@@ -89,7 +88,7 @@
         latitude=marker.getPosition().lat();
         longitude=marker.getPosition().lng();
         */
-
+        /*
         var latlng = {lat: parseFloat(-34.706513), lng: parseFloat(-58.278518)};
         geocoder.geocode({'location': latlng}, function (results, status) {
             if (status === 'OK') {
@@ -106,6 +105,7 @@
                 window.alert('Geocoder failed due to: ' + status);
             }
         });
+        */
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANpONg-CznLpHdRPClvLm_0NH53mOcEhE&callback=initMap"
