@@ -1,7 +1,5 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.Date;
 import java.util.List;
 
