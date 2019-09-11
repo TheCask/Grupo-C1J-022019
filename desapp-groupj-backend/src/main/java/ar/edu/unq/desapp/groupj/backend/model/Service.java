@@ -26,4 +26,23 @@ public class Service {
         this.site = aSite;
         return this;
     }
+
+    // GETTERS
+
+    public String getName() { return name; }
+
+    public String getCity() { return city; }
+
+    public String getAddress() { return address; }
+
+    public String getDescription() { return description; }
+
+    public String getSite() { return site; }
+
+    public String getMail() { return mail; }
+
+    public String getPhone() { return phone; }
+
+    public int getDeliveryZone() { return deliveryZone; }
 }
+

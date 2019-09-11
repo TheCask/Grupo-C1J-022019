@@ -27,4 +27,24 @@ public class ClientBuilder {
         credit = initialCredit;
         return this;
     }
+
+    public ClientBuilder withMail(final String aMail) {
+        mail = aMail;
+        return this;
+    }
+
+    public ClientBuilder withPhone(final String aPhone) {
+        phone = aPhone;
+        return this;
+    }
+
+    public ClientBuilder withAddress(final String anAddress) {
+        address = anAddress;
+        return this;
+    }
+
+    public ClientBuilder withCity(String aCity) {
+        city = aCity;
+        return this;
+    }
 }
