@@ -34,6 +34,7 @@ public class Menu {
     private int             minimumAmount2;
     private double          minimumAmount2Price;
     private int             maximumDailySales;
+    private List<Rate>      rates;
 
     private Menu() {}
 
@@ -184,6 +185,23 @@ public class Menu {
 
     public void setMaximumDailySales(int maximumDailySales) {
         this.maximumDailySales = maximumDailySales;
+    }
+
+    public void setRates(List<Rate> rates) {
+        this.rates = rates;
+    }
+
+    public void addRate(Rate rate) {
+        this.rates.add(rate);
+    }
+
+    public int getRateCount() { return this.rates.size(); }
+
+    public int getAverageRate() {
+        int rateSum = this.rates.stream().
+                                map( x -> x.getValue() ).
+                                reduce(0,Integer::sum );
+        return rateSum / getRateCount();
     }
 
     private void validateStringLength(String value, int minimumLength, int maximumLength, String propertyName) {
