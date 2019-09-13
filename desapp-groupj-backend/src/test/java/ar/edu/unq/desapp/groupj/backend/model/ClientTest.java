@@ -1,11 +1,11 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
-        import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ClientTest {
     @Test
-    public void chargeCreditToAccount_5000() {
+    public void chargeCreditToAccount5000() {
         int credit = 5000;
         Client aClient = ClientBuilder.aClient().withCredit(0).build();
 

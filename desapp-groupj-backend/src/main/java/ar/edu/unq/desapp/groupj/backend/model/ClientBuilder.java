@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 public class ClientBuilder {
-    public static ClientBuilder aClient() {
-        return new ClientBuilder();
-    }
 
     private String firstName = "no firstName";
     private String lastName = "no lastName";
@@ -12,6 +9,10 @@ public class ClientBuilder {
     private String city = "no city";
     private String address = "no address";
     private int credit = 0;
+
+    public static ClientBuilder aClient() {
+        return new ClientBuilder();
+    }
 
     public Client build() {
         return new Client(firstName, lastName, mail, phone, city, address, credit);

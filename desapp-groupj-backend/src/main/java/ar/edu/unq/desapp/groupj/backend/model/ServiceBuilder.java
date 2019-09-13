@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 public class ServiceBuilder {
-    public static ServiceBuilder aService() {
-        return new ServiceBuilder();
-    }
 
     private String name = "no name";
     private String city = "no city";
@@ -12,6 +9,10 @@ public class ServiceBuilder {
     private String address = "no address";
     private String description = "no description";
     private int deliveryZone = 0;
+
+    public static ServiceBuilder aService() {
+        return new ServiceBuilder();
+    }
 
     public Service build() {
         return new Service(name, city, address, description, mail, phone, deliveryZone);

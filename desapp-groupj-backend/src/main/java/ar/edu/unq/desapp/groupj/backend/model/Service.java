@@ -1,16 +1,14 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
-import java.util.Date;
-
 public class Service {
-    String name;
-    String city;
-    String address;
-    String description;
-    String site;
-    String mail;
-    String phone;
-    int deliveryZone;
+    private String name;
+    private String city;
+    private String address;
+    private String description;
+    private String site;
+    private String mail;
+    private String phone;
+    private int deliveryZone;
 
     public Service(String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
         this.name = name;
