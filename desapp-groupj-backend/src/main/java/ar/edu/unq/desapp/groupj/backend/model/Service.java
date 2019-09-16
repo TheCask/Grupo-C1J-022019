@@ -80,10 +80,9 @@ public class Service {
 
     // use regex for validation
     private void validateMail(String mail, String propertyName) {
-        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);;
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(mail);
         if( !matcher.find() )
             throw new IllegalArgumentException("Property '"+propertyName+"' has incorrect format.");
     }
 }
-
