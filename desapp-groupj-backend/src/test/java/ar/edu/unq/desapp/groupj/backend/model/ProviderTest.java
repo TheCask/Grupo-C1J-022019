@@ -2,7 +2,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class ProviderTest {
     @Test
@@ -25,4 +26,42 @@ public class ProviderTest {
         assertEquals(6000, aProvider.getCredit());
     }
 
+    @Test
+    public void addMenuToProvider() {
+        Menu menuMock = mock(Menu.class);
+
+        Provider aProvider = ProviderBuilder.aProvider().build();
+        assertEquals(0, aProvider.getMenus().size());
+
+        aProvider.addMenu(menuMock);
+        assertEquals(1, aProvider.getMenus().size());
+        assertTrue(aProvider.getMenus().contains(menuMock));
+    }
+
+    @Test
+    public void removeMenuFromProvider() {
+        Menu menuMock = mock(Menu.class);
+
+        Provider aProvider = ProviderBuilder.aProvider().withMenu(menuMock).build();
+        assertEquals(1, aProvider.getMenus().size());
+
+        aProvider.deleteMenu(menuMock);
+        assertFalse(aProvider.getMenus().contains(menuMock));
+        assertEquals(0, aProvider.getMenus().size());
+    }
+
+    @Test
+    public void updateMenuFromProvider() {
+        Menu menuMock1 = mock(Menu.class);
+        Menu menuMock2 = mock(Menu.class);
+
+        Provider aProvider = ProviderBuilder.aProvider().withMenu(menuMock1).build();
+        assertEquals(1, aProvider.getMenus().size());
+        assertTrue(aProvider.getMenus().contains(menuMock1));
+
+        aProvider.updateMenu(menuMock1, menuMock2);
+        assertFalse(aProvider.getMenus().contains(menuMock1));
+        assertTrue(aProvider.getMenus().contains(menuMock2));
+        assertEquals(1, aProvider.getMenus().size());
+    }
 }
