@@ -1,8 +1,9 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.mock;
 
 public class ProviderTest {

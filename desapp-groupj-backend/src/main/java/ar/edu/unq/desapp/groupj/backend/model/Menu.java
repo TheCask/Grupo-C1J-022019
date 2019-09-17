@@ -71,7 +71,7 @@ public class Menu {
     }
 
     public void setName(String name) {
-        validateStringLength(name,MIN_NAME_LENGTH,MAX_NAME_LENGTH,"Name");
+        Validators.validateStringLength(name,MIN_NAME_LENGTH,MAX_NAME_LENGTH,"Name");
         this.name = name;
     }
 
@@ -80,7 +80,7 @@ public class Menu {
     }
 
     public void setDescription(String description) {
-        validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
+        Validators.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
         this.description = description;
     }
 
@@ -97,7 +97,7 @@ public class Menu {
     }
 
     public void setDeliveryValue(double deliveryValue) {
-        validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
+        Validators.validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
         this.deliveryValue = deliveryValue;
     }
 
@@ -146,7 +146,7 @@ public class Menu {
     }
 
     public void setMinimumAmount1(int minimumAmount1) {
-        validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
+        Validators.validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
         this.minimumAmount1 = minimumAmount1;
     }
 
@@ -155,7 +155,7 @@ public class Menu {
     }
 
     public void setMinimumAmount1Price(double minimumAmount1Price) {
-        validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
+        Validators.validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount1Price = minimumAmount1Price;
     }
 
@@ -164,7 +164,7 @@ public class Menu {
     }
 
     public void setMinimumAmount2(int minimumAmount2) {
-        validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
+        Validators.validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
         this.minimumAmount2 = minimumAmount2;
     }
 
@@ -173,7 +173,7 @@ public class Menu {
     }
 
     public void setMinimumAmount2Price(double minimumAmount2Price) {
-        validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
+        Validators.validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount2Price = minimumAmount2Price;
     }
 
@@ -201,24 +201,6 @@ public class Menu {
                                 reduce(0,Integer::sum );
         return rateSum / getRateCount();
     }
-
-    private void validateStringLength(String value, int minimumLength, int maximumLength, String propertyName) {
-        if( !(value.length() >= minimumLength && value.length() <= maximumLength) )
-            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene una longitud incorrecta.");
-    }
-
-    private void validateIntValue(int value, int minimum, int maximum, String propertyName) {
-        if( !(value >= minimum && value <= maximum) )
-            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
-    }
-
-    private void validateDoubleValue(double value, double minimum, double maximum, String propertyName) {
-        if( !(value >= minimum && value <= maximum) )
-            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
-    }
-
-
-
 
     public static class Builder {
         private Service         service;

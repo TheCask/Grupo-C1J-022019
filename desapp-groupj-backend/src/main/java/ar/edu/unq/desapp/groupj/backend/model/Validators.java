@@ -17,4 +17,14 @@ public class Validators {
         if( !matcher.find() )
             throw new IllegalArgumentException("Property '"+propertyName+"' has incorrect format.");
     }
+
+    public static void validateIntValue(int value, int minimum, int maximum, String propertyName) {
+        if( !(value >= minimum && value <= maximum) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
+
+    public static void validateDoubleValue(double value, double minimum, double maximum, String propertyName) {
+        if( !(value >= minimum && value <= maximum) )
+            throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
 }
