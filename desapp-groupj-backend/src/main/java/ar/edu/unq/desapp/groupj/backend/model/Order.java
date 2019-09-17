@@ -64,7 +64,7 @@ public class Order {
         private int id;
         private Menu menu;
         private Date deliveryDate;
-        private List<OrderDetail> details;
+        private List<OrderDetail> details = new ArrayList<OrderDetail>();
 
         private Builder() {}
 
