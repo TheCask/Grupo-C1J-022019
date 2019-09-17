@@ -39,4 +39,20 @@ public class Client {
     public String getCity() { return this.city; }
 
     public String getAddress() { return this.address; }
+
+    // SETTERS
+
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public void setMail(String mail) { this.mail = mail; }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public void setCity(String city) { this.city = city; }
+
+    public void setAddress(String address) { this.address = address; }
+
+    public void setCredit(int credit) { this.credit = credit; }
 }

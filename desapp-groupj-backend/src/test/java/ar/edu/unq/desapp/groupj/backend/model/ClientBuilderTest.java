@@ -60,5 +60,4 @@ public class ClientBuilderTest {
 
         assertEquals(address, aClient.getAddress());
     }
-
 }

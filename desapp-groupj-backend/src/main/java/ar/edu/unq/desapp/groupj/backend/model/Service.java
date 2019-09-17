@@ -1,12 +1,15 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 public class Service {
+    private static final int MIN_DESCRIPTION_LENGTH = 30;
+    private static final int MAX_DESCRIPTION_LENGTH = 200;
+
     private String name;
     private String city;
     private String address;
-    private String description;
+    private String description; //min 30 max 200 chars
     private String site;
-    private String mail;
+    private String mail; //valid mail
     private String phone;
     private int deliveryZone;
 
@@ -42,5 +45,28 @@ public class Service {
     public String getPhone() { return phone; }
 
     public int getDeliveryZone() { return deliveryZone; }
-}
 
+    // SETTERS
+
+    public void setName(String name) { this.name = name; }
+
+    public void setCity(String city) { this.city = city; }
+
+    public void setAddress(String address) { this.address = address; }
+
+    public void setDescription(String description) {
+        Validators.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
+        this.description = description;
+    }
+
+    public void setSite(String site) { this.site = site; }
+
+    public void setMail(String mail) {
+        Validators.validateMail(mail, "mail");
+        this.mail = mail;
+    }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
+}
