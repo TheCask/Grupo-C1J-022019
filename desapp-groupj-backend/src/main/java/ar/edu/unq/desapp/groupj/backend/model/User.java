@@ -1,8 +1,9 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Client {
+public class User {
 
     private String firstName;
     private String lastName;
@@ -12,9 +13,9 @@ public class Client {
     private String address;
     private int credit;
 
-    private ArrayList<Service> services = new ArrayList<Service>();
+    private List<Service> services = new ArrayList<Service>();
 
-    public Client(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
+    public User(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mail = mail;
@@ -39,8 +40,8 @@ public class Client {
 
     public boolean equals(Object aClient) {
         if (aClient == null || this.getClass() != aClient.getClass()) return false;
-        Client client = (Client) aClient;
-        if (this.getMail().equals(client.getMail())) return true;
+        User user = (User) aClient;
+        if (this.getMail().equals(user.getMail())) return true;
         return false;
     }
 
@@ -60,7 +61,7 @@ public class Client {
 
     public String getAddress() { return this.address; }
 
-    public ArrayList<Service> getServices() { return services; }
+    public List<Service> getServices() { return services; }
 
     // SETTERS
 

@@ -207,9 +207,9 @@ public class MenuTest {
         List<Rate> rates = new ArrayList<Rate>();
 
         this.menu.setRates(rates);
-        this.menu.addRate(new Rate(mock(Client.class), 2));
-        this.menu.addRate(new Rate(mock(Client.class), 2));
-        this.menu.addRate(new Rate(mock(Client.class), 2));
+        this.menu.addRate(new Rate(mock(User.class), 2));
+        this.menu.addRate(new Rate(mock(User.class), 2));
+        this.menu.addRate(new Rate(mock(User.class), 2));
 
         assertEquals( 3, this.menu.getRateCount() );
         assertEquals( 2, this.menu.getAverageRate() );

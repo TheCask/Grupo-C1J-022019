@@ -1,13 +1,12 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class ViandasSystem {
 
     private static ViandasSystem miViandasSystem;
 
-    ArrayList<Client> clients = new ArrayList<Client>();
+    ArrayList<User> users = new ArrayList<User>();
 
 
     private ViandasSystem() {};
@@ -17,21 +16,21 @@ public class ViandasSystem {
         return miViandasSystem;
     }
 
-    public void registerClient(Client aClient) {
+    public void registerUser(User aUser) {
 
-        if (!this.clients.contains(aClient)) { this.clients.add(aClient); }
-        else { throw new IllegalArgumentException("Client already registered"); }
+        if (!this.users.contains(aUser)) { this.users.add(aUser); }
+        else { throw new IllegalArgumentException("User already registered"); }
     }
 
-    public ArrayList<Client> getClients() { return clients; }
+    public ArrayList<User> getUsers() { return users; }
 
-    public int chargeCreditToClient(int credit, Client aClient) { return aClient.chargeCredit(credit); }
+    public int chargeCreditToUser(int credit, User aUser) { return aUser.chargeCredit(credit); }
 
-    public void clientPostService(Client aClient, Service aService) { aClient.postService(aService); }
+    public void userPostService(User aUser, Service aService) { aUser.postService(aService); }
 
     public void addMenuToService(Menu aMenu, Service aService) { aService.addMenu(aMenu); }
 
-    public int withdrawCreditFromClient(int creditToWithdraw, Client aClient) {
-        return aClient.withdrawCredit(creditToWithdraw);
+    public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
+        return aUser.withdrawCredit(creditToWithdraw);
     }
 }

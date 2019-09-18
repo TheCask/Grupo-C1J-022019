@@ -12,62 +12,62 @@ import static org.mockito.Mockito.verify;
 public class ViandasSystemTest {
 
     @Test
-    public void clientRegistration() {
-        Client aClient = mock(Client.class);
+    public void UserRegistration() {
+        User aUser = mock(User.class);
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        system.registerClient(aClient);
+        system.registerUser(aUser);
 
-        assertTrue(system.getClients().contains(aClient));
+        assertTrue(system.getUsers().contains(aUser));
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void tryToRegisterAClientAlreadyRegisteredWithSameMailFails() {
+    public void tryToRegisterAUserAlreadyRegisteredWithSameMailFails() {
         String aMail = "firstName_lastName@domain.com";
-        Client aClient = ClientBuilder.aClient().withMail(aMail).build();
-        Client anotherClient = ClientBuilder.aClient().withMail(aMail).build();
+        User aUser = UserBuilder.aUser().withMail(aMail).build();
+        User anotherUser = UserBuilder.aUser().withMail(aMail).build();
 
         ViandasSystem system = ViandasSystem.getViandasSystem();
-        system.registerClient(aClient);
+        system.registerUser(aUser);
 
-        system.registerClient(anotherClient);
+        system.registerUser(anotherUser);
     }
 
     @Test
-    public void chargeCreditToClient() {
+    public void chargeCreditToUser() {
         int credit = 555;
-        Client aClient = mock(Client.class);
-        when(aClient.chargeCredit(anyInt())).thenReturn(anyInt());
+        User aUser = mock(User.class);
+        when(aUser.chargeCredit(anyInt())).thenReturn(anyInt());
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        system.chargeCreditToClient(credit, aClient);
+        system.chargeCreditToUser(credit, aUser);
 
-        verify(aClient, Mockito.times(1)).chargeCredit(anyInt());
+        verify(aUser, Mockito.times(1)).chargeCredit(anyInt());
     }
 
     @Test
-    public void withdrawCreditFromClient() {
+    public void withdrawCreditFromUser() {
         int creditToWithdraw = 555;
         int newCredit = 125;
-        Client aClient = mock(Client.class);
-        when(aClient.withdrawCredit(anyInt())).thenReturn(newCredit);
+        User aUser = mock(User.class);
+        when(aUser.withdrawCredit(anyInt())).thenReturn(newCredit);
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        int expectedCredit = system.withdrawCreditFromClient(creditToWithdraw, aClient);
+        int expectedCredit = system.withdrawCreditFromUser(creditToWithdraw, aUser);
 
-        verify(aClient, Mockito.times(1)).withdrawCredit(creditToWithdraw);
+        verify(aUser, Mockito.times(1)).withdrawCredit(creditToWithdraw);
         assertEquals(newCredit, expectedCredit);
     }
 
     @Test
     public void uploadService() {
         Service aService = mock(Service.class);
-        Client aClient = mock(Client.class);
+        User aUser = mock(User.class);
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        system.clientPostService(aClient, aService);
+        system.userPostService(aUser, aService);
 
-        verify(aClient, Mockito.times(1)).postService(aService);
+        verify(aUser, Mockito.times(1)).postService(aService);
     }
 
     @Test
