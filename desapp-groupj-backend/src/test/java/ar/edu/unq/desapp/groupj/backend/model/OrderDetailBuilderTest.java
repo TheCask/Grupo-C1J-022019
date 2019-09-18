@@ -11,7 +11,6 @@ public class OrderDetailBuilderTest {
     @Test
     public void testBuildOrder() {
         OrderDetail orderDetail = OrderDetail.Builder.anOrderDetail().
-                withOrder(mock(Order.class)).
                 withClient(mock(Client.class)).
                 withDeliveryTime(LocalTime.now()).
                 withDeliveryType(DeliveryType.PickUpInStore).

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Order {
     private int id;
-    private Menu menu;
     private Date deliveryDate;
     private List<OrderDetail> details = new ArrayList<OrderDetail>();
 
@@ -18,14 +17,6 @@ public class Order {
 
     public void setId(int id) {
        this.id = id;
-    }
-
-    public Menu getMenu() {
-        return this.menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
     }
 
     public Date getDeliveryDate() {
@@ -62,7 +53,6 @@ public class Order {
 
     public static class Builder {
         private int id;
-        private Menu menu;
         private Date deliveryDate;
         private List<OrderDetail> details = new ArrayList<OrderDetail>();
 
@@ -77,7 +67,6 @@ public class Order {
             Order order = new Order();
 
             order.setId(this.id);
-            order.setMenu(this.menu);
             order.setDeliveryDate(this.deliveryDate);
             order.setDetails(this.details);
 
@@ -86,11 +75,6 @@ public class Order {
 
         public Builder withId(int id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder withMenu(Menu menu) {
-            this.menu = menu;
             return this;
         }
 

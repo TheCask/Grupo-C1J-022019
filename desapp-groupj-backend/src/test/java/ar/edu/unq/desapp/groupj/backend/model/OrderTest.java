@@ -19,7 +19,6 @@ public class OrderTest {
     public void setUp() {
         this.order = Order.Builder.anOrder().
                 withId(1).
-                withMenu(mock(Menu.class)).
                 withDeliveryDate(mock(Date.class)).
                 build();
     }
@@ -31,15 +30,6 @@ public class OrderTest {
         this.order.setId(id);
 
         assertEquals(id, order.getId());
-    }
-
-    @Test
-    public void testMenuAccessors() {
-        Menu menu = mock(Menu.class);
-
-        this.order.setMenu(menu);
-
-        assertEquals(menu, order.getMenu());
     }
 
     @Test

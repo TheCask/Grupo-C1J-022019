@@ -14,21 +14,11 @@ public class OrderDetailTest {
     @Before
     public void setUp() {
         this.orderDetail = OrderDetail.Builder.anOrderDetail().
-                withOrder(mock(Order.class)).
                 withClient(mock(Client.class)).
                 withDeliveryTime(LocalTime.now()).
                 withDeliveryType(DeliveryType.DeliverToClientAddress).
                 withRequestedAmount(1).
                 build();
-    }
-
-    @Test
-    public void testOrderAccessors() {
-        Order order = mock(Order.class);
-
-        this.orderDetail.setOrder(order);
-
-        assertEquals( order, this.orderDetail.getOrder() );
     }
 
     @Test
