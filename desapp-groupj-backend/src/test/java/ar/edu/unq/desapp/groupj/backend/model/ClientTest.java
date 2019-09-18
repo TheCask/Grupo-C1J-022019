@@ -1,11 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
-
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
 
 public class ClientTest {
     @Test
@@ -46,5 +42,14 @@ public class ClientTest {
         aClient.chargeCredit(negativeCredit);
 
         assertEquals(6000, aClient.getCredit());
+    }
+
+    @Test
+    public void twoClientsWithSameMailAreEquals() {
+        String aMail = "firstName_lastName@domain.com";
+        Client aClient = ClientBuilder.aClient().withMail(aMail).build();
+        Client anotherClient = ClientBuilder.aClient().withMail(aMail).build();
+
+        assertEquals(aClient,anotherClient);
     }
 }

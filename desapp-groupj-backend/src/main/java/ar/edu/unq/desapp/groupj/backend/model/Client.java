@@ -37,6 +37,13 @@ public class Client {
 
     public void postService(Service aService) { this.services.add(aService); }
 
+    public boolean equals(Object aClient) {
+        if (aClient == null || this.getClass() != aClient.getClass()) return false;
+        Client client = (Client) aClient;
+        if (this.getMail().equals(client.getMail())) return true;
+        return false;
+    }
+
     //GETTERS
 
     public int getCredit() { return this.credit; }

@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Queue;
-import java.util.stream.Stream;
 
 public class Service {
     private static final int MIN_DESCRIPTION_LENGTH = 30;

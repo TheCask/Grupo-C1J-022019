@@ -2,10 +2,12 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class ViandasSystemTest {
 
@@ -16,7 +18,19 @@ public class ViandasSystemTest {
 
         system.registerClient(aClient);
 
-        assertTrue(ViandasSystem.getViandasSystem().getClients().contains(aClient));
+        assertTrue(system.getClients().contains(aClient));
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void tryToRegisterAClientAlreadyRegisteredWithSameMailFails() {
+        String aMail = "firstName_lastName@domain.com";
+        Client aClient = ClientBuilder.aClient().withMail(aMail).build();
+        Client anotherClient = ClientBuilder.aClient().withMail(aMail).build();
+
+        ViandasSystem system = ViandasSystem.getViandasSystem();
+        system.registerClient(aClient);
+
+        system.registerClient(anotherClient);
     }
 
     @Test
@@ -29,6 +43,20 @@ public class ViandasSystemTest {
         system.chargeCreditToClient(credit, aClient);
 
         verify(aClient, Mockito.times(1)).chargeCredit(anyInt());
+    }
+
+    @Test
+    public void withdrawCreditFromClient() {
+        int creditToWithdraw = 555;
+        int newCredit = 125;
+        Client aClient = mock(Client.class);
+        when(aClient.withdrawCredit(anyInt())).thenReturn(newCredit);
+        ViandasSystem system = ViandasSystem.getViandasSystem();
+
+        int expectedCredit = system.withdrawCreditFromClient(creditToWithdraw, aClient);
+
+        verify(aClient, Mockito.times(1)).withdrawCredit(creditToWithdraw);
+        assertEquals(newCredit, expectedCredit);
     }
 
     @Test
@@ -52,6 +80,4 @@ public class ViandasSystemTest {
 
         verify(aService, Mockito.times(1)).addMenu(aMenu);
     }
-
-
  }

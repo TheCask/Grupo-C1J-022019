@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class ViandasSystem {
 
@@ -18,11 +19,9 @@ public class ViandasSystem {
 
     public void registerClient(Client aClient) {
 
-        this.clients.add(aClient);
-
-
+        if (!this.clients.contains(aClient)) { this.clients.add(aClient); }
+        else { throw new IllegalArgumentException("Client already registered"); }
     }
-
 
     public ArrayList<Client> getClients() { return clients; }
 
@@ -31,4 +30,8 @@ public class ViandasSystem {
     public void clientPostService(Client aClient, Service aService) { aClient.postService(aService); }
 
     public void addMenuToService(Menu aMenu, Service aService) { aService.addMenu(aMenu); }
+
+    public int withdrawCreditFromClient(int creditToWithdraw, Client aClient) {
+        return aClient.withdrawCredit(creditToWithdraw);
+    }
 }
