@@ -1,6 +1,9 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.util.ArrayList;
+
 public class Client {
+
     private String firstName;
     private String lastName;
     private String mail;
@@ -8,6 +11,8 @@ public class Client {
     private String city;
     private String address;
     private int credit;
+
+    private ArrayList<Service> services = new ArrayList<Service>();
 
     public Client(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
         this.firstName = firstName;
@@ -24,6 +29,14 @@ public class Client {
         return this.credit;
     }
 
+    public int withdrawCredit(int credit) {
+        int newCredit = this.getCredit() - credit;
+        if (newCredit >= 0) { this.setCredit(newCredit); }
+        return this.getCredit();
+    }
+
+    public void postService(Service aService) { this.services.add(aService); }
+
     //GETTERS
 
     public int getCredit() { return this.credit; }
@@ -39,6 +52,8 @@ public class Client {
     public String getCity() { return this.city; }
 
     public String getAddress() { return this.address; }
+
+    public ArrayList<Service> getServices() { return services; }
 
     // SETTERS
 

@@ -1,8 +1,14 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Queue;
+import java.util.stream.Stream;
+
 public class Service {
     private static final int MIN_DESCRIPTION_LENGTH = 30;
     private static final int MAX_DESCRIPTION_LENGTH = 200;
+    private static final int MAX_MENUS = 20;
 
     private String name;
     private String city;
@@ -12,6 +18,7 @@ public class Service {
     private String mail; //valid mail
     private String phone;
     private int deliveryZone;
+    private ArrayList<Menu> menus = new ArrayList<Menu>();
 
     public Service(String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
         this.name = name;
@@ -46,6 +53,8 @@ public class Service {
 
     public int getDeliveryZone() { return deliveryZone; }
 
+    public ArrayList<Menu> getMenus() { return  this.menus; }
+
     // SETTERS
 
     public void setName(String name) { this.name = name; }
@@ -69,4 +78,18 @@ public class Service {
     public void setPhone(String phone) { this.phone = phone; }
 
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
+
+    public void addMenu(Menu aMenu) {
+        if (this.menus.stream().filter(x -> x.active()).count() >= this.MAX_MENUS) {
+            throw new IllegalArgumentException("Se alcanzó el límite máximo de menus válidos");
+        }
+        this.menus.add(aMenu);
+    }
+
+    public void deleteMenu(Menu aMenu) { this.menus.remove(aMenu); }
+
+    public void updateMenu(Menu aMenuToUpdate, Menu updatedMenu) {
+        this.menus.remove(aMenuToUpdate);
+        this.menus.add(updatedMenu);
+    }
 }

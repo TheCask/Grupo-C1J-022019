@@ -8,6 +8,7 @@ public class ClientBuilder {
     private String phone = "0000-00000000";
     private String city = "no city";
     private String address = "no address";
+    private Menu menu;
     private int credit = 0;
 
     public static ClientBuilder aClient() {
@@ -46,6 +47,11 @@ public class ClientBuilder {
 
     public ClientBuilder withCity(String aCity) {
         city = aCity;
+        return this;
+    }
+
+    public ClientBuilder withMenu(Menu aMenu) {
+        menu = aMenu;
         return this;
     }
 

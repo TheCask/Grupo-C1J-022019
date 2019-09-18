@@ -202,6 +202,11 @@ public class Menu {
         return rateSum / getRateCount();
     }
 
+    public boolean active() {
+        Date now = new Date();
+        return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
+    }
+
     public static class Builder {
         private Service         service;
         private String          name;
