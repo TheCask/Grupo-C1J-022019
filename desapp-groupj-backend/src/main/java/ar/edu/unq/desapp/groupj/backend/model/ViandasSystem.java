@@ -1,14 +1,14 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class ViandasSystem {
 
     private static ViandasSystem miViandasSystem;
 
     ArrayList<Client> clients = new ArrayList<Client>();
-
+    ArrayList<Order>  orders = new ArrayList<Order>();
 
     private ViandasSystem() {};
 
@@ -34,4 +34,12 @@ public class ViandasSystem {
     public int withdrawCreditFromClient(int creditToWithdraw, Client aClient) {
         return aClient.withdrawCredit(creditToWithdraw);
     }
+
+    public void clientBuyMenu(Client aClient, Menu aMenu) {
+        this.orders.add(Order.Builder.anOrder().build());
+    }
+
+    // GETTERS
+
+    public ArrayList<Order> getOrders() { return orders; }
 }

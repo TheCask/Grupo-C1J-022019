@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
@@ -79,5 +80,16 @@ public class ViandasSystemTest {
         system.addMenuToService(aMenu, aService);
 
         verify(aService, Mockito.times(1)).addMenu(aMenu);
+    }
+
+    @Test
+    public void clientBuyMenuGeneratesAnOrder() {
+        Menu aMenu = mock(Menu.class);
+        Client aClient = mock(Client.class);
+        ViandasSystem system = ViandasSystem.getViandasSystem();
+
+        system.clientBuyMenu(aClient, aMenu);
+
+        assertEquals(1, system.getOrders().size());
     }
  }

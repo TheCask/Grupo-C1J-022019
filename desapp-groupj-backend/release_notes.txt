@@ -1,0 +1,25 @@
+====== TAG ======
+Project for Application Development course on UNQ
+Grupo-C1J-022019
+
+====== RELEASE NOTE  ======
+ENTREGA 1 - VERSION 1.0 - 20190927
+
+---------------------------------------------------------------------
+TAG XXXXXX
+---------------------------------------------------------------------
+NEW FEATURES:
+* Project integration with Travis, Heroku and Codacy
+* Continuous Integration on Travis https://travis-ci.org/TheCask/Grupo-C1J-022019
+* Automatic deploy on heroku https://viendas-ya-c1j.herokuapp.com
+* Automatic code analysis with Codacy Coverage integration using Checkstyle 8.23 and PMD 6.14.0
+* Codacy Certification A, Coverage >= 90%
+  https://app.codacy.com/manual/TheCask/Grupo-C1J-022019/dashboard?bid=14232248
+* Prototype windows for gMaps API with various maps with points, distance and time
+* Complete model of the project
+* Unit testing
+
+NOTES (ej: funcionalidad que falta, alguna consideración especial):
+* GitHub TAG and complete Releas Notes for first issue
+
+KNOWN ISSUES (ej: funcionalidad que saben que están funcionando diferente, algún error conocido en la funcionalidad terminada, etc):
