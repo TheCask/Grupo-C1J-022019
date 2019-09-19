@@ -1,12 +1,13 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViandasSystem {
 
     private static ViandasSystem miViandasSystem;
 
-    ArrayList<User> users = new ArrayList<User>();
+    List<User> users = new ArrayList<User>();
 
 
     private ViandasSystem() {};
@@ -22,7 +23,7 @@ public class ViandasSystem {
         else { throw new IllegalArgumentException("User already registered"); }
     }
 
-    public ArrayList<User> getUsers() { return users; }
+    public List<User> getUsers() { return users; }
 
     public int chargeCreditToUser(int credit, User aUser) { return aUser.chargeCredit(credit); }
 
@@ -32,5 +33,13 @@ public class ViandasSystem {
 
     public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
         return aUser.withdrawCredit(creditToWithdraw);
+    }
+
+    public List<Menu> findMenuByName(String name) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getUsers().forEach( user -> results.addAll( user.findMenuByName(name) ));
+
+        return results;
     }
 }

@@ -2,6 +2,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -115,5 +117,23 @@ public class ServiceTest {
         assertFalse(aService.getMenus().contains(menuMock1));
         assertTrue(aService.getMenus().contains(menuMock2));
         assertEquals(1, aService.getMenus().size());
+    }
+
+    @Test
+    public void findMenuByName() {
+        Service aService = ServiceBuilder.aService().build();
+        Menu aMenuPizza = mock(Menu.class);
+        Menu aMenuPasta = mock(Menu.class);
+
+        when(aMenuPizza.getName()).thenReturn("Si te gusta la Pizza!!");
+        when(aMenuPasta.getName()).thenReturn("Pasta base");
+
+        aService.addMenu(aMenuPizza);
+        aService.addMenu(aMenuPasta);
+
+        List<Menu> foundMenus = aService.findMenuByName("pizza");
+
+        assertEquals(1, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuPizza) );
     }
 }

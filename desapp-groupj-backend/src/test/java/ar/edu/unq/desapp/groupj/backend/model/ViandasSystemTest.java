@@ -1,7 +1,11 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import javafx.scene.control.MenuBuilder;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.List;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.anyInt;
@@ -79,5 +83,31 @@ public class ViandasSystemTest {
         system.addMenuToService(aMenu, aService);
 
         verify(aService, Mockito.times(1)).addMenu(aMenu);
+    }
+
+    @Test
+    public void findMenuByName() {
+        ViandasSystem system = ViandasSystem.getViandasSystem();
+        User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
+        Service aService = ServiceBuilder.aService().withName("PochoFood").build();
+        Menu aMenuVeggie1 = mock(Menu.class);
+        Menu aMenuMeat = mock(Menu.class);
+        Menu aMenuVeggie2 = mock(Menu.class);
+
+        when(aMenuVeggie1.getName()).thenReturn("Green veggie");
+        when(aMenuMeat.getName()).thenReturn("Crazy beef");
+        when(aMenuVeggie2.getName()).thenReturn("Veggie Cow");
+
+        system.registerUser(aUser);
+        system.userPostService(aUser, aService);
+        system.addMenuToService(aMenuVeggie1,aService);
+        system.addMenuToService(aMenuMeat,aService);
+        system.addMenuToService(aMenuVeggie2,aService);
+
+        List<Menu> foundMenus = system.findMenuByName("veggie");
+
+        assertEquals( 2, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuVeggie1) );
+        assertTrue( foundMenus.contains(aMenuVeggie2) );
     }
  }

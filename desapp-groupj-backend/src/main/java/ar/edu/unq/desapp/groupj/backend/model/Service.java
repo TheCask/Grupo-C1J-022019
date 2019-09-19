@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Service {
     private static final int MIN_DESCRIPTION_LENGTH = 30;
@@ -88,5 +90,9 @@ public class Service {
     public void updateMenu(Menu aMenuToUpdate, Menu updatedMenu) {
         this.menus.remove(aMenuToUpdate);
         this.menus.add(updatedMenu);
+    }
+
+    public List<Menu> findMenuByName(String name) {
+        return this.getMenus().stream().filter(m -> m.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
     }
 }

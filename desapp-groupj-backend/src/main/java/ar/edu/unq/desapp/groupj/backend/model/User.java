@@ -2,6 +2,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class User {
 
@@ -38,11 +40,19 @@ public class User {
 
     public void postService(Service aService) { this.services.add(aService); }
 
-    public boolean equals(Object aClient) {
-        if (aClient == null || this.getClass() != aClient.getClass()) return false;
-        User user = (User) aClient;
+    public boolean equals(Object aUser) {
+        if (aUser == null || this.getClass() != aUser.getClass()) return false;
+        User user = (User) aUser;
         if (this.getMail().equals(user.getMail())) return true;
         return false;
+    }
+
+    public List<Menu> findMenuByName(String name) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getServices().forEach( service -> results.addAll( service.findMenuByName(name) ));
+
+        return results;
     }
 
     //GETTERS
