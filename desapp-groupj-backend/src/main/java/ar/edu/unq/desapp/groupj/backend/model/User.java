@@ -41,8 +41,7 @@ public class User {
     public boolean equals(Object aUser) {
         if (aUser == null || this.getClass() != aUser.getClass()) return false;
         User user = (User) aUser;
-        if (this.getMail().equals(user.getMail())) return true;
-        return false;
+        return this.getMail().equals(user.getMail());
     }
 
     public List<Menu> findMenuByName(String name) {

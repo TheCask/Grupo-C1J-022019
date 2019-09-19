@@ -70,12 +70,12 @@ public class Service {
     public void setCity(String city) { this.city = city; }
     public void setAddress(String address) { this.address = address; }
     public void setDescription(String description) {
-        Validators.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
+        ValidatorsUtils.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
         this.description = description;
     }
     public void setSite(String site) { this.site = site; }
     public void setMail(String mail) {
-        Validators.validateMail(mail, "mail");
+        ValidatorsUtils.validateMail(mail, "mail");
         this.mail = mail;
     }
     public void setPhone(String phone) { this.phone = phone; }

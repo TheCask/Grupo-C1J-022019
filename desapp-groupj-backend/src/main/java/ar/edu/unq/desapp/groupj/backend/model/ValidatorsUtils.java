@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validators {
+public class ValidatorsUtils {
 
     public static void validateStringLength(String value, int minimumLength, int maximumLength, String propertyName) {
         if( !(value.length() >= minimumLength && value.length() <= maximumLength) )
