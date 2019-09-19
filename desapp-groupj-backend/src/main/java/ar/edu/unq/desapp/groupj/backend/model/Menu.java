@@ -17,7 +17,6 @@ public class Menu {
     private static final double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
     private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
 
-    private Service         service;
     private String          name;
     private String          description;
     private MenuCategory    category;
@@ -35,36 +34,6 @@ public class Menu {
     private List<Rate>      rates;
 
     private Menu() {}
-
-    public Menu(Service service, String name, String description,
-            MenuCategory category, double deliveryValue, Date availableFrom,
-            Date availableTo, List<DeliveryShift> deliveryShifts, double averageDeliveryTime,
-            double price, int minimumAmount1, double minimumAmount1Price,
-            int minimumAmount2, double minimumAmount2Price, int maximumDailySales ) {
-        this.setService(service);
-        this.setName(name);
-        this.setDescription(description);
-        this.setCategory(category);
-        this.setDeliveryValue(deliveryValue);
-        this.setAvailableFrom(availableFrom);
-        this.setAvailableTo(availableTo);
-        this.setDeliveryShifts(deliveryShifts);
-        this.setAverageDeliveryTime(averageDeliveryTime);
-        this.setPrice(price);
-        this.setMinimumAmount1(minimumAmount1);
-        this.setMinimumAmount1Price(minimumAmount1Price);
-        this.setMinimumAmount2(minimumAmount2);
-        this.setMinimumAmount2Price(minimumAmount2Price);
-        this.setMaximumDailySales(maximumDailySales);
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
-    }
 
     public String getName() {
         return name;
@@ -208,7 +177,6 @@ public class Menu {
     }
 
     public static class Builder {
-        private Service         service;
         private String          name;
         private String          description;
         private MenuCategory    category;
@@ -228,11 +196,6 @@ public class Menu {
 
         public static Builder aMenu() {
             return new Builder();
-        }
-
-        public Builder withService(Service service) {
-            this.service = service;
-            return this;
         }
 
         public Builder withName(String name) {
@@ -306,21 +269,24 @@ public class Menu {
         }
 
         public Menu build() {
-            return new Menu(this.service,
-                            this.name,
-                            this.description,
-                            this.category ,
-                            this.deliveryValue,
-                            this.availableFrom,
-                            this.availableTo,
-                            this.deliveryShifts,
-                            this.averageDeliveryTime,
-                            this.price,
-                            this.minimumAmount1,
-                            this.minimumAmount1Price,
-                            this.minimumAmount2,
-                            this.minimumAmount2Price,
-                            this.maximumDailySales);
+            Menu menu = new Menu();
+
+            menu.setName(this.name);
+            menu.setDescription(this.description);
+            menu.setCategory(this.category);
+            menu.setDeliveryValue(this.deliveryValue);
+            menu.setAvailableFrom(this.availableFrom);
+            menu.setAvailableTo(this.availableTo);
+            menu.setDeliveryShifts(this.deliveryShifts);
+            menu.setAverageDeliveryTime(this.averageDeliveryTime);
+            menu.setPrice(this.price);
+            menu.setMinimumAmount1(this.minimumAmount1);
+            menu.setMinimumAmount1Price(this.minimumAmount1Price);
+            menu.setMinimumAmount2(this.minimumAmount2);
+            menu.setMinimumAmount2Price(this.minimumAmount2Price);
+            menu.setMaximumDailySales(this.maximumDailySales);
+
+            return menu;
         }
     }
 }

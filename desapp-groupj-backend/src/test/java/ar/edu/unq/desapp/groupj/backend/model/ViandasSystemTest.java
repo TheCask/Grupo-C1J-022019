@@ -2,9 +2,9 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
@@ -13,62 +13,62 @@ import static org.mockito.Mockito.verify;
 public class ViandasSystemTest {
 
     @Test
-    public void clientRegistration() {
-        Client aClient = mock(Client.class);
+    public void UserRegistration() {
+        User aUser = mock(User.class);
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        system.registerClient(aClient);
+        system.registerUser(aUser);
 
-        assertTrue(system.getClients().contains(aClient));
+        assertTrue(system.getUsers().contains(aUser));
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void tryToRegisterAClientAlreadyRegisteredWithSameMailFails() {
+    public void tryToRegisterAUserAlreadyRegisteredWithSameMailFails() {
         String aMail = "firstName_lastName@domain.com";
-        Client aClient = ClientBuilder.aClient().withMail(aMail).build();
-        Client anotherClient = ClientBuilder.aClient().withMail(aMail).build();
+        User aUser = UserBuilder.aUser().withMail(aMail).build();
+        User anotherUser = UserBuilder.aUser().withMail(aMail).build();
 
         ViandasSystem system = ViandasSystem.getViandasSystem();
-        system.registerClient(aClient);
+        system.registerUser(aUser);
 
-        system.registerClient(anotherClient);
+        system.registerUser(anotherUser);
     }
 
     @Test
-    public void chargeCreditToClient() {
+    public void chargeCreditToUser() {
         int credit = 555;
-        Client aClient = mock(Client.class);
-        when(aClient.chargeCredit(anyInt())).thenReturn(anyInt());
+        User aUser = mock(User.class);
+        when(aUser.chargeCredit(anyInt())).thenReturn(anyInt());
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        system.chargeCreditToClient(credit, aClient);
+        system.chargeCreditToUser(credit, aUser);
 
-        verify(aClient, Mockito.times(1)).chargeCredit(anyInt());
+        verify(aUser, Mockito.times(1)).chargeCredit(anyInt());
     }
 
     @Test
-    public void withdrawCreditFromClient() {
+    public void withdrawCreditFromUser() {
         int creditToWithdraw = 555;
         int newCredit = 125;
-        Client aClient = mock(Client.class);
-        when(aClient.withdrawCredit(anyInt())).thenReturn(newCredit);
+        User aUser = mock(User.class);
+        when(aUser.withdrawCredit(anyInt())).thenReturn(newCredit);
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        int expectedCredit = system.withdrawCreditFromClient(creditToWithdraw, aClient);
+        int expectedCredit = system.withdrawCreditFromUser(creditToWithdraw, aUser);
 
-        verify(aClient, Mockito.times(1)).withdrawCredit(creditToWithdraw);
+        verify(aUser, Mockito.times(1)).withdrawCredit(creditToWithdraw);
         assertEquals(newCredit, expectedCredit);
     }
 
     @Test
     public void uploadService() {
         Service aService = mock(Service.class);
-        Client aClient = mock(Client.class);
+        User aUser = mock(User.class);
         ViandasSystem system = ViandasSystem.getViandasSystem();
 
-        system.clientPostService(aClient, aService);
+        system.userPostService(aUser, aService);
 
-        verify(aClient, Mockito.times(1)).postService(aService);
+        verify(aUser, Mockito.times(1)).postService(aService);
     }
 
     @Test
@@ -83,13 +83,28 @@ public class ViandasSystemTest {
     }
 
     @Test
-    public void clientBuyMenuGeneratesAnOrder() {
-        Menu aMenu = mock(Menu.class);
-        Client aClient = mock(Client.class);
+    public void findMenuByName() {
         ViandasSystem system = ViandasSystem.getViandasSystem();
+        User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
+        Service aService = ServiceBuilder.aService().withName("PochoFood").build();
+        Menu aMenuVeggie1 = mock(Menu.class);
+        Menu aMenuMeat = mock(Menu.class);
+        Menu aMenuVeggie2 = mock(Menu.class);
 
-        system.clientBuyMenu(aClient, aMenu);
+        when(aMenuVeggie1.getName()).thenReturn("Green veggie");
+        when(aMenuMeat.getName()).thenReturn("Crazy beef");
+        when(aMenuVeggie2.getName()).thenReturn("Veggie Cow");
 
-        assertEquals(1, system.getOrders().size());
+        system.registerUser(aUser);
+        system.userPostService(aUser, aService);
+        system.addMenuToService(aMenuVeggie1,aService);
+        system.addMenuToService(aMenuMeat,aService);
+        system.addMenuToService(aMenuVeggie2,aService);
+
+        List<Menu> foundMenus = system.findMenuByName("veggie");
+
+        assertEquals( 2, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuVeggie1) );
+        assertTrue( foundMenus.contains(aMenuVeggie2) );
     }
  }

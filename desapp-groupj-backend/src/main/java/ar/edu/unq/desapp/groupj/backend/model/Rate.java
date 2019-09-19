@@ -2,14 +2,14 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 public class Rate {
 
-    private Client client;
+    private User user;
     private int value;
 
-    public Rate(Client client, int value) {
-        this.client = client;
+    public Rate(User user, int value) {
+        this.user = user;
         this.value = value;
     }
 
-    public Client getClient(){ return this.client; }
+    public User getUser(){ return this.user; }
     public int getValue() { return this.value; }
 }

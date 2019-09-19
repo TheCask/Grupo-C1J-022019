@@ -3,28 +3,19 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import java.time.LocalTime;
 
 public class OrderDetail {
-    private Order order;
-    private Client client;
+    private User user;
     private LocalTime deliveryTime;
     private DeliveryType deliveryType;
     private int requestedAmount;
 
     private OrderDetail() {}
 
-    public Order getOrder() {
-        return order;
+    public User getUser() {
+        return user;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalTime getDeliveryTime() {
@@ -54,8 +45,7 @@ public class OrderDetail {
 
 
     public static class Builder {
-        private Order order;
-        private Client client;
+        private User user;
         private LocalTime deliveryTime;
         private DeliveryType deliveryType;
         private int requestedAmount;
@@ -69,8 +59,7 @@ public class OrderDetail {
         public OrderDetail build() {
             OrderDetail detail = new OrderDetail();
 
-            detail.setOrder(this.order);
-            detail.setClient(this.client);
+            detail.setUser(this.user);
             detail.setDeliveryTime(this.deliveryTime);
             detail.setDeliveryType(this.deliveryType);
             detail.setRequestedAmount(this.requestedAmount);
@@ -78,13 +67,8 @@ public class OrderDetail {
             return detail;
         }
 
-        public Builder withOrder(Order order) {
-            this.order = order;
-            return this;
-        }
-
-        public Builder withClient(Client client) {
-            this.client = client;
+        public Builder withUser(User user) {
+            this.user = user;
             return this;
         }
 

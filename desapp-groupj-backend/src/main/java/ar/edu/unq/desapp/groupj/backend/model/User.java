@@ -1,8 +1,11 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class Client {
+public class User {
 
     private String firstName;
     private String lastName;
@@ -12,9 +15,9 @@ public class Client {
     private String address;
     private int credit;
 
-    private ArrayList<Service> services = new ArrayList<Service>();
+    private List<Service> services = new ArrayList<Service>();
 
-    public Client(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
+    public User(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mail = mail;
@@ -37,31 +40,52 @@ public class Client {
 
     public void postService(Service aService) { this.services.add(aService); }
 
-    //OVERRIDE OBJECT METHOD
-    public boolean equals(Object aClient) {
-        if (aClient == null || this.getClass() != aClient.getClass()) return false;
-        Client client = (Client) aClient;
-        return this.getMail().equals(client.getMail());
+    public boolean equals(Object aUser) {
+        if (aUser == null || this.getClass() != aUser.getClass()) return false;
+        User user = (User) aUser;
+        if (this.getMail().equals(user.getMail())) return true;
+        return false;
+    }
+
+    public List<Menu> findMenuByName(String name) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getServices().forEach( service -> results.addAll( service.findMenuByName(name) ));
+
+        return results;
     }
 
     //GETTERS
 
     public int getCredit() { return this.credit; }
+
     public String getFirstName() { return this.firstName; }
+
     public String getLastName() { return this.lastName; }
+
     public String getMail() { return this.mail; }
+
     public String getPhone() { return this.phone; }
+
     public String getCity() { return this.city; }
+
     public String getAddress() { return this.address; }
-    public ArrayList<Service> getServices() { return services; }
+
+    public List<Service> getServices() { return services; }
 
     // SETTERS
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
+
     public void setLastName(String lastName) { this.lastName = lastName; }
+
     public void setMail(String mail) { this.mail = mail; }
+
     public void setPhone(String phone) { this.phone = phone; }
+
     public void setCity(String city) { this.city = city; }
+
     public void setAddress(String address) { this.address = address; }
+
     public void setCredit(int credit) { this.credit = credit; }
 }

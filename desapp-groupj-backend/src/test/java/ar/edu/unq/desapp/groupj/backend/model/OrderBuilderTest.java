@@ -12,7 +12,6 @@ public class OrderBuilderTest {
     public void testBuildOrder() {
         Order order = Order.Builder.anOrder().
                 withId(1).
-                withMenu(mock(Menu.class)).
                 withDeliveryDate(mock(Date.class)).
                 withDetails(null).
                 build();

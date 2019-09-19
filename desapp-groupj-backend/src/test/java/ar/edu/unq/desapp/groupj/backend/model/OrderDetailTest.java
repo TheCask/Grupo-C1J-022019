@@ -14,30 +14,20 @@ public class OrderDetailTest {
     @Before
     public void setUp() {
         this.orderDetail = OrderDetail.Builder.anOrderDetail().
-                withOrder(mock(Order.class)).
-                withClient(mock(Client.class)).
+                withUser(mock(User.class)).
                 withDeliveryTime(LocalTime.now()).
-                withDeliveryType(DeliveryType.DeliverToClientAddress).
+                withDeliveryType(DeliveryType.DeliverToAddress).
                 withRequestedAmount(1).
                 build();
     }
 
     @Test
-    public void testOrderAccessors() {
-        Order order = mock(Order.class);
+    public void testUserAccessors() {
+        User user = mock(User.class);
 
-        this.orderDetail.setOrder(order);
+        this.orderDetail.setUser(user);
 
-        assertEquals( order, this.orderDetail.getOrder() );
-    }
-
-    @Test
-    public void testClientAccessors() {
-        Client client = mock(Client.class);
-
-        this.orderDetail.setClient(client);
-
-        assertEquals( client, this.orderDetail.getClient() );
+        assertEquals( user, this.orderDetail.getUser() );
     }
 
     @Test

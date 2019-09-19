@@ -15,7 +15,6 @@ public class MenuTest {
     @Before
     public void setUp() {
         this.menu = Menu.Builder.aMenu().
-                withService(mock(Service.class)).
                 withName("Fugazetta Rellena").
                 withDescription("Alta fugazzeta papuuu").
                 withCategory(MenuCategory.Pizza).
@@ -31,36 +30,6 @@ public class MenuTest {
                 withMinimumAmount2Price(500).
                 withMaximumDailySales(50).
                 build();
-    }
-
-    @Test
-    public void testCreateMenu() {
-        Menu m = new Menu( mock(Service.class),
-                "Fugazetta Rellena",
-                "Alta fugazzeta papuuu",
-                MenuCategory.Pizza,
-                20.0,
-                mock(Date.class),
-                mock(Date.class),
-                null,
-                1,
-                100.0,
-                13,
-                600,
-                50,
-                500,
-                50);
-
-        assertEquals( 100.0, m.getPrice() );
-    }
-
-    @Test
-    public void testServiceAccesors() {
-        Service service = mock(Service.class);
-
-        this.menu.setService(service);
-
-        assertEquals( service, this.menu.getService() );
     }
 
     @Test
@@ -238,9 +207,9 @@ public class MenuTest {
         List<Rate> rates = new ArrayList<Rate>();
 
         this.menu.setRates(rates);
-        this.menu.addRate(new Rate(mock(Client.class), 2));
-        this.menu.addRate(new Rate(mock(Client.class), 2));
-        this.menu.addRate(new Rate(mock(Client.class), 2));
+        this.menu.addRate(new Rate(mock(User.class), 2));
+        this.menu.addRate(new Rate(mock(User.class), 2));
+        this.menu.addRate(new Rate(mock(User.class), 2));
 
         assertEquals( 3, this.menu.getRateCount() );
         assertEquals( 2, this.menu.getAverageRate() );

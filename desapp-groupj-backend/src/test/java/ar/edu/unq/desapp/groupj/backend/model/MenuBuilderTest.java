@@ -11,7 +11,6 @@ public class MenuBuilderTest {
     @Test
     public void testBuildMenu() {
         Menu menu = Menu.Builder.aMenu().
-                    withService(mock(Service.class)).
                     withName("Fugazetta Rellena").
                     withDescription("Alta fugazzeta papuuu!!!!!!").
                     withCategory(MenuCategory.Pizza).
