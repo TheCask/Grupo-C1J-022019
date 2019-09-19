@@ -104,7 +104,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void updateMenuFromClient() {
+    public void updateMenuFromService() {
         Menu menuMock1 = mock(Menu.class);
         Menu menuMock2 = mock(Menu.class);
 

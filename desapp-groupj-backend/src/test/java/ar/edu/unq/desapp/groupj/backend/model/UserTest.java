@@ -2,7 +2,6 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import java.util.ArrayList;
 import java.util.List;
 

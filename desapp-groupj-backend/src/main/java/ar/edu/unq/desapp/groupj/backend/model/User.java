@@ -2,8 +2,6 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class User {
 
@@ -58,34 +56,21 @@ public class User {
     //GETTERS
 
     public int getCredit() { return this.credit; }
-
     public String getFirstName() { return this.firstName; }
-
     public String getLastName() { return this.lastName; }
-
     public String getMail() { return this.mail; }
-
     public String getPhone() { return this.phone; }
-
     public String getCity() { return this.city; }
-
     public String getAddress() { return this.address; }
-
     public List<Service> getServices() { return services; }
 
     // SETTERS
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
-
     public void setLastName(String lastName) { this.lastName = lastName; }
-
     public void setMail(String mail) { this.mail = mail; }
-
     public void setPhone(String phone) { this.phone = phone; }
-
     public void setCity(String city) { this.city = city; }
-
     public void setAddress(String address) { this.address = address; }
-
     public void setCredit(int credit) { this.credit = credit; }
 }

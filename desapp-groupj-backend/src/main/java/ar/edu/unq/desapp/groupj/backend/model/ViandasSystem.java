@@ -5,16 +5,15 @@ import java.util.List;
 
 public class ViandasSystem {
 
-    private static ViandasSystem miViandasSystem;
+    private static ViandasSystem myViandasSystem;
 
     List<User> users = new ArrayList<User>();
-
 
     private ViandasSystem() {};
 
     public static ViandasSystem getViandasSystem() {
-        if (miViandasSystem == null) { miViandasSystem = new ViandasSystem(); }
-        return miViandasSystem;
+        if (myViandasSystem == null) { myViandasSystem = new ViandasSystem(); }
+        return myViandasSystem;
     }
 
     public void registerUser(User aUser) {

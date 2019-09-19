@@ -34,50 +34,6 @@ public class Service {
         return this;
     }
 
-    // GETTERS
-
-    public String getName() { return name; }
-
-    public String getCity() { return city; }
-
-    public String getAddress() { return address; }
-
-    public String getDescription() { return description; }
-
-    public String getSite() { return site; }
-
-    public String getMail() { return mail; }
-
-    public String getPhone() { return phone; }
-
-    public int getDeliveryZone() { return deliveryZone; }
-
-    public ArrayList<Menu> getMenus() { return  this.menus; }
-
-    // SETTERS
-
-    public void setName(String name) { this.name = name; }
-
-    public void setCity(String city) { this.city = city; }
-
-    public void setAddress(String address) { this.address = address; }
-
-    public void setDescription(String description) {
-        Validators.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
-        this.description = description;
-    }
-
-    public void setSite(String site) { this.site = site; }
-
-    public void setMail(String mail) {
-        Validators.validateMail(mail, "mail");
-        this.mail = mail;
-    }
-
-    public void setPhone(String phone) { this.phone = phone; }
-
-    public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
-
     public void addMenu(Menu aMenu) {
         if (this.menus.stream().filter(x -> x.active()).count() >= this.MAX_MENUS) {
             throw new IllegalArgumentException("Se alcanzó el límite máximo de menus válidos");
@@ -95,4 +51,33 @@ public class Service {
     public List<Menu> findMenuByName(String name) {
         return this.getMenus().stream().filter(m -> m.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
     }
+
+    // GETTERS
+
+    public String getName() { return name; }
+    public String getCity() { return city; }
+    public String getAddress() { return address; }
+    public String getDescription() { return description; }
+    public String getSite() { return site; }
+    public String getMail() { return mail; }
+    public String getPhone() { return phone; }
+    public int getDeliveryZone() { return deliveryZone; }
+    public ArrayList<Menu> getMenus() { return  this.menus; }
+
+    // SETTERS
+
+    public void setName(String name) { this.name = name; }
+    public void setCity(String city) { this.city = city; }
+    public void setAddress(String address) { this.address = address; }
+    public void setDescription(String description) {
+        Validators.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
+        this.description = description;
+    }
+    public void setSite(String site) { this.site = site; }
+    public void setMail(String mail) {
+        Validators.validateMail(mail, "mail");
+        this.mail = mail;
+    }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
 }
