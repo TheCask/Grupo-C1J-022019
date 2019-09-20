@@ -8,7 +8,6 @@ public class UserBuilder {
     private String phone = "0000-00000000";
     private String city = "no city";
     private String address = "no address";
-    private Menu menu;
     private int credit = 0;
 
     public static UserBuilder aUser() {
@@ -47,11 +46,6 @@ public class UserBuilder {
 
     public UserBuilder withCity(String aCity) {
         city = aCity;
-        return this;
-    }
-
-    public UserBuilder withMenu(Menu aMenu) {
-        menu = aMenu;
         return this;
     }
 

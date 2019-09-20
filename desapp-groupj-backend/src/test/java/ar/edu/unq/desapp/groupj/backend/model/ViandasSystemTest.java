@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import java.util.List;
@@ -12,10 +13,17 @@ import static org.mockito.Mockito.verify;
 
 public class ViandasSystemTest {
 
+    private ViandasSystem system;
+
+    @Before
+    public void setUp() {
+        system = ViandasSystem.getViandasSystem();
+        system.getUsers().clear();
+    }
+
     @Test
     public void UserRegistration() {
         User aUser = mock(User.class);
-        ViandasSystem system = ViandasSystem.getViandasSystem();
 
         system.registerUser(aUser);
 
@@ -28,7 +36,6 @@ public class ViandasSystemTest {
         User aUser = UserBuilder.aUser().withMail(aMail).build();
         User anotherUser = UserBuilder.aUser().withMail(aMail).build();
 
-        ViandasSystem system = ViandasSystem.getViandasSystem();
         system.registerUser(aUser);
 
         system.registerUser(anotherUser);
@@ -39,7 +46,6 @@ public class ViandasSystemTest {
         int credit = 555;
         User aUser = mock(User.class);
         when(aUser.chargeCredit(anyInt())).thenReturn(anyInt());
-        ViandasSystem system = ViandasSystem.getViandasSystem();
 
         system.chargeCreditToUser(credit, aUser);
 
@@ -52,7 +58,6 @@ public class ViandasSystemTest {
         int newCredit = 125;
         User aUser = mock(User.class);
         when(aUser.withdrawCredit(anyInt())).thenReturn(newCredit);
-        ViandasSystem system = ViandasSystem.getViandasSystem();
 
         int expectedCredit = system.withdrawCreditFromUser(creditToWithdraw, aUser);
 
@@ -64,7 +69,6 @@ public class ViandasSystemTest {
     public void uploadService() {
         Service aService = mock(Service.class);
         User aUser = mock(User.class);
-        ViandasSystem system = ViandasSystem.getViandasSystem();
 
         system.userPostService(aUser, aService);
 
@@ -75,7 +79,6 @@ public class ViandasSystemTest {
     public void addMenuToService() {
         Service aService = mock(Service.class);
         Menu aMenu = mock(Menu.class);
-        ViandasSystem system = ViandasSystem.getViandasSystem();
 
         system.addMenuToService(aMenu, aService);
 
@@ -83,9 +86,8 @@ public class ViandasSystemTest {
     }
 
     @Test
-    public void findMenuByName() {
-        ViandasSystem system = ViandasSystem.getViandasSystem();
-        User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
+    public void getMenusByName() {
+        User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").withMail("a@a").build();
         Service aService = ServiceBuilder.aService().withName("PochoFood").build();
         Menu aMenuVeggie1 = mock(Menu.class);
         Menu aMenuMeat = mock(Menu.class);
@@ -101,10 +103,55 @@ public class ViandasSystemTest {
         system.addMenuToService(aMenuMeat,aService);
         system.addMenuToService(aMenuVeggie2,aService);
 
-        List<Menu> foundMenus = system.findMenuByName("veggie");
+        List<Menu> foundMenus = system.getMenusByName("veggie");
 
         assertEquals( 2, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuVeggie1) );
         assertTrue( foundMenus.contains(aMenuVeggie2) );
+    }
+
+    @Test
+    public void getMenusByCategory() {
+        User aUser = UserBuilder.aUser().withName("Ricky","Maravilla").withMail("b@b").build();
+        Service aService = ServiceBuilder.aService().withName("PochoFood").build();
+        Menu aMenuVeggie1 = mock(Menu.class);
+        Menu aMenuMeat = mock(Menu.class);
+        Menu aMenuVeggie2 = mock(Menu.class);
+
+        when(aMenuVeggie1.getCategory()).thenReturn(MenuCategory.Vegano);
+        when(aMenuMeat.getCategory()).thenReturn(MenuCategory.Hamburguesa);
+        when(aMenuVeggie2.getCategory()).thenReturn(MenuCategory.Vegano);
+
+        system.registerUser(aUser);
+        system.userPostService(aUser, aService);
+        system.addMenuToService(aMenuVeggie1,aService);
+        system.addMenuToService(aMenuMeat,aService);
+        system.addMenuToService(aMenuVeggie2,aService);
+
+        List<Menu> foundMenus = system.getMenusByCategory(MenuCategory.Vegano);
+
+        assertEquals( 2, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuVeggie1) );
+        assertTrue( foundMenus.contains(aMenuVeggie2) );
+    }
+
+    @Test
+    public void getMenusByCity() {
+        String city = "Bernal";
+        User aUser = UserBuilder.aUser().withName("Miguel","Conejito Alejandro").withMail("c@c").build();
+        Service aService = ServiceBuilder.aService().withName("PochoFood").withCity(city).build();
+        Menu aMenuVeggie = mock(Menu.class);
+        Menu aMenuMeat = mock(Menu.class);
+
+        system.registerUser(aUser);
+        system.userPostService(aUser, aService);
+        system.addMenuToService(aMenuVeggie,aService);
+        system.addMenuToService(aMenuMeat,aService);
+
+        List<Menu> foundMenus = system.getMenusByCity(city);
+
+        assertEquals( 2, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuVeggie) );
+        assertTrue( foundMenus.contains(aMenuMeat) );
     }
  }

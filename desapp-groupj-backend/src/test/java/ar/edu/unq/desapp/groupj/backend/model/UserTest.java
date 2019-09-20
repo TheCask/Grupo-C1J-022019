@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -61,19 +62,53 @@ public class UserTest {
     }
 
     @Test
-    public void findMenuByName() {
+    public void getMenusByName() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         Service aService = mock(Service.class);
         String aSearchString = "veggie";
         List<Menu> mockMenus = new ArrayList<Menu>();
 
         mockMenus.add(mock(Menu.class));
-        when(aService.findMenuByName(aSearchString)).thenReturn(mockMenus);
+        when(aService.getMenusByName(aSearchString)).thenReturn(mockMenus);
         aUser.postService(aService);
 
-        List<Menu> foundMenus = aUser.findMenuByName(aSearchString);
+        List<Menu> foundMenus = aUser.getMenusByName(aSearchString);
 
         assertEquals( 1, foundMenus.size() );
-        verify( aService, Mockito.times(1)).findMenuByName(aSearchString);
+        verify( aService, Mockito.times(1)).getMenusByName(aSearchString);
+    }
+
+    @Test
+    public void getMenusByCategory() {
+        User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
+        Service aService = mock(Service.class);
+        List<Menu> mockMenus = new ArrayList<Menu>();
+        MenuCategory category = MenuCategory.Green;
+
+        mockMenus.add(mock(Menu.class));
+        when(aService.getMenusByCategory(category)).thenReturn(mockMenus);
+        aUser.postService(aService);
+
+        List<Menu> foundMenus = aUser.getMenusByCategory(category);
+
+        assertEquals( 1, foundMenus.size() );
+        verify( aService, Mockito.times(1)).getMenusByCategory(category);
+    }
+
+    @Test
+    public void getMenusByCity() {
+        User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
+        Service aService = mock(Service.class);
+        List<Menu> mockMenus = new ArrayList<Menu>();
+        String city = "Berazategui";
+
+        mockMenus.add(mock(Menu.class));
+        when(aService.getMenusByCity(city)).thenReturn(mockMenus);
+        aUser.postService(aService);
+
+        List<Menu> foundMenus = aUser.getMenusByCity(city);
+
+        assertEquals( 1, foundMenus.size() );
+        verify( aService, Mockito.times(1)).getMenusByCity(city);
     }
 }

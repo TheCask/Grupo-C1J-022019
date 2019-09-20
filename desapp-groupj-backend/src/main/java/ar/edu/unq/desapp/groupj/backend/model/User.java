@@ -45,10 +45,26 @@ public class User {
         return false;
     }
 
-    public List<Menu> findMenuByName(String name) {
+    public List<Menu> getMenusByName(String name) {
         List<Menu> results = new ArrayList<Menu>();
 
-        this.getServices().forEach( service -> results.addAll( service.findMenuByName(name) ));
+        this.getServices().forEach( service -> results.addAll( service.getMenusByName(name) ));
+
+        return results;
+    }
+
+    public List<Menu> getMenusByCategory(MenuCategory category) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getServices().forEach( service -> results.addAll( service.getMenusByCategory(category) ) );
+
+        return results;
+    }
+
+    public List<Menu> getMenusByCity(String city) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getServices().forEach( service -> results.addAll( service.getMenusByCity(city) ));
 
         return results;
     }

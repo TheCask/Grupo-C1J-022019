@@ -48,8 +48,18 @@ public class Service {
         this.menus.add(updatedMenu);
     }
 
-    public List<Menu> findMenuByName(String name) {
+    public List<Menu> getMenusByName(String name) {
         return this.getMenus().stream().filter(m -> m.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
+    }
+
+    public List<Menu> getMenusByCategory(MenuCategory category) {
+        return this.getMenus().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList());
+    }
+
+    public List<Menu> getMenusByCity(String city) {
+        if( this.city.equals(city) )
+            return this.getMenus();
+        return null;
     }
 
     // GETTERS
