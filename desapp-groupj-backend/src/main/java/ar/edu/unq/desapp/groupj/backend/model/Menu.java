@@ -40,7 +40,7 @@ public class Menu {
     }
 
     public void setName(String name) {
-        Validators.validateStringLength(name,MIN_NAME_LENGTH,MAX_NAME_LENGTH,"Name");
+        ValidatorsUtils.validateStringLength(name,MIN_NAME_LENGTH,MAX_NAME_LENGTH,"Name");
         this.name = name;
     }
 
@@ -49,7 +49,7 @@ public class Menu {
     }
 
     public void setDescription(String description) {
-        Validators.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
+        ValidatorsUtils.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
         this.description = description;
     }
 
@@ -66,7 +66,7 @@ public class Menu {
     }
 
     public void setDeliveryValue(double deliveryValue) {
-        Validators.validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
+        ValidatorsUtils.validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
         this.deliveryValue = deliveryValue;
     }
 
@@ -115,7 +115,7 @@ public class Menu {
     }
 
     public void setMinimumAmount1(int minimumAmount1) {
-        Validators.validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
+        ValidatorsUtils.validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
         this.minimumAmount1 = minimumAmount1;
     }
 
@@ -124,7 +124,7 @@ public class Menu {
     }
 
     public void setMinimumAmount1Price(double minimumAmount1Price) {
-        Validators.validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
+        ValidatorsUtils.validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount1Price = minimumAmount1Price;
     }
 
@@ -133,7 +133,7 @@ public class Menu {
     }
 
     public void setMinimumAmount2(int minimumAmount2) {
-        Validators.validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
+        ValidatorsUtils.validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
         this.minimumAmount2 = minimumAmount2;
     }
 
@@ -142,7 +142,7 @@ public class Menu {
     }
 
     public void setMinimumAmount2Price(double minimumAmount2Price) {
-        Validators.validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
+        ValidatorsUtils.validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount2Price = minimumAmount2Price;
     }
 

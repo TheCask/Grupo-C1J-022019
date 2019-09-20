@@ -7,7 +7,7 @@ public class ViandasSystem {
 
     private static ViandasSystem myViandasSystem;
 
-    List<User> users = new ArrayList<User>();
+    private List<User> users = new ArrayList<User>();
 
     private ViandasSystem() {};
 

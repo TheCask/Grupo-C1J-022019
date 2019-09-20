@@ -33,6 +33,22 @@ public class ServiceTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
+    public void setInvalidFormatMailWithoutAt() {
+        String mailWithoutAt = "mailNameDomain.com";
+        Service aService = ServiceBuilder.aService().build();
+
+        aService.setMail(mailWithoutAt);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void setInvalidFormatMailWithoutDomainDot() {
+        String mailWithoutDot = "mail.Name@Domaincom";
+        Service aService = ServiceBuilder.aService().build();
+
+        aService.setMail(mailWithoutDot);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
     public void setInvalidShortLengthDescription() {
         String shortDescription = "short description";
         Service aService = ServiceBuilder.aService().build();
@@ -49,22 +65,6 @@ public class ServiceTest {
         Service aService = ServiceBuilder.aService().build();
 
         aService.setDescription(longDescription);
-    }
-
-    @Test (expected = IllegalArgumentException.class)
-    public void setInvalidFormatMailWithoutAt() {
-        String mailWithoutAt = "mailNameDomain.com";
-        Service aService = ServiceBuilder.aService().build();
-
-        aService.setMail(mailWithoutAt);
-    }
-
-    @Test (expected = IllegalArgumentException.class)
-    public void setInvalidFormatMailWithoutDomainDot() {
-        String mailWithoutDot = "mail.Name@Domaincom";
-        Service aService = ServiceBuilder.aService().build();
-
-        aService.setMail(mailWithoutDot);
     }
 
     @Test
