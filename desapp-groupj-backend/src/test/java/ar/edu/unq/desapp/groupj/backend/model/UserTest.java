@@ -21,34 +21,44 @@ public class UserTest {
         assertEquals(credit, aUser.getCredit());
     }
 
-    @Test
-    public void tryToChargeNegativeCreditToAccountNotCharges() {
+    @Test (expected = IllegalArgumentException.class)
+    public void tryToChargeNegativeCreditToAccount() {
         int negativeCredit = -5000;
         User aUser = UserBuilder.aUser().withCredit(0).build();
 
         aUser.chargeCredit(negativeCredit);
-
-        assertEquals(0, aUser.getCredit());
     }
 
-    @Test
-    public void withdrawCreditFromEmptyAccountNotDiscounts() {
+    @Test (expected = IllegalArgumentException.class)
+    public void tryToChargeZeroCreditToAccount() {
+        int zeroCredit = 0;
+        User aUser = UserBuilder.aUser().withCredit(0).build();
+
+        aUser.chargeCredit(zeroCredit);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void tryToWithdrawCreditFromEmptyAccount() {
         int credit = 5000;
         User aUser = UserBuilder.aUser().withCredit(0).build();
 
         aUser.withdrawCredit(credit);
-
-        assertEquals(0, aUser.getCredit());
     }
 
-    @Test
-    public void tryToWithdrawNegativeCreditToAccountNotWithdraw() {
+    @Test (expected = IllegalArgumentException.class)
+    public void tryToWithdrawNegativeCreditFromAccount() {
         int negativeCredit = -5000;
         User aUser = UserBuilder.aUser().withCredit(6000).build();
 
-        aUser.chargeCredit(negativeCredit);
+        aUser.withdrawCredit(negativeCredit);
+    }
 
-        assertEquals(6000, aUser.getCredit());
+    @Test (expected = IllegalArgumentException.class)
+    public void tryToWithdrawZeroCreditFromAccount() {
+        int zeroCredit = 0;
+        User aUser = UserBuilder.aUser().withCredit(6000).build();
+
+        aUser.withdrawCredit(zeroCredit);
     }
 
     @Test

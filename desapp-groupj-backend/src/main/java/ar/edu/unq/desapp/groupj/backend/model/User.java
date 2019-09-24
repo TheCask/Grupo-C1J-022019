@@ -26,14 +26,14 @@ public class User {
     }
 
     public int chargeCredit(int credit) {
-        if (credit > 0) { this.credit += credit; }
-        return this.credit;
+        if (credit > 0) { return this.credit += credit; }
+        else { throw new IllegalArgumentException("The credit to charge has to be greater than 0"); }
     }
 
     public int withdrawCredit(int credit) {
         int newCredit = this.getCredit() - credit;
-        if (newCredit >= 0) { this.setCredit(newCredit); }
-        return this.getCredit();
+        if (newCredit >= 0 && newCredit < this.getCredit()) { return this.credit -= credit; }
+        else { throw new IllegalArgumentException("The account has insufficient credits or credit to charge is not greater than 0"); }
     }
 
     public void postService(Service aService) { this.services.add(aService); }
