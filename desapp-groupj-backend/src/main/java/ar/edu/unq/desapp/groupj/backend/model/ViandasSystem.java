@@ -34,10 +34,26 @@ public class ViandasSystem {
         return aUser.withdrawCredit(creditToWithdraw);
     }
 
-    public List<Menu> findMenuByName(String name) {
+    public List<Menu> getMenusByName(String name) {
         List<Menu> results = new ArrayList<Menu>();
 
-        this.getUsers().forEach( user -> results.addAll( user.findMenuByName(name) ));
+        this.getUsers().forEach( user -> results.addAll( user.getMenusByName(name) ));
+
+        return results;
+    }
+
+    public List<Menu> getMenusByCategory(MenuCategory category) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getUsers().forEach( user -> results.addAll( user.getMenusByCategory(category) ));
+
+        return results;
+    }
+
+    public List<Menu> getMenusByCity(String city) {
+        List<Menu> results = new ArrayList<Menu>();
+
+        this.getUsers().forEach( user -> results.addAll( user.getMenusByCity(city) ));
 
         return results;
     }

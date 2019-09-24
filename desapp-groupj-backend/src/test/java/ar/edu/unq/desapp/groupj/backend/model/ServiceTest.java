@@ -120,7 +120,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void findMenuByName() {
+    public void getMenusByName() {
         Service aService = ServiceBuilder.aService().build();
         Menu aMenuPizza = mock(Menu.class);
         Menu aMenuPasta = mock(Menu.class);
@@ -131,9 +131,43 @@ public class ServiceTest {
         aService.addMenu(aMenuPizza);
         aService.addMenu(aMenuPasta);
 
-        List<Menu> foundMenus = aService.findMenuByName("pizza");
+        List<Menu> foundMenus = aService.getMenusByName("pizza");
 
         assertEquals(1, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuPizza) );
+    }
+
+    @Test
+    public void getMenusByCategory() {
+        Service aService = ServiceBuilder.aService().build();
+        Menu aMenuPizza = mock(Menu.class);
+        Menu aMenuPasta = mock(Menu.class);
+
+        when(aMenuPizza.getCategory()).thenReturn(MenuCategory.Pizza);
+        when(aMenuPasta.getCategory()).thenReturn(MenuCategory.Sushi);
+
+        aService.addMenu(aMenuPizza);
+        aService.addMenu(aMenuPasta);
+
+        List<Menu> foundMenus = aService.getMenusByCategory(MenuCategory.Pizza);
+
+        assertEquals(1, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuPizza) );
+    }
+
+    @Test
+    public void getMenusByCity() {
+        Service aService = ServiceBuilder.aService().withCity("Bernal").build();
+        Menu aMenuPizza = mock(Menu.class);
+        Menu aMenuPasta = mock(Menu.class);
+
+        aService.addMenu(aMenuPizza);
+        aService.addMenu(aMenuPasta);
+
+        List<Menu> foundMenus = aService.getMenusByCity("Bernal");
+
+        assertEquals(2, foundMenus.size() );
+        assertTrue( foundMenus.contains(aMenuPizza) );
+        assertTrue( foundMenus.contains(aMenuPasta) );
     }
 }
