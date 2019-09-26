@@ -2,11 +2,14 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class MenuTest {
 
@@ -38,7 +41,7 @@ public class MenuTest {
 
         this.menu.setName(name);
 
-        assertEquals( name, this.menu.getName() );
+        assertEquals(name, this.menu.getName());
     }
 
     @Test
@@ -47,7 +50,7 @@ public class MenuTest {
 
         this.menu.setDescription(description);
 
-        assertEquals( description, this.menu.getDescription() );
+        assertEquals(description, this.menu.getDescription());
     }
 
     @Test
@@ -56,7 +59,7 @@ public class MenuTest {
 
         this.menu.setCategory(category);
 
-        assertEquals( category, this.menu.getCategory() );
+        assertEquals(category, this.menu.getCategory());
     }
 
     @Test
@@ -65,7 +68,7 @@ public class MenuTest {
 
         this.menu.setDeliveryValue(deliveryValue);
 
-        assertEquals( deliveryValue, this.menu.getDeliveryValue() );
+        assertEquals(deliveryValue, this.menu.getDeliveryValue());
     }
 
     @Test
@@ -74,7 +77,7 @@ public class MenuTest {
 
         this.menu.setAvailableFrom(from);
 
-        assertEquals( from, this.menu.getAvailableFrom() );
+        assertEquals(from, this.menu.getAvailableFrom());
     }
 
     @Test
@@ -83,7 +86,7 @@ public class MenuTest {
 
         this.menu.setAvailableTo(to);
 
-        assertEquals( to, this.menu.getAvailableTo() );
+        assertEquals(to, this.menu.getAvailableTo());
     }
 
     @Test
@@ -92,7 +95,7 @@ public class MenuTest {
 
         this.menu.setDeliveryShifts(deliveryShifts);
 
-        assertEquals( deliveryShifts, this.menu.getDeliveryShifts() );
+        assertEquals(deliveryShifts, this.menu.getDeliveryShifts());
     }
 
     @Test
@@ -101,7 +104,7 @@ public class MenuTest {
 
         this.menu.setPrice(price);
 
-        assertEquals( price, this.menu.getPrice() );
+        assertEquals(price, this.menu.getPrice());
     }
 
     @Test
@@ -110,7 +113,7 @@ public class MenuTest {
 
         this.menu.setAverageDeliveryTime(averageDeliveryTime);
 
-        assertEquals( averageDeliveryTime, this.menu.getAverageDeliveryTime() );
+        assertEquals(averageDeliveryTime, this.menu.getAverageDeliveryTime());
     }
 
     @Test
@@ -119,7 +122,7 @@ public class MenuTest {
 
         this.menu.setMinimumAmount1(amount);
 
-        assertEquals( amount, this.menu.getMinimumAmount1() );
+        assertEquals(amount, this.menu.getMinimumAmount1());
     }
 
     @Test
@@ -128,7 +131,7 @@ public class MenuTest {
 
         this.menu.setMinimumAmount1Price(price);
 
-        assertEquals( price, this.menu.getMinimumAmount1Price() );
+        assertEquals(price, this.menu.getMinimumAmount1Price());
     }
 
     @Test
@@ -137,7 +140,7 @@ public class MenuTest {
 
         this.menu.setMinimumAmount2(amount);
 
-        assertEquals( amount, this.menu.getMinimumAmount2() );
+        assertEquals(amount, this.menu.getMinimumAmount2());
     }
 
     @Test
@@ -146,7 +149,7 @@ public class MenuTest {
 
         this.menu.setMinimumAmount2Price(price);
 
-        assertEquals( price, this.menu.getMinimumAmount2Price() );
+        assertEquals(price, this.menu.getMinimumAmount2Price());
     }
 
     @Test
@@ -155,40 +158,40 @@ public class MenuTest {
 
         this.menu.setMaximumDailySales(sales);
 
-        assertEquals( sales, this.menu.getMaximumDailySales() );
+        assertEquals(sales, this.menu.getMaximumDailySales());
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetNameInvalidLengthRaisesException() {
         this.menu.setName("FYI");
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetDescriptionInvalidLengthRaisesException() {
         this.menu.setName("FYI");
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidDeliveryValueRaisesException() {
         this.menu.setDeliveryValue(0.0);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidMinimumAmount1RaisesException() {
         this.menu.setMinimumAmount1(0);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidMinimumAmount1PriceRaisesException() {
         this.menu.setMinimumAmount1Price(2000);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidMinimumAmount2RaisesException() {
         this.menu.setMinimumAmount2(0);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidMinimumAmount2PriceRaisesException() {
         this.menu.setMinimumAmount2Price(2000);
     }
@@ -199,7 +202,7 @@ public class MenuTest {
 
         this.menu.setRates(rates);
 
-        assertEquals( 0, this.menu.getRateCount() );
+        assertEquals(0, this.menu.getRateCount());
     }
 
     @Test
@@ -211,7 +214,38 @@ public class MenuTest {
         this.menu.addRate(new Rate(mock(User.class), 2));
         this.menu.addRate(new Rate(mock(User.class), 2));
 
-        assertEquals( 3, this.menu.getRateCount() );
-        assertEquals( 2, this.menu.getAverageRate() );
+        assertEquals(3, this.menu.getRateCount());
+        assertEquals(2, this.menu.getAverageRate());
     }
+
+    @Test
+    public void placeClientNonExistingOrder() {
+        Date deliveryDate = mock(Date.class);
+        int amount = 10;
+
+        placeClientOrder(deliveryDate,amount);
+
+        assertEquals(1, this.menu.getOrders().size() );
+        assertEquals(amount, this.menu.getOrders().get(0).getRequestedAmount() );
+    }
+
+    @Test
+    public void placeClientExistingOrder() {
+        Date deliveryDate = mock(Date.class);
+        int amount = 10;
+
+        placeClientOrder(deliveryDate,amount);
+        placeClientOrder(deliveryDate,amount);
+
+        assertEquals(1, this.menu.getOrders().size() );
+        assertEquals(amount*2, this.menu.getOrders().get(0).getRequestedAmount() );
+    }
+
+    private void placeClientOrder(Date deliveryDate, int amount) {
+        User aClient = mock(User.class);
+        DeliveryType deliveryType = DeliveryType.DeliverToAddress;
+        this.menu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+    }
+
+
 }

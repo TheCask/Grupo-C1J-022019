@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Test;
 import org.mockito.Mockito;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
@@ -120,5 +121,23 @@ public class UserTest {
 
         assertEquals( 1, foundMenus.size() );
         verify( aService, Mockito.times(1)).getMenusByCity(city);
+    }
+
+    @Test
+    public void placeClientOrder() {
+        User aProvider = UserBuilder.aUser().withName("Pocho","La Pantera").build();
+        User aClient = mock(User.class);
+        Service aService = mock(Service.class);
+        Menu aMenu = mock(Menu.class);
+        Date deliveryDate = mock(Date.class);
+        DeliveryType deliveryType = DeliveryType.DeliverToAddress;
+        int amount = 10;
+
+        aProvider.postService(aService);
+
+        aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+
+        verify(aService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+
     }
 }

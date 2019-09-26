@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -88,4 +89,11 @@ public class User {
     public void setCity(String city) { this.city = city; }
     public void setAddress(String address) { this.address = address; }
     public void setCredit(int credit) { this.credit = credit; }
+
+    public void placeClientOrder(User aClient, Service aService, Menu aMenu, Date deliveryDate, DeliveryType deliveryType, int amount) {
+        if( !this.getServices().contains(aService) )
+            throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
+
+        aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+    }
 }

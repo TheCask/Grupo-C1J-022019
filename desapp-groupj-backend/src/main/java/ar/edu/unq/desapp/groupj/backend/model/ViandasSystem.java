@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ViandasSystem {
@@ -56,5 +57,12 @@ public class ViandasSystem {
         this.getUsers().forEach( user -> results.addAll( user.getMenusByCity(city) ));
 
         return results;
+    }
+
+    public void placeClientOrder(User aClient, User aProvider, Service aService, Menu aMenu, Date deliveryDate, DeliveryType deliveryType, int amount) {
+        if( !this.getUsers().contains(aProvider) || !this.getUsers().contains(aClient) )
+            throw new IllegalArgumentException("Usuario no registrado en el sistema.");
+
+        aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
     }
 }

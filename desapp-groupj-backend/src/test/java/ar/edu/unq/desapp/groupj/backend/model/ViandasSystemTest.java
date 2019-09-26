@@ -3,6 +3,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.Date;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -153,5 +155,22 @@ public class ViandasSystemTest {
         assertEquals( 2, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuVeggie) );
         assertTrue( foundMenus.contains(aMenuMeat) );
+    }
+
+    @Test
+    public void placeClientOrder() {
+        User aProvider = mock(User.class);
+        User aClient = mock(User.class);
+        Service aService = mock(Service.class);
+        Menu aMenu = mock(Menu.class);
+        Date deliveryDate = mock(Date.class);
+        DeliveryType deliveryType = DeliveryType.DeliverToAddress;
+        int amount = 10;
+        system.registerUser(aProvider);
+        system.registerUser(aClient);
+
+        system.placeClientOrder(aClient,aProvider,aService,aMenu,deliveryDate,deliveryType,amount);
+
+        verify(aProvider, Mockito.times(1)).placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
     }
  }
