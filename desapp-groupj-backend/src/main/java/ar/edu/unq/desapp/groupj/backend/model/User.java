@@ -3,8 +3,11 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
+
+    private static final int BANNED_MENUS_TO_BE_BANNED = 10;
 
     private String firstName;
     private String lastName;
@@ -95,5 +98,24 @@ public class User {
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
         aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+    }
+
+    public boolean isBanned() {
+        return this.getMenus().stream().filter(menu -> menu.isBanned()).count() >= BANNED_MENUS_TO_BE_BANNED;
+    }
+
+    public boolean hasBannedMenus() {
+        return this.getMenus().stream().
+                reduce(true, (partialIsBanned, menu) -> partialIsBanned && menu.isBanned(), Boolean::logicalAnd);
+    }
+
+    public List<Menu> getMenus() {
+        return this.getServices().stream().flatMap(service -> service.getMenus().stream()).collect(Collectors.toList());
+    }
+
+    //TODO
+    public void notifyBan(Menu aMenu) {
+        //notify banned menu
+        if (this.isBanned()) { }// notify banned provider
     }
 }

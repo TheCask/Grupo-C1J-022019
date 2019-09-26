@@ -2,6 +2,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -140,4 +142,5 @@ public class UserTest {
         verify(aService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
 
     }
+
 }

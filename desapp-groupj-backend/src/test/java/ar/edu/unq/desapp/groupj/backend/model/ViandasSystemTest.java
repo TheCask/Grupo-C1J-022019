@@ -4,11 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.mockito.Matchers.anyInt;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -172,5 +174,79 @@ public class ViandasSystemTest {
         system.placeClientOrder(aClient,aProvider,aService,aMenu,deliveryDate,deliveryType,amount);
 
         verify(aProvider, Mockito.times(1)).placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+    }
+
+    @Test
+    public void clientRateServiceWithValidValue() {
+        int aValue = 3;
+        User aClient = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+
+        Rate aRate = system.clientRatesMenu(aClient, aMenu, aValue);
+
+        assertEquals(aRate.getValue(), aValue);
+        verify(aMenu, Mockito.times(1)).addRate(aRate);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void clientTryToRateServiceWithInvalidNegativeValue() {
+        int aValue = -3;
+        User aClient = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+
+        system.clientRatesMenu(aClient, aMenu, aValue);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void clientTryToRateServiceWithInvalidLowValue() {
+        int aValue = 0;
+        User aClient = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+
+        system.clientRatesMenu(aClient, aMenu, aValue);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void clientTryToRateServiceWithInvalidHighValue() {
+        int aValue = 6;
+        User aClient = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+
+        system.clientRatesMenu(aClient, aMenu, aValue);
+    }
+
+    @Test
+    public void newRateBanMenuBecauseLowAverageRate() {
+
+        User aClient = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+        when(aMenu.getAverageRate()).thenReturn(1);
+        when(aMenu.getRateCount()).thenReturn(21);
+        when(aMenu.isBanned()).thenCallRealMethod();
+        int aValue = 1;
+
+        system.clientRatesMenu(aClient, aMenu, aValue);
+
+        verify(aMenu, Mockito.times(1)).isBanned();
+        verify(aMenu, Mockito.times(1)).cancelOrders();
+    }
+
+    @Test
+    public void newBannedMenuBanProvider() {
+        Menu aMenu = mock(Menu.class);
+        when(aMenu.isBanned()).thenReturn(true);
+
+        User aProvider = UserBuilder.aUser().build();
+        Service aService = ServiceBuilder.aService().build();
+
+        system.userPostService(aProvider, aService);
+        for (int i = 1; i <= 9; i++) { system.addMenuToService(aMenu, aService); }
+
+        assertEquals(aProvider.getMenus().size(), 9);
+        assertFalse(aProvider.isBanned());
+
+        system.addMenuToService(aMenu, aService);
+
+        assertTrue(aProvider.isBanned());
     }
  }

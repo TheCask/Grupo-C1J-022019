@@ -179,6 +179,8 @@ public class Menu {
         return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
     }
 
+    public boolean isBanned() { return (this.getAverageRate() <= 2 && this.getRateCount() >= 20); }
+
     public List<Order> getOrders() {
         return this.orders;
     }
@@ -206,6 +208,8 @@ public class Menu {
 
         anOrder.addDetail(anOrderDetail);
     }
+
+    public void cancelOrders() { this.orders.forEach(order -> order.cancelAndNotify()); }
 
     public static class Builder {
         private String          name;

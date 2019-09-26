@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class ViandasSystem {
 
@@ -64,5 +65,16 @@ public class ViandasSystem {
             throw new IllegalArgumentException("Usuario no registrado en el sistema.");
 
         aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+    }
+
+    public Rate clientRatesMenu(User aClient, Menu aMenu, int aValue) {
+        Rate aRate = new Rate(aClient, aValue);
+        aMenu.addRate(aRate);
+        if (aMenu.isBanned()) {
+            Optional<User> providerToNotify = this.getUsers().stream().filter(user -> user.getMenus().contains(aMenu)).findFirst();
+            if (providerToNotify.isPresent()) { providerToNotify.get().notifyBan(aMenu); }
+            aMenu.cancelOrders();
+        }
+        return aRate;
     }
 }

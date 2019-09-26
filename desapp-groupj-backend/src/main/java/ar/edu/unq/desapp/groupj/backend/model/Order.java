@@ -49,7 +49,9 @@ public class Order {
                 reduce(0,Integer::sum );
     }
 
-
+    // TODO
+    public void cancelAndNotify() {
+    }
 
     public static class Builder {
         private int id;
