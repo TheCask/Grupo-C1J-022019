@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Menu {
     private static final int MIN_NAME_LENGTH = 4;
@@ -32,6 +34,7 @@ public class Menu {
     private double          minimumAmount2Price;
     private int             maximumDailySales;
     private List<Rate>      rates;
+    private List<Order>     orders = new ArrayList<Order>();
 
     private Menu() {}
 
@@ -174,6 +177,34 @@ public class Menu {
     public boolean active() {
         Date now = new Date();
         return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
+    }
+
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
+    }
+
+    public void placeClientOrder(User aClient, Date deliveryDate, DeliveryType deliveryType, int amount) {
+        List<Order> ordersInDeliveryDate = this.orders.stream().filter( order -> order.getDeliveryDate()==deliveryDate ).collect(Collectors.toList());
+        Order anOrder;
+
+        if( ordersInDeliveryDate.size() == 0 ) {
+            anOrder = Order.Builder.anOrder().withDeliveryDate(deliveryDate).build();
+            this.orders.add(anOrder);
+        }
+        else
+            anOrder = ordersInDeliveryDate.get(0);
+
+        OrderDetail anOrderDetail = OrderDetail.Builder.anOrderDetail().
+                withUser(aClient).
+                withDeliveryType(deliveryType).
+                withRequestedAmount(amount).
+                build();
+
+        anOrder.addDetail(anOrderDetail);
     }
 
     public static class Builder {

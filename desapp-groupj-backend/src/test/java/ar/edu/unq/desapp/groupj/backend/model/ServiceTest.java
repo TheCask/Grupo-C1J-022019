@@ -1,14 +1,15 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import java.util.Date;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ServiceTest {
 
@@ -169,5 +170,21 @@ public class ServiceTest {
         assertEquals(2, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuPizza) );
         assertTrue( foundMenus.contains(aMenuPasta) );
+    }
+
+    @Test
+    public void placeClientOrder() {
+        Service aService = ServiceBuilder.aService().build();
+        User aClient = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+        Date deliveryDate = mock(Date.class);
+        DeliveryType deliveryType = DeliveryType.DeliverToAddress;
+        int amount = 10;
+
+        aService.addMenu(aMenu);
+
+        aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+
+        verify(aMenu, Mockito.times(1)).placeClientOrder(aClient,deliveryDate,deliveryType,amount);
     }
 }
