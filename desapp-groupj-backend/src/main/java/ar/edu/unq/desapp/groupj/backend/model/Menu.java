@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class Menu {
     private int             minimumAmount2;
     private double          minimumAmount2Price;
     private int             maximumDailySales;
-    private List<Rate>      rates;
+    private List<Rate>      rates = new ArrayList<Rate>();
     private List<Order>     orders = new ArrayList<Order>();
 
     private Menu() {}
@@ -156,6 +157,8 @@ public class Menu {
     public void setMaximumDailySales(int maximumDailySales) {
         this.maximumDailySales = maximumDailySales;
     }
+
+    public List<Rate> getRates() { return this.rates; }
 
     public void setRates(List<Rate> rates) {
         this.rates = rates;

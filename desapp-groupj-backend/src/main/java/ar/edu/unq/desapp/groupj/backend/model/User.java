@@ -18,6 +18,7 @@ public class User {
     private int credit;
 
     private List<Service> services = new ArrayList<Service>();
+    private List<Order> orders = new ArrayList<Order>();
 
     public User(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
         this.firstName = firstName;
@@ -116,6 +117,6 @@ public class User {
     //TODO
     public void notifyBan(Menu aMenu) {
         //notify banned menu
-        if (this.isBanned()) { }// notify banned provider
+        if (this.isBanned()) { } // notify banned provider
     }
 }
