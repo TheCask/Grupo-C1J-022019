@@ -195,10 +195,9 @@ public class Menu {
     }
 
     public Order placeClientOrder(User aClient, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
-        LocalDate now = LocalDate.now();
-        Period timeToDelivery = Period.between(now,deliveryDate);
-        if( timeToDelivery.isNegative() || timeToDelivery.getDays()<MINIMUM_DAYS_TO_DELIVERY )
-            throw new MenuException("La fecha de entrega no es valida.");
+        ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
+
+        aClient.withdrawCredit( (int)(this.getMinimumAmount1Price()*amount) );
 
         List<Order> ordersInDeliveryDate = this.orders.stream().filter( order -> order.getDeliveryDate()==deliveryDate ).collect(Collectors.toList());
         Order anOrder;
@@ -222,6 +221,7 @@ public class Menu {
     }
 
     public void cancelOrders() { this.orders.forEach(order -> order.cancelAndNotify()); }
+
 
     public static class Builder {
         private String          name;

@@ -88,7 +88,11 @@ public class User {
         if( !this.getServices().contains(aService) )
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
-        return aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        Order anOrder = aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+
+        this.chargeCredit((int)(aMenu.getMinimumAmount1Price()*amount));
+
+        return anOrder;
     }
 
     public boolean isBanned() {

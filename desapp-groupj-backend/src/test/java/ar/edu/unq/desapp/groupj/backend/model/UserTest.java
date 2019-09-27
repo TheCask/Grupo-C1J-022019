@@ -132,6 +132,8 @@ public class UserTest {
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 
+        when(aMenu.getMinimumAmount1Price()).thenReturn(10.0);
+
         aProvider.postService(aService);
 
         aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);

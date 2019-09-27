@@ -1,5 +1,9 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import ar.edu.unq.desapp.groupj.backend.model.exception.MenuException;
+
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,5 +30,12 @@ public class ValidatorsUtils {
     public static void validateDoubleValue(double value, double minimum, double maximum, String propertyName) {
         if( !(value >= minimum && value <= maximum) )
             throw new IllegalArgumentException("La propiedad '"+propertyName+"' tiene un valor fuera de rango.");
+    }
+
+    public static void validateDeliveryDate(LocalDate deliveryDate, int validDaysFromNow) {
+        LocalDate now = LocalDate.now();
+        Period timeToDelivery = Period.between(now,deliveryDate);
+        if( timeToDelivery.isNegative() || timeToDelivery.getDays()<validDaysFromNow )
+            throw new MenuException("La fecha de entrega no es valida.");
     }
 }

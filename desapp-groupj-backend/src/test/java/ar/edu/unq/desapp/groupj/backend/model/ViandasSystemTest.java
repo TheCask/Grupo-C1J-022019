@@ -251,7 +251,7 @@ public class ViandasSystemTest {
     @Test
     public void clientHasMenusToRate() {
         int value = 4;
-        User aClient = UserBuilder.aUser().withMail("toti@folni.com").build();
+        User aClient = UserBuilder.aUser().withMail("toti@folni.com").withCredit(100000).build();
         User aProvider = UserBuilder.aUser().build();
         Service aService = ServiceBuilder.aService().build();
         Menu aMenu = Menu.Builder.aMenu().
