@@ -49,6 +49,16 @@ public class ServiceTest {
         aService.setMail(mailWithoutDot);
     }
 
+    @Test
+    public void setValidDescription() {
+        String description = "A valid description has to be from 30 to 200 chars long";
+        Service aService = ServiceBuilder.aService().build();
+
+        aService.setDescription(description);
+
+        assertEquals(description, aService.getDescription());
+    }
+
     @Test (expected = IllegalArgumentException.class)
     public void setInvalidShortLengthDescription() {
         String shortDescription = "short description";

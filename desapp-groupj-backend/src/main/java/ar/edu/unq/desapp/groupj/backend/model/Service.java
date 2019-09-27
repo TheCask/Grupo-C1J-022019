@@ -78,17 +78,15 @@ public class Service {
     // SETTERS
 
     public void setName(String name) { this.name = name; }
-    public void setCity(String city) { this.city = city; }
-    public void setAddress(String address) { this.address = address; }
     public void setDescription(String description) {
         ValidatorsUtils.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
         this.description = description;
     }
-    public void setSite(String site) { this.site = site; }
     public void setMail(String mail) {
         ValidatorsUtils.validateMail(mail, "mail");
         this.mail = mail;
     }
+
     public void setPhone(String phone) { this.phone = phone; }
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
 
