@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,11 +60,11 @@ public class ViandasSystem {
         return results;
     }
 
-    public void placeClientOrder(User aClient, User aProvider, Service aService, Menu aMenu, Date deliveryDate, DeliveryType deliveryType, int amount) {
+    public void placeClientOrder(User aClient, User aProvider, Service aService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         if( !this.getUsers().contains(aProvider) || !this.getUsers().contains(aClient) )
             throw new IllegalArgumentException("Usuario no registrado en el sistema.");
 
-        aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+         aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
     }
 
     public Rate clientRatesMenu(User aClient, Menu aMenu, int aValue) {

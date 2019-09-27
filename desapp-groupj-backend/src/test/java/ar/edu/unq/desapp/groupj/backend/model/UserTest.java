@@ -3,12 +3,9 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import javax.jws.soap.SOAPBinding;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -131,7 +128,7 @@ public class UserTest {
         User aClient = mock(User.class);
         Service aService = mock(Service.class);
         Menu aMenu = mock(Menu.class);
-        Date deliveryDate = mock(Date.class);
+        LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 

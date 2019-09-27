@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import ar.edu.unq.desapp.groupj.backend.model.exception.MenuException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,13 +20,14 @@ public class Menu {
     private static final int TOP_MINIMUM_AMOUNT_2 = 150;
     private static final double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
     private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
+    private static final int MINIMUM_DAYS_TO_DELIVERY = 2;
 
     private String          name;
     private String          description;
     private MenuCategory    category;
     private double          deliveryValue;
-    private Date            availableFrom;
-    private Date            availableTo;
+    private LocalDate       availableFrom;
+    private LocalDate       availableTo;
     private List<DeliveryShift> deliveryShifts;
     private double          averageDeliveryTime;
     private double          price; //?
@@ -73,19 +76,19 @@ public class Menu {
         this.deliveryValue = deliveryValue;
     }
 
-    public Date getAvailableFrom() {
+    public LocalDate getAvailableFrom() {
         return availableFrom;
     }
 
-    public void setAvailableFrom(Date availableFrom) {
+    public void setAvailableFrom(LocalDate availableFrom) {
         this.availableFrom = availableFrom;
     }
 
-    public Date getAvailableTo() {
+    public LocalDate getAvailableTo() {
         return availableTo;
     }
 
-    public void setAvailableTo(Date availableTo) {
+    public void setAvailableTo(LocalDate availableTo) {
         this.availableTo = availableTo;
     }
 
@@ -175,7 +178,7 @@ public class Menu {
     }
 
     public boolean active() {
-        Date now = new Date();
+        LocalDate now = LocalDate.now();
         return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
     }
 
@@ -189,7 +192,12 @@ public class Menu {
         this.orders.add(order);
     }
 
-    public void placeClientOrder(User aClient, Date deliveryDate, DeliveryType deliveryType, int amount) {
+    public Order placeClientOrder(User aClient, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+        LocalDate now = LocalDate.now();
+        Period timeToDelivery = Period.between(now,deliveryDate);
+        if( timeToDelivery.isNegative() || timeToDelivery.getDays()<MINIMUM_DAYS_TO_DELIVERY )
+            throw new MenuException("La fecha de entrega no es valida.");
+
         List<Order> ordersInDeliveryDate = this.orders.stream().filter( order -> order.getDeliveryDate()==deliveryDate ).collect(Collectors.toList());
         Order anOrder;
 
@@ -207,6 +215,8 @@ public class Menu {
                 build();
 
         anOrder.addDetail(anOrderDetail);
+
+        return anOrder;
     }
 
     public void cancelOrders() { this.orders.forEach(order -> order.cancelAndNotify()); }
@@ -216,8 +226,8 @@ public class Menu {
         private String          description;
         private MenuCategory    category;
         private double          deliveryValue;
-        private Date            availableFrom;
-        private Date            availableTo;
+        private LocalDate       availableFrom;
+        private LocalDate       availableTo;
         private List<DeliveryShift>   deliveryShifts;
         private double          averageDeliveryTime;
         private double          price;
@@ -253,12 +263,12 @@ public class Menu {
             return this;
         }
 
-        public Builder withAvailableFrom(Date availableFrom) {
+        public Builder withAvailableFrom(LocalDate availableFrom) {
             this.availableFrom = availableFrom;
             return this;
         }
 
-        public Builder withAvailableTo(Date availableTo) {
+        public Builder withAvailableTo(LocalDate availableTo) {
             this.availableTo = availableTo;
             return this;
         }

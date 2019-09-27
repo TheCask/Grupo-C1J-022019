@@ -2,11 +2,9 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.mock;
@@ -19,7 +17,7 @@ public class OrderTest {
     public void setUp() {
         this.order = Order.Builder.anOrder().
                 withId(1).
-                withDeliveryDate(mock(Date.class)).
+                withDeliveryDate(LocalDate.now()).
                 build();
     }
 
@@ -34,7 +32,7 @@ public class OrderTest {
 
     @Test
     public void testDeliveryDateAccessors() {
-        Date deliveryDate = mock(Date.class);
+        LocalDate deliveryDate = LocalDate.now();
 
         this.order.setDeliveryDate(deliveryDate);
 

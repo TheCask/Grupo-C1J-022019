@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,10 +92,10 @@ public class Service {
     public void setPhone(String phone) { this.phone = phone; }
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
 
-    public void placeClientOrder(User aClient, Menu aMenu, Date deliveryDate, DeliveryType deliveryType, int amount) {
+    public Order placeClientOrder(User aClient, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         if( !this.getMenus().contains(aMenu) )
             throw new IllegalArgumentException("Menu no forma parte del servicio.");
 
-        aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+        return aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
     }
 }

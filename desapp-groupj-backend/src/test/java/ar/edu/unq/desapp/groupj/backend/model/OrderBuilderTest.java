@@ -2,8 +2,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -12,7 +11,7 @@ public class OrderBuilderTest {
     public void testBuildOrder() {
         Order order = Order.Builder.anOrder().
                 withId(1).
-                withDeliveryDate(mock(Date.class)).
+                withDeliveryDate(LocalDate.now()).
                 withDetails(null).
                 build();
 

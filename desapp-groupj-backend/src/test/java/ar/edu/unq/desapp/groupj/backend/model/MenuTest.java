@@ -1,15 +1,14 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import ar.edu.unq.desapp.groupj.backend.model.exception.MenuException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class MenuTest {
 
@@ -22,8 +21,8 @@ public class MenuTest {
                 withDescription("Alta fugazzeta papuuu").
                 withCategory(MenuCategory.Pizza).
                 withDeliveryValue(20.0).
-                withAvailableFrom(mock(Date.class)).
-                withAvailableTo(mock(Date.class)).
+                withAvailableFrom(LocalDate.now()).
+                withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
                 withAverageDeliveryTime(1).
                 withPrice(100.0).
@@ -73,7 +72,7 @@ public class MenuTest {
 
     @Test
     public void testAvailableFromAccessors() {
-        Date from = mock(Date.class);
+        LocalDate from = LocalDate.now();
 
         this.menu.setAvailableFrom(from);
 
@@ -82,7 +81,7 @@ public class MenuTest {
 
     @Test
     public void testAvailableToAccessors() {
-        Date to = mock(Date.class);
+        LocalDate to = LocalDate.now();
 
         this.menu.setAvailableTo(to);
 
@@ -220,7 +219,7 @@ public class MenuTest {
 
     @Test
     public void placeClientNonExistingOrder() {
-        Date deliveryDate = mock(Date.class);
+        LocalDate deliveryDate = LocalDate.of(2020,1,1);
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);
@@ -231,7 +230,7 @@ public class MenuTest {
 
     @Test
     public void placeClientExistingOrder() {
-        Date deliveryDate = mock(Date.class);
+        LocalDate deliveryDate = LocalDate.of(2020,1,1);
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);
@@ -241,10 +240,26 @@ public class MenuTest {
         assertEquals(amount*2, this.menu.getOrders().get(0).getRequestedAmount() );
     }
 
-    private void placeClientOrder(Date deliveryDate, int amount) {
+    private void placeClientOrder(LocalDate deliveryDate, int amount) {
         User aClient = mock(User.class);
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         this.menu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+    }
+
+    @Test (expected = MenuException.class)
+    public void placeClientOrderWithPastDeliveryDate() {
+        LocalDate deliveryDate = LocalDate.of(2010,1,1);
+        int amount = 10;
+
+        placeClientOrder(deliveryDate,amount);
+    }
+
+    @Test (expected = MenuException.class)
+    public void placeClientOrderWithDeliveryDateLessThan48hs() {
+        LocalDate deliveryDate = LocalDate.now();
+        int amount = 10;
+
+        placeClientOrder(deliveryDate,amount);
     }
 
 

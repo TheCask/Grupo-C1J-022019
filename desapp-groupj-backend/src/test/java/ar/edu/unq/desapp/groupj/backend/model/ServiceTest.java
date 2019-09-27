@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -177,7 +177,7 @@ public class ServiceTest {
         Service aService = ServiceBuilder.aService().build();
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
-        Date deliveryDate = mock(Date.class);
+        LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 

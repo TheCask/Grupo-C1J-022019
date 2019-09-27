@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -165,7 +166,7 @@ public class ViandasSystemTest {
         User aClient = mock(User.class);
         Service aService = mock(Service.class);
         Menu aMenu = mock(Menu.class);
-        Date deliveryDate = mock(Date.class);
+        LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
         system.registerUser(aProvider);

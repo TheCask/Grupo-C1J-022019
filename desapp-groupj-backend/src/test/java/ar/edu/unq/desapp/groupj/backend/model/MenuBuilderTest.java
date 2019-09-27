@@ -1,9 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
-
-import java.util.Date;
-
+import java.time.LocalDate;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -15,8 +13,8 @@ public class MenuBuilderTest {
                     withDescription("Alta fugazzeta papuuu!!!!!!").
                     withCategory(MenuCategory.Pizza).
                     withDeliveryValue(10.0).
-                    withAvailableFrom(mock(Date.class)).
-                    withAvailableTo(mock(Date.class)).
+                    withAvailableFrom(LocalDate.now()).
+                    withAvailableTo(LocalDate.now()).
                     withDeliveryShifts(null).
                     withAverageDeliveryTime(1).
                     withPrice(100.0).

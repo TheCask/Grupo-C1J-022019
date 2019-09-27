@@ -1,12 +1,12 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Order {
     private int id;
-    private Date deliveryDate;
+    private LocalDate deliveryDate;
     private List<OrderDetail> details = new ArrayList<OrderDetail>();
 
     private Order() {}
@@ -19,11 +19,11 @@ public class Order {
        this.id = id;
     }
 
-    public Date getDeliveryDate() {
+    public LocalDate getDeliveryDate() {
         return this.deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+    public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
@@ -55,7 +55,7 @@ public class Order {
 
     public static class Builder {
         private int id;
-        private Date deliveryDate;
+        private LocalDate deliveryDate;
         private List<OrderDetail> details = new ArrayList<OrderDetail>();
 
         private Builder() {}
@@ -80,7 +80,7 @@ public class Order {
             return this;
         }
 
-        public Builder withDeliveryDate(Date date) {
+        public Builder withDeliveryDate(LocalDate date) {
             this.deliveryDate = date;
             return this;
         }
