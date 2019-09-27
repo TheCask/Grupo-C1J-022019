@@ -226,7 +226,7 @@ public class ViandasSystemTest {
         system.clientRatesMenu(aClient, aMenu, aValue);
 
         verify(aMenu, Mockito.times(1)).isBanned();
-        verify(aMenu, Mockito.times(1)).cancelOrders();
+        verify(aMenu, Mockito.times(1)).cancelAllOrders();
     }
 
     @Test

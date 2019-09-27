@@ -72,26 +72,12 @@ public class User {
         return results;
     }
 
-    //GETTERS
-
-    public int getCredit() { return this.credit; }
-    public String getFirstName() { return this.firstName; }
-    public String getLastName() { return this.lastName; }
-    public String getMail() { return this.mail; }
-    public String getPhone() { return this.phone; }
-    public String getCity() { return this.city; }
-    public String getAddress() { return this.address; }
-    public List<Service> getServices() { return services; }
-
-
     public Order placeClientOrder(User aClient, Service aService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         if( !this.getServices().contains(aService) )
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
         Order anOrder = aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
-
-        this.chargeCredit((int)(aMenu.getMinimumAmount1Price()*amount));
-
+        this.chargeCredit((int)(aMenu.getPrice() * amount));
         return anOrder;
     }
 
@@ -108,9 +94,24 @@ public class User {
         return this.getServices().stream().flatMap(service -> service.getMenus().stream()).collect(Collectors.toList());
     }
 
-    //TODO
     public void notifyBan(Menu aMenu) {
+        // TODO
         //notify banned menu
         //if (this.isBanned()) { } // notify banned provider
     }
+
+    public void confirmOrders() {
+        this.getServices().forEach(service -> service.confirmOrders(this));
+    }
+
+    //GETTERS
+
+    public int getCredit() { return this.credit; }
+    public String getFirstName() { return this.firstName; }
+    public String getLastName() { return this.lastName; }
+    public String getMail() { return this.mail; }
+    public String getPhone() { return this.phone; }
+    public String getCity() { return this.city; }
+    public String getAddress() { return this.address; }
+    public List<Service> getServices() { return services; }
 }

@@ -63,6 +63,17 @@ public class Service {
         return null;
     }
 
+    public Order placeClientOrder(User aClient, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+        if( !this.getMenus().contains(aMenu) )
+            throw new IllegalArgumentException("Menu no forma parte del servicio.");
+
+        return aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+    }
+
+    public void confirmOrders(User aProvider) {
+        this.getMenus().forEach(menu -> menu.confirmOrders(aProvider));
+    }
+
     // GETTERS
 
     public String getName() { return name; }
@@ -89,11 +100,4 @@ public class Service {
 
     public void setPhone(String phone) { this.phone = phone; }
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
-
-    public Order placeClientOrder(User aClient, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
-        if( !this.getMenus().contains(aMenu) )
-            throw new IllegalArgumentException("Menu no forma parte del servicio.");
-
-        return aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
-    }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Menu {
     private static final int MIN_NAME_LENGTH = 4;
@@ -162,6 +163,10 @@ public class Menu {
         this.rates = rates;
     }
 
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
     public void addRate(Rate rate) {
         this.rates.add(rate);
     }
@@ -175,10 +180,6 @@ public class Menu {
         return rateSum / getRateCount();
     }
 
-    public List<Order> getOrders() {
-        return this.orders;
-    }
-
     public boolean active() {
         LocalDate now = LocalDate.now();
         return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
@@ -189,7 +190,7 @@ public class Menu {
     public Order placeClientOrder(User aClient, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
 
-        aClient.withdrawCredit( (int)(this.getMinimumAmount1Price()*amount) );
+        aClient.withdrawCredit( (int)(this.getPrice() * amount) );
 
         List<Order> ordersInDeliveryDate = this.orders.stream().filter( order -> order.getDeliveryDate()==deliveryDate ).collect(Collectors.toList());
         Order anOrder;
@@ -212,7 +213,14 @@ public class Menu {
         return anOrder;
     }
 
-    public void cancelOrders() { this.orders.forEach(order -> order.cancelAndNotify()); }
+    public void cancelAllOrders() { this.orders.forEach(order -> order.cancelOrder()); }
+
+    public void confirmOrders(User aProvider) {
+        Stream<Order> ordersToConfirmToday = this.getOrders().stream().
+                filter(order -> order.getDeliveryDate().getDayOfYear() == LocalDate.now().getDayOfYear());
+
+        ordersToConfirmToday.forEach(order -> order.confirmOrder(this, aProvider));
+    }
 
     public static class Builder {
         private String          name;

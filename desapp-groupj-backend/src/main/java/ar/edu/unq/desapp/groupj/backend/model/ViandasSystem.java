@@ -76,10 +76,11 @@ public class ViandasSystem {
     }
 
     private void banMenu(Menu aMenu){
-        Optional<User> providerToNotify = this.getUsers().stream().filter(user -> user.getMenus().contains(aMenu)).findFirst();
+        Optional<User> providerToNotify = this.getUsers().stream().
+                filter(user -> user.getMenus().contains(aMenu)).
+                findFirst();
         if (providerToNotify.isPresent()) { providerToNotify.get().notifyBan(aMenu); }
-        aMenu.cancelOrders();
-
+        aMenu.cancelAllOrders();
     }
 
     public boolean hasMenusToRate(User aClient) {
@@ -87,21 +88,29 @@ public class ViandasSystem {
     }
 
     public List<User> providers() {
-        return this.users.stream().filter(provider -> provider.getMenus().size() > 0).collect(Collectors.toList());
+        return this.users.stream().
+                filter(provider -> provider.getMenus().size() > 0).collect(Collectors.toList());
     }
 
     public List<Menu> allMenus() {
-        return this.providers().stream().flatMap(provider -> provider.getMenus().stream()).collect(Collectors.toList());
+        return this.providers().stream().
+                flatMap(provider -> provider.getMenus().stream()).collect(Collectors.toList());
     }
 
     public List<Rate> allRatesFromClient(User aClient) {
-        return this.allMenus().stream().flatMap(menu -> menu.getRates().stream().
+        return this.allMenus().stream().
+                flatMap(menu -> menu.getRates().stream().
                 filter(rate -> rate.getUser().equals(aClient))).collect(Collectors.toList());
     }
 
     public List<OrderDetail> allOrderDetailsFromClient(User aClient) {
-        return this.allMenus().stream().flatMap(menu -> menu.getOrders().stream().
+        return this.allMenus().stream().
+                flatMap(menu -> menu.getOrders().stream().
                 flatMap(order -> order.getDetails().stream())).
                 filter(detail -> detail.getUser().equals(aClient)).collect(Collectors.toList());
+    }
+
+    public void confirmOrders() {
+        this.providers().forEach(provider -> provider.confirmOrders());
     }
 }

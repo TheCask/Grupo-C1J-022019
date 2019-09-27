@@ -49,8 +49,33 @@ public class Order {
                 reduce(0,Integer::sum );
     }
 
-    public void cancelAndNotify() {
+    public void cancelOrder() {
         //TODO
+    }
+
+    public void confirmOrder(Menu aMenu, User aProvider) {
+        int requestedAmount = this.getDetails().stream().
+                reduce(0, (partialAmount, detail) -> partialAmount + detail.getRequestedAmount(), Integer::sum);
+        final double creditToReturn;
+
+        if (requestedAmount >= aMenu.getMinimumAmount2()) {
+            creditToReturn = aMenu.getPrice() - aMenu.getMinimumAmount2Price();
+        }
+        else if (requestedAmount >= aMenu.getMinimumAmount1()) {
+            creditToReturn = aMenu.getPrice() - aMenu.getMinimumAmount1Price();
+        }
+        else { creditToReturn = 0; }
+
+        this.getDetails().forEach(detail -> this.confirmOrderToUser(detail, this.deliveryDate, creditToReturn, aProvider));
+    }
+
+    public void confirmOrderToUser(OrderDetail detail, LocalDate deliveryDate, double creditToReturn, User aProvider) {
+        if (creditToReturn !=0) {
+            double credit = creditToReturn * detail.getRequestedAmount();
+            detail.getUser().chargeCredit((int)credit);
+            aProvider.withdrawCredit((int)credit);
+        }
+        // TODO notify provider and client
     }
 
     public static class Builder {
