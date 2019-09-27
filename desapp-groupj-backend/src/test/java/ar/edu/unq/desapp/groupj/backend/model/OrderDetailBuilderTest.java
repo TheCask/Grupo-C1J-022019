@@ -1,9 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
-
 import java.time.LocalTime;
-
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 

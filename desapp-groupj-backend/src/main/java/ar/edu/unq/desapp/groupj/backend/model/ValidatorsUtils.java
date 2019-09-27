@@ -38,4 +38,26 @@ public class ValidatorsUtils {
         if( timeToDelivery.isNegative() || timeToDelivery.getDays()<validDaysFromNow )
             throw new MenuException("La fecha de entrega no es valida.");
     }
+
+    public static void validateMenuPrices(Menu aMenu) {
+
+        if (aMenu.getPrice() <= 0 || aMenu.getMinimumAmount1Price() <= 0) {
+            throw new MenuException("El precio principal y el minimo 1 son obligatorios.");
+        }
+        if (aMenu.getMinimumAmount1Price() >= aMenu.getPrice()) {
+            throw new MenuException("No se cumple que Precio Min1 < Precio.");
+        }
+        if (aMenu.getMinimumAmount2Price() != 0 && aMenu.getMinimumAmount2Price() >= aMenu.getMinimumAmount1Price()) {
+            throw new MenuException("No se cumple que Precio Min2 < Precio Min1.");
+        }
+    }
+
+    public static void validateMenuAmounts(Menu aMenu) {
+        if (aMenu.getMinimumAmount1() <= 0) {
+            throw new MenuException("La Cantidad Min1 es obligatoria.");
+        }
+        if (aMenu.getMinimumAmount2() != 0 && aMenu.getMinimumAmount2() <= aMenu.getMinimumAmount1()) {
+            throw new MenuException("No se cumple que Cantidad Min2 > Cantidad Min1.");
+        }
+    }
 }

@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import ar.edu.unq.desapp.groupj.backend.model.exception.MenuException;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +26,9 @@ public class MenuTest {
                 withAverageDeliveryTime(1).
                 withPrice(100.0).
                 withMinimumAmount1(13).
-                withMinimumAmount1Price(600).
+                withMinimumAmount1Price(78.0).
                 withMinimumAmount2(50).
-                withMinimumAmount2Price(500).
+                withMinimumAmount2Price(63.0).
                 withMaximumDailySales(50).
                 build();
     }
@@ -261,6 +260,4 @@ public class MenuTest {
 
         placeClientOrder(deliveryDate,amount);
     }
-
-
 }

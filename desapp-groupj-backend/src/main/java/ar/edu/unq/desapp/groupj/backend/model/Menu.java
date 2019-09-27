@@ -1,8 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
-import ar.edu.unq.desapp.groupj.backend.model.exception.MenuException;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,9 +110,7 @@ public class Menu {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public void setPrice(double price) { this.price = price; }
 
     public int getMinimumAmount1() {
         return minimumAmount1;
@@ -179,20 +175,16 @@ public class Menu {
         return rateSum / getRateCount();
     }
 
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
     public boolean active() {
         LocalDate now = LocalDate.now();
         return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
     }
 
     public boolean isBanned() { return (this.getAverageRate() <= 2 && this.getRateCount() >= 20); }
-
-    public List<Order> getOrders() {
-        return this.orders;
-    }
-
-    public void addOrder(Order order) {
-        this.orders.add(order);
-    }
 
     public Order placeClientOrder(User aClient, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
@@ -221,7 +213,6 @@ public class Menu {
     }
 
     public void cancelOrders() { this.orders.forEach(order -> order.cancelAndNotify()); }
-
 
     public static class Builder {
         private String          name;
@@ -321,7 +312,6 @@ public class Menu {
             menu.setName(this.name);
             menu.setDescription(this.description);
             menu.setCategory(this.category);
-            menu.setDeliveryValue(this.deliveryValue);
             menu.setAvailableFrom(this.availableFrom);
             menu.setAvailableTo(this.availableTo);
             menu.setDeliveryShifts(this.deliveryShifts);
@@ -329,9 +319,16 @@ public class Menu {
             menu.setPrice(this.price);
             menu.setMinimumAmount1(this.minimumAmount1);
             menu.setMinimumAmount1Price(this.minimumAmount1Price);
-            menu.setMinimumAmount2(this.minimumAmount2);
-            menu.setMinimumAmount2Price(this.minimumAmount2Price);
             menu.setMaximumDailySales(this.maximumDailySales);
+
+            if (this.minimumAmount2Price > 0 && this.minimumAmount2 > 0) {
+                menu.setMinimumAmount2Price(this.minimumAmount2Price);
+                menu.setMinimumAmount2(this.minimumAmount2);
+            }
+            if (this.deliveryValue > 0) { menu.setDeliveryValue(this.deliveryValue); }
+
+            ValidatorsUtils.validateMenuPrices(menu);
+            ValidatorsUtils.validateMenuAmounts(menu);
 
             return menu;
         }

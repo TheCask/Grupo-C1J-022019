@@ -13,9 +13,9 @@ public class Service {
     private String name;
     private String city;
     private String address;
-    private String description; //min 30 max 200 chars
+    private String description;
     private String site;
-    private String mail; //valid mail
+    private String mail;
     private String phone;
     private int deliveryZone;
     private ArrayList<Menu> menus = new ArrayList<Menu>();

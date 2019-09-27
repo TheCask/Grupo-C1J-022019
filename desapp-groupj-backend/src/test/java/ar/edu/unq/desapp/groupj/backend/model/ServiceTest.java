@@ -2,10 +2,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import java.time.LocalDate;
 import java.util.List;
-
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

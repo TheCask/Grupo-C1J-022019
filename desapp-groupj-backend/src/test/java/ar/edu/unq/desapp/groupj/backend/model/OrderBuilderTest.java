@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.mock;
 
 public class OrderBuilderTest {
     @Test
