@@ -219,7 +219,7 @@ public class MenuTest {
 
     @Test
     public void placeClientNonExistingOrder() {
-        LocalDate deliveryDate = LocalDate.of(2020,1,1);
+        LocalDate deliveryDate = LocalDate.now().plusDays(5);
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);
@@ -230,7 +230,7 @@ public class MenuTest {
 
     @Test
     public void placeClientExistingOrder() {
-        LocalDate deliveryDate = LocalDate.of(2020,1,1);
+        LocalDate deliveryDate = LocalDate.now().plusDays(5);
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);
@@ -248,7 +248,7 @@ public class MenuTest {
 
     @Test (expected = MenuException.class)
     public void placeClientOrderWithPastDeliveryDate() {
-        LocalDate deliveryDate = LocalDate.of(2010,1,1);
+        LocalDate deliveryDate = LocalDate.now().minusDays(3);;
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);
@@ -256,7 +256,7 @@ public class MenuTest {
 
     @Test (expected = MenuException.class)
     public void placeClientOrderWithDeliveryDateLessThan48hs() {
-        LocalDate deliveryDate = LocalDate.now();
+        LocalDate deliveryDate = LocalDate.now().plusDays(1);
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);

@@ -83,15 +83,6 @@ public class User {
     public String getAddress() { return this.address; }
     public List<Service> getServices() { return services; }
 
-    // SETTERS
-
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-    public void setMail(String mail) { this.mail = mail; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public void setCity(String city) { this.city = city; }
-    public void setAddress(String address) { this.address = address; }
-    public void setCredit(int credit) { this.credit = credit; }
 
     public Order placeClientOrder(User aClient, Service aService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         if( !this.getServices().contains(aService) )
@@ -106,7 +97,7 @@ public class User {
 
     public boolean hasBannedMenus() {
         return this.getMenus().stream().
-                reduce(true, (partialIsBanned, menu) -> partialIsBanned && menu.isBanned(), Boolean::logicalAnd);
+                reduce(false, (partialIsBanned, menu) -> partialIsBanned || menu.isBanned(), Boolean::logicalOr);
     }
 
     public List<Menu> getMenus() {
@@ -116,6 +107,6 @@ public class User {
     //TODO
     public void notifyBan(Menu aMenu) {
         //notify banned menu
-        if (this.isBanned()) { }// notify banned provider
+        //if (this.isBanned()) { } // notify banned provider
     }
 }

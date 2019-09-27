@@ -3,10 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -249,5 +246,49 @@ public class ViandasSystemTest {
         system.addMenuToService(aMenu, aService);
 
         assertTrue(aProvider.isBanned());
+    }
+
+    @Test
+    public void clientHasMenusToRate() {
+        int value = 4;
+        User aClient = UserBuilder.aUser().withMail("toti@folni.com").build();
+        User aProvider = UserBuilder.aUser().build();
+        Service aService = ServiceBuilder.aService().build();
+        Menu aMenu = Menu.Builder.aMenu().
+                withName("Fugazetta Rellena").
+                withDescription("Alta fugazzeta papuuu").
+                withCategory(MenuCategory.Pizza).
+                withDeliveryValue(20.0).
+                withAvailableFrom(LocalDate.now()).
+                withAvailableTo(LocalDate.now()).
+                withDeliveryShifts(null).
+                withAverageDeliveryTime(1).
+                withPrice(100.0).
+                withMinimumAmount1(13).
+                withMinimumAmount1Price(600).
+                withMinimumAmount2(50).
+                withMinimumAmount2Price(500).
+                withMaximumDailySales(50).
+                build();
+
+        LocalDate aDeliveryDate = LocalDate.now().plusDays(3);
+        DeliveryType aDeliveryType = DeliveryType.DeliverToAddress;
+
+        system.registerUser(aClient);
+        system.registerUser(aProvider);
+        system.userPostService(aProvider, aService);
+        system.addMenuToService(aMenu, aService);
+
+        system.placeClientOrder(aClient, aProvider, aService, aMenu, aDeliveryDate, aDeliveryType, value);
+
+        assertEquals(0, system.allRatesFromClient(aClient).size());
+        assertEquals(1, system.allOrderDetailsFromClient(aClient).size());
+        assertTrue(system.hasMenusToRate(aClient));
+
+        system.clientRatesMenu(aClient, aMenu, value);
+
+        assertEquals(1, system.allRatesFromClient(aClient).size());
+        assertEquals(1, system.allOrderDetailsFromClient(aClient).size());
+        assertFalse(system.hasMenusToRate(aClient));
     }
  }

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ViandasSystem {
 
@@ -70,11 +72,37 @@ public class ViandasSystem {
     public Rate clientRatesMenu(User aClient, Menu aMenu, int aValue) {
         Rate aRate = new Rate(aClient, aValue);
         aMenu.addRate(aRate);
-        if (aMenu.isBanned()) {
-            Optional<User> providerToNotify = this.getUsers().stream().filter(user -> user.getMenus().contains(aMenu)).findFirst();
-            if (providerToNotify.isPresent()) { providerToNotify.get().notifyBan(aMenu); }
-            aMenu.cancelOrders();
-        }
+        if (aMenu.isBanned()) { this.banMenu(aMenu); }
         return aRate;
+    }
+
+    private void banMenu(Menu aMenu){
+        Optional<User> providerToNotify = this.getUsers().stream().filter(user -> user.getMenus().contains(aMenu)).findFirst();
+        if (providerToNotify.isPresent()) { providerToNotify.get().notifyBan(aMenu); }
+        aMenu.cancelOrders();
+
+    }
+
+    public boolean hasMenusToRate(User aClient) {
+        return this.allRatesFromClient(aClient).size() != this.allOrderDetailsFromClient(aClient).size();
+    }
+
+    public List<User> providers() {
+        return this.users.stream().filter(provider -> provider.getMenus().size() > 0).collect(Collectors.toList());
+    }
+
+    public List<Menu> allMenus() {
+        return this.providers().stream().flatMap(provider -> provider.getMenus().stream()).collect(Collectors.toList());
+    }
+
+    public List<Rate> allRatesFromClient(User aClient) {
+        return this.allMenus().stream().flatMap(menu -> menu.getRates().stream().
+                filter(rate -> rate.getUser().equals(aClient))).collect(Collectors.toList());
+    }
+
+    public List<OrderDetail> allOrderDetailsFromClient(User aClient) {
+        return this.allMenus().stream().flatMap(menu -> menu.getOrders().stream().
+                flatMap(order -> order.getDetails().stream())).
+                filter(detail -> detail.getUser().equals(aClient)).collect(Collectors.toList());
     }
 }

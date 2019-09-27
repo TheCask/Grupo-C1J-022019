@@ -6,8 +6,8 @@ import org.mockito.Mockito;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -137,7 +137,22 @@ public class UserTest {
         aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
 
         verify(aService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
-
     }
 
+    @Test
+    public void hasBannedMenus(){
+        User aProvider = UserBuilder.aUser().build();
+        Menu aMenu = mock(Menu.class);
+        when(aMenu.isBanned()).thenReturn(true);
+        ArrayList<Menu> mockMenus = new ArrayList<Menu>();
+        mockMenus.add(aMenu);
+        Service aService = mock(Service.class);
+        when(aService.getMenus()).thenReturn(mockMenus);
+
+        assertFalse(aProvider.hasBannedMenus());
+
+        aProvider.postService(aService);
+
+        assertTrue(aProvider.hasBannedMenus());
+    }
 }
