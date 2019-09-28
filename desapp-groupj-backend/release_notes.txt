@@ -6,7 +6,7 @@ Grupo-C1J-022019
 ENTREGA 1 - VERSION 1.0 - 20190927
 
 ---------------------------------------------------------------------
-TAG XXXXXX
+TAG V1.0-Entrega-1
 ---------------------------------------------------------------------
 NEW FEATURES:
 * Project integration with Travis, Heroku and Codacy
@@ -18,8 +18,13 @@ NEW FEATURES:
 * Prototype windows for gMaps API with various maps with points, distance and time
 * Complete model of the project
 * Unit testing
-
-NOTES (ej: funcionalidad que falta, alguna consideración especial):
 * GitHub TAG and complete Releas Notes for first issue
 
-KNOWN ISSUES (ej: funcionalidad que saben que están funcionando diferente, algún error conocido en la funcionalidad terminada, etc):
+NOTES:
+* Missing mail notifications to clients ans providers
+* Missing login with external service
+* Missing all frontend
+* Missing daemon to automatic confirm orders at certain time
+
+KNOWN ISSUES:
+* Clients can't buy different menus from a service in one order, they need to generate one order per menu type
