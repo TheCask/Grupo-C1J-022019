@@ -9,9 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class ViandasSystemTest {
 
@@ -290,5 +288,24 @@ public class ViandasSystemTest {
         assertEquals(1, system.allRatesFromClient(aClient).size());
         assertEquals(1, system.allOrderDetailsFromClient(aClient).size());
         assertFalse(system.hasMenusToRate(aClient));
+    }
+
+    @Test
+    public void confirmOrders() {
+
+        List<Menu> menuListOfSizeTwo = mock(List.class);
+        when(menuListOfSizeTwo.size()).thenReturn(2);
+        User aProvider = mock(User.class);
+        when(aProvider.getMenus()).thenReturn(menuListOfSizeTwo);
+        User otherProvider = mock(User.class);
+        when(otherProvider.getMenus()).thenReturn(menuListOfSizeTwo);
+        system.registerUser(aProvider);
+        system.registerUser(otherProvider);
+
+        system.confirmOrders();
+
+        verify(aProvider, Mockito.times(1)).confirmOrders();
+        verify(otherProvider, Mockito.times(1)).confirmOrders();
+
     }
  }

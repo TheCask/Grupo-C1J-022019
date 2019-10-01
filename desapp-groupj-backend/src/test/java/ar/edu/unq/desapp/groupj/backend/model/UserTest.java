@@ -156,4 +156,21 @@ public class UserTest {
 
         assertTrue(aProvider.hasBannedMenus());
     }
+
+    @Test
+    public void confirmOrders() {
+
+        User aProvider = UserBuilder.aUser().build();
+        Service aService = mock(Service.class);
+        Service otherService = mock(Service.class);
+
+        aProvider.postService(aService);
+        aProvider.postService(otherService);
+
+        aProvider.confirmOrders();
+
+        verify(aService, Mockito.times(1)).confirmOrders(aProvider);
+        verify(otherService, Mockito.times(1)).confirmOrders(aProvider);
+
+    }
 }

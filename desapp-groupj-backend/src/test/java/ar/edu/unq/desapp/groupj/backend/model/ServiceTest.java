@@ -195,4 +195,22 @@ public class ServiceTest {
 
         verify(aMenu, Mockito.times(1)).placeClientOrder(aClient,deliveryDate,deliveryType,amount);
     }
+
+    @Test
+    public void confirmOrders() {
+
+        Service aService = ServiceBuilder.aService().build();
+
+        User aProvider = mock(User.class);
+        Menu aMenu = mock(Menu.class);
+        Menu otherMenu = mock(Menu.class);
+
+        aService.addMenu(aMenu);
+        aService.addMenu(otherMenu);
+
+        aService.confirmOrders(aProvider);
+
+        verify(aMenu, Mockito.times(1)).confirmOrders(aProvider);
+        verify(otherMenu, Mockito.times(1)).confirmOrders(aProvider);
+    }
 }

@@ -83,4 +83,9 @@ public class OrderTest {
 
         assertEquals( 25, this.order.getRequestedAmount() );
     }
+
+    @Test
+    public void confirmOrder() {
+
+    }
 }

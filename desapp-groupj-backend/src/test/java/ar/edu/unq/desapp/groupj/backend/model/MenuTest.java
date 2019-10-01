@@ -3,11 +3,14 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import ar.edu.unq.desapp.groupj.backend.model.exception.MenuException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class MenuTest {
 
@@ -260,4 +263,49 @@ public class MenuTest {
 
         placeClientOrder(deliveryDate,amount);
     }
+
+    @Test
+    public void confirmOrdersForDeliveryToday() {
+
+        int menuAmount = 4;
+        LocalDate today = LocalDate.now();
+
+        User aProvider = mock(User.class);
+        User aClient = mock(User.class);
+
+        Order orderToDeliverToday = mock(Order.class);
+        when(orderToDeliverToday.getDeliveryDate()).thenReturn(today);
+
+        menu.addOrder(orderToDeliverToday);
+
+        menu.confirmOrders(aProvider);
+
+        verify(orderToDeliverToday, Mockito.times(1)).confirmOrder(menu, aProvider);
+    }
+
+    @Test
+    public void notConfirmOrdersForDeliveryYesterdayOrTomorrow() {
+
+        int menuAmount = 4;
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+
+        User aProvider = mock(User.class);
+        User aClient = mock(User.class);
+
+        Order orderToDeliverTomorrow = mock(Order.class);
+        when(orderToDeliverTomorrow.getDeliveryDate()).thenReturn(tomorrow);
+        Order orderToDeliverYesterday = mock(Order.class);
+        when(orderToDeliverYesterday.getDeliveryDate()).thenReturn(yesterday);
+
+        menu.addOrder(orderToDeliverTomorrow);
+        menu.addOrder(orderToDeliverYesterday);
+
+        menu.confirmOrders(aProvider);
+
+        verify(orderToDeliverTomorrow, Mockito.times(0)).confirmOrder(menu, aProvider);
+        verify(orderToDeliverYesterday, Mockito.times(0)).confirmOrder(menu, aProvider);
+    }
+
+
 }

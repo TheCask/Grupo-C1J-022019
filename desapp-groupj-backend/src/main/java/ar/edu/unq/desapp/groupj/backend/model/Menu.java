@@ -167,6 +167,8 @@ public class Menu {
         return this.orders;
     }
 
+    public void addOrder(Order anOrder) { this.orders.add(anOrder); }
+
     public void addRate(Rate rate) {
         this.rates.add(rate);
     }
@@ -197,7 +199,7 @@ public class Menu {
 
         if( ordersInDeliveryDate.size() == 0 ) {
             anOrder = Order.Builder.anOrder().withDeliveryDate(deliveryDate).build();
-            this.orders.add(anOrder);
+            this.addOrder(anOrder);
         }
         else
             anOrder = ordersInDeliveryDate.get(0);
