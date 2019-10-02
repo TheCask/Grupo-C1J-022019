@@ -2,9 +2,13 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 public class OrderDetailTest {
     private OrderDetail orderDetail;
@@ -53,5 +57,24 @@ public class OrderDetailTest {
         this.orderDetail.setRequestedAmount(requestedAmount);
 
         assertEquals( requestedAmount, this.orderDetail.getRequestedAmount() );
+    }
+
+    @Test
+    public void testConfirmOrderToUser() {
+
+        double price = 10.0;
+        int requestedAmount = 10;
+        double creditToReturn = price * requestedAmount;
+
+        User aProvider = mock(User.class);
+        User aClient = mock(User.class);
+        OrderDetail anOrderDetail = OrderDetail.Builder.anOrderDetail().
+                withUser(aClient).withRequestedAmount(requestedAmount).build();
+        LocalDate today = LocalDate.now();
+
+        anOrderDetail.confirmOrderToUser(today, price, aProvider);
+
+        verify(aProvider, Mockito.times(1)).withdrawCredit((int) creditToReturn);
+        verify(aClient, Mockito.times(1)).chargeCredit((int) creditToReturn);
     }
 }

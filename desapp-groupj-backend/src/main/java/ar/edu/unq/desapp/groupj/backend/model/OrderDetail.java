@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class OrderDetail {
@@ -42,6 +43,14 @@ public class OrderDetail {
         this.requestedAmount = requestedAmount;
     }
 
+    public void confirmOrderToUser(LocalDate deliveryDate, double creditToReturn, User aProvider) {
+        if (creditToReturn !=0) {
+            double credit = creditToReturn * this.getRequestedAmount();
+            this.getUser().chargeCredit((int)credit);
+            aProvider.withdrawCredit((int)credit);
+        }
+        // TODO notify provider and client
+    }
 
 
     public static class Builder {

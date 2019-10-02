@@ -66,16 +66,7 @@ public class Order {
         }
         else { creditToReturn = 0; }
 
-        this.getDetails().forEach(detail -> this.confirmOrderToUser(detail, this.deliveryDate, creditToReturn, aProvider));
-    }
-
-    public void confirmOrderToUser(OrderDetail detail, LocalDate deliveryDate, double creditToReturn, User aProvider) {
-        if (creditToReturn !=0) {
-            double credit = creditToReturn * detail.getRequestedAmount();
-            detail.getUser().chargeCredit((int)credit);
-            aProvider.withdrawCredit((int)credit);
-        }
-        // TODO notify provider and client
+        this.getDetails().forEach(detail -> detail.confirmOrderToUser(this.deliveryDate, creditToReturn, aProvider));
     }
 
     public static class Builder {
