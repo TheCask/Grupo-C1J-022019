@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ 
+    <class name="ar.edu.unq.desapp.groupj.backend.model.User" table="users">
+
+        <id name="id" column="id" >
+            <generator class="native" />
+        </id>
+
+        <property name="firstName" type="string" column="first_name" length="100"/>
+        
+        <property name="lastName" type="string" column="last_name" length="100"/>
+
+        <property name="mail" type="string" column="mail" length="100"/>
+
+        <property name="phone" type="string" column="phone" length="100"/>
+
+        <property name="city" type="string" column="city" length="100"/>
+
+        <property name="address" type="string" column="address" length="100"/>
+
+        <property name="credit" type="int" column="credit" length="100"/>
+
+    </class>
+
+</hibernate-mapping>

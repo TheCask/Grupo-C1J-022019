@@ -9,6 +9,7 @@ public class User {
 
     private static final int BANNED_MENUS_TO_BE_BANNED = 10;
 
+    private int id;
     private String firstName;
     private String lastName;
     private String mail;
@@ -19,28 +20,36 @@ public class User {
 
     private List<Service> services = new ArrayList<Service>();
 
+    public User() {}
+
     public User(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mail = mail;
-        this.phone = phone;
-        this.city = city;
-        this.address = address;
-        this.credit = credit;
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setMail(mail);
+        this.setPhone(phone);
+        this.setCity(city);
+        this.setAddress(address);
+        this.setCredit(credit);
     }
 
     public int chargeCredit(int credit) {
-        if (credit > 0) { return this.credit += credit; }
+        if (credit > 0) {
+            this.setCredit(this.getCredit() + credit);
+            return this.getCredit();
+        }
         else { throw new IllegalArgumentException("The credit to charge has to be greater than 0"); }
     }
 
     public int withdrawCredit(int credit) {
         int newCredit = this.getCredit() - credit;
-        if (newCredit >= 0 && newCredit < this.getCredit()) { return this.credit -= credit; }
+        if (newCredit >= 0 && newCredit < this.getCredit()) {
+            this.setCredit(this.getCredit() - credit);
+            return this.getCredit();
+        }
         else { throw new IllegalArgumentException("The account has insufficient credits or credit to charge is not greater than 0"); }
     }
 
-    public void postService(Service aService) { this.services.add(aService); }
+    public void postService(Service aService) { this.getServices().add(aService); }
 
     public boolean equals(Object aUser) {
         if (aUser == null || this.getClass() != aUser.getClass()) return false;
@@ -106,6 +115,7 @@ public class User {
 
     //GETTERS
 
+    public int getId() { return this.id; }
     public int getCredit() { return this.credit; }
     public String getFirstName() { return this.firstName; }
     public String getLastName() { return this.lastName; }
@@ -114,4 +124,30 @@ public class User {
     public String getCity() { return this.city; }
     public String getAddress() { return this.address; }
     public List<Service> getServices() { return services; }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
 }
