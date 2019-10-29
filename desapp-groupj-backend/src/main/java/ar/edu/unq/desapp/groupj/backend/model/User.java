@@ -1,10 +1,13 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     private static final int BANNED_MENUS_TO_BE_BANNED = 10;
