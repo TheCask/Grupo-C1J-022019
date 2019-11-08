@@ -106,6 +106,10 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 
+	<bean id="persistence.menuRepository" class="ar.edu.unq.desapp.groupj.backend.repositories.MenuRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+
 	<!--bean id="persistence.vehicleRepository" class="repositories.VehicleRepository" -->
 		<!--property name="sessionFactory" ref="persistence.sessionFactory" /-->
 	<!--/bean-->

@@ -9,12 +9,17 @@
 	<!-- beans de spring -->
 	<bean id="services.general" class="ar.edu.unq.desapp.groupj.backend.services.GeneralService">
 		<property name="userService" ref="services.user" />
+		<property name="menuService" ref="services.menu" />
 		<!--property name="vehicleService" ref="services.anotherService" /-->
 		<!--property name="rentalService" ref="services.anotherOneService" /-->
 	</bean>
 
 	<bean id="services.user" class="ar.edu.unq.desapp.groupj.backend.services.UserService">
 		<property name="repository" ref="persistence.userRepository" />
+	</bean>
+
+	<bean id="services.menu" class="ar.edu.unq.desapp.groupj.backend.services.MenuService">
+		<property name="repository" ref="persistence.menuRepository" />
 	</bean>
 
 	<!--bean id="services.vehicle" class="services.VehicleService"-->

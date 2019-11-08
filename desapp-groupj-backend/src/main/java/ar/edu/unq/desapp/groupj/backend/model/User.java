@@ -128,9 +128,7 @@ public class User {
     public String getAddress() { return this.address; }
     public List<Service> getServices() { return services; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
