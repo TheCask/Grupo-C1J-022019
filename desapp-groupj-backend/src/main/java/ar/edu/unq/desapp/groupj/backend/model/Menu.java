@@ -21,9 +21,11 @@ public class Menu {
     private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
     private static final int MINIMUM_DAYS_TO_DELIVERY = 2;
 
+    private int             id;
     private String          name;
     private String          description;
     private MenuCategory    category;
+    private String          city;
     private double          deliveryValue;
     private LocalDate       availableFrom;
     private LocalDate       availableTo;
@@ -39,6 +41,10 @@ public class Menu {
     private List<Order>     orders = new ArrayList<Order>();
 
     private Menu() {}
+
+    public int getId() { return this.id; }
+
+    public void setId(Integer save) { this.id = save; }
 
     public String getName() {
         return name;
@@ -65,6 +71,10 @@ public class Menu {
     public void setCategory(MenuCategory category) {
         this.category = category;
     }
+
+    public String getCity() { return city; }
+
+    public void setCity(String city) { this.city = city; }
 
     public double getDeliveryValue() {
         return deliveryValue;

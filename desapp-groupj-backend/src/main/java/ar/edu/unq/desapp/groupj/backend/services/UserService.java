@@ -33,4 +33,3 @@ public class UserService extends GenericService<User> {
 	}
 
 }
-

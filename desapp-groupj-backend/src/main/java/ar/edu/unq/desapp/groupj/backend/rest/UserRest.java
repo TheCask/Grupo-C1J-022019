@@ -115,5 +115,4 @@ public class UserRest extends BaseRest {
 		}
 		return Response.ok().build();
 	}
-
 }
