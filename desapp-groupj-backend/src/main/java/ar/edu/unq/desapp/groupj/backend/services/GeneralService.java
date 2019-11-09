@@ -4,8 +4,6 @@ public class GeneralService {
 
 	private UserService userService;
     private MenuService menuService;
-	//private AnotherService anotherService;
-	//private AnotherOneService anotherOneService;
 
 	public UserService getUserService() {
 		return userService;
@@ -20,21 +18,5 @@ public class GeneralService {
     public void setMenuService(final MenuService menuService) {
         this.menuService = menuService;
     }
-
-	/*public AnotherService getAnotherService() {
-		return anotherService;
-	}*/
-	
-	/*public void setAnotherService(final AnotherService anotherService) {
-		this.anotherService = anotherService;
-	}*/
-	
-	/*public AnotherOneService getAnotherOneService() {
-		return this.anotherOneService;
-	}*/
-	
-	/*public void setAnotherOneService(final AnotherOneService anotherOneService) {
-		this.anotherOneService = anotherOneService;
-	}*/
 
 }

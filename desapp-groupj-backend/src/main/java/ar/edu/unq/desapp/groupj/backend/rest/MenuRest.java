@@ -88,7 +88,7 @@ public class MenuRest extends BaseRest {
     @Produces("application/json")
     public Response getAllMenus() {
         List<Menu> menus = menuService.retriveAll();
-        if (menus.isEmpty()) {
+        if (menus==null || menus.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(menus).build();
@@ -99,7 +99,7 @@ public class MenuRest extends BaseRest {
     @Produces("application/json")
     public Response findMenusByName(@PathParam("name") final String name) {
         List<Menu> menus = menuService.findByName(name);
-        if (menus.isEmpty()) {
+        if (menus==null || menus.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(menus).build();
@@ -114,7 +114,7 @@ public class MenuRest extends BaseRest {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         List<Menu> menus = menuService.findByUser(user);
-        if (menus.isEmpty()) {
+        if (menus==null || menus.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(menus).build();

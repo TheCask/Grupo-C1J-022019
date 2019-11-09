@@ -10,8 +10,6 @@
 	<bean id="services.general" class="ar.edu.unq.desapp.groupj.backend.services.GeneralService">
 		<property name="userService" ref="services.user" />
 		<property name="menuService" ref="services.menu" />
-		<!--property name="vehicleService" ref="services.anotherService" /-->
-		<!--property name="rentalService" ref="services.anotherOneService" /-->
 	</bean>
 
 	<bean id="services.user" class="ar.edu.unq.desapp.groupj.backend.services.UserService">
@@ -21,13 +19,5 @@
 	<bean id="services.menu" class="ar.edu.unq.desapp.groupj.backend.services.MenuService">
 		<property name="repository" ref="persistence.menuRepository" />
 	</bean>
-
-	<!--bean id="services.vehicle" class="services.VehicleService"-->
-		<!--property name="repository" ref="persistence.vehicleRepository" /-->
-	<!--/bean-->
-	
-	<!--bean id="services.rental" class="services.RentalService"-->
-		<!--property name="repository" ref="persistence.rentalRepository" /-->
-	<!--/bean-->
 
 </beans>

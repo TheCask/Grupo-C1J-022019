@@ -110,12 +110,4 @@
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 
-	<!--bean id="persistence.vehicleRepository" class="repositories.VehicleRepository" -->
-		<!--property name="sessionFactory" ref="persistence.sessionFactory" /-->
-	<!--/bean-->
-	
-	<!--bean id="persistence.rentalRepository" class="repositories.RentalRepository" -->
-		<!--property name="sessionFactory" ref="persistence.sessionFactory" /-->
-	<!--/bean-->
-
 </beans>

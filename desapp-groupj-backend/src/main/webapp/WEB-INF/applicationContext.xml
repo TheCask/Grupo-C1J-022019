@@ -53,14 +53,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
     <bean id="menuRest" class="ar.edu.unq.desapp.groupj.backend.rest.MenuRest">
         <property name="menuService" ref="services.menu" />
+		<property name="userService" ref="services.user" />
     </bean>
-
-	<!--bean id="vehiclesRest" class="rest.vehicles.VehiclesRest"-->
-		<!--property name="vehicleService" ref="services.vehicle" /-->
-	<!--/bean-->
-
-	<!--bean id="rentalsRest" class="rest.rentals.RentalsRest"-->
-		<!--property name="rentalService" ref="services.rental" /-->
-	<!--/bean-->
 
 </beans>
