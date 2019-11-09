@@ -28,3 +28,28 @@ NOTES:
 
 KNOWN ISSUES:
 * Clients can't buy different menus from a service in one order, they need to generate one order per menu type
+
+
+====== RELEASE NOTE  ======
+ENTREGA 2 - VERSION 2.0 - 20191108
+
+---------------------------------------------------------------------
+TAG V2.0-Entrega-2
+---------------------------------------------------------------------
+NEW FEATURES:
+* Angular front end: https://github.com/mgarzonunq/Grupo-C1J-022019-Frontend
+* Backend with Spring project structure acording to requested architecture (Hybernate persistence, repository pattern, services, rest services)
+* Using MySQL DB in development, Travis and Heroku environments
+* Google social authentication implemented both in front and backend
+* Aspects for CORS and Authentication
+* i18n US / ES
+* Fake data
+* User registration
+* Credit management
+* Menu management
+
+NOTES:
+* Missing mail notifications to clients and providers
+* Missing daemon to automatic confirm orders at certain time
+* Missing menu post and purchase
+
