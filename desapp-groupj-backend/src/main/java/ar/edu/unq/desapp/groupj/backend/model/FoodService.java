@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class Service {
+public class FoodService {
     private static final int MIN_DESCRIPTION_LENGTH = 30;
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final int MAX_MENUS = 20;
 
+    private int id;
     private String name;
     private String city;
     private String address;
@@ -18,9 +20,11 @@ public class Service {
     private String mail;
     private String phone;
     private int deliveryZone;
-    private ArrayList<Menu> menus = new ArrayList<Menu>();
+    private List<Menu> menus = new ArrayList<Menu>();
 
-    public Service(String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
+    public FoodService() {}
+
+    public FoodService(String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
         this.name = name;
         this.city = city;
         this.address = address;
@@ -30,7 +34,7 @@ public class Service {
         this.deliveryZone = deliveryZone;
     }
 
-    public Service addSite(String aSite) {
+    public FoodService addSite(String aSite) {
         this.site = aSite;
         return this;
     }
@@ -75,7 +79,7 @@ public class Service {
     }
 
     // GETTERS
-
+    public int getId() { return id; }
     public String getName() { return name; }
     public String getCity() { return city; }
     public String getAddress() { return address; }
@@ -84,10 +88,13 @@ public class Service {
     public String getMail() { return mail; }
     public String getPhone() { return phone; }
     public int getDeliveryZone() { return deliveryZone; }
-    public ArrayList<Menu> getMenus() { return  this.menus; }
+    public List<Menu> getMenus() {
+        return this.menus;
+    }
 
     // SETTERS
 
+    public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setDescription(String description) {
         ValidatorsUtils.validateStringLength(description,MIN_DESCRIPTION_LENGTH,MAX_DESCRIPTION_LENGTH,"Description");
@@ -97,7 +104,10 @@ public class Service {
         ValidatorsUtils.validateMail(mail, "mail");
         this.mail = mail;
     }
-
     public void setPhone(String phone) { this.phone = phone; }
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
+    public void setMenus( List<Menu> menus ) { this.menus = menus; }
+    public void setCity( String city ) { this.city = city; }
+    public void setAddress( String address ) { this.address = address; }
+    public void setSite( String site ) { this.site = site; }
 }

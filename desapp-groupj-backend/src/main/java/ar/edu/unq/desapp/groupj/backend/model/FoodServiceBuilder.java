@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
-public class ServiceBuilder {
+public class FoodServiceBuilder {
 
     private String name = "no name";
     private String city = "no city";
@@ -10,45 +10,45 @@ public class ServiceBuilder {
     private String description = "no description";
     private int deliveryZone = 0;
 
-    public static ServiceBuilder aService() {
-        return new ServiceBuilder();
+    public static FoodServiceBuilder aFoodService() {
+        return new FoodServiceBuilder();
     }
 
-    public Service build() {
-        return new Service(name, city, address, description, mail, phone, deliveryZone);
+    public FoodService build() {
+        return new FoodService(name, city, address, description, mail, phone, deliveryZone);
     }
 
-    public ServiceBuilder withName(final String aName) {
+    public FoodServiceBuilder withName(final String aName) {
         name = aName;
         return this;
     }
 
-    public ServiceBuilder withCity(final String aCity) {
+    public FoodServiceBuilder withCity(final String aCity) {
         city = aCity;
         return this;
     }
 
-    public ServiceBuilder withMail(final String aMail) {
+    public FoodServiceBuilder withMail(final String aMail) {
         mail = aMail;
         return this;
     }
 
-    public ServiceBuilder withPhone(final String aPhone) {
+    public FoodServiceBuilder withPhone(final String aPhone) {
         phone = aPhone;
         return this;
     }
 
-    public ServiceBuilder withAddress(final String anAddress) {
+    public FoodServiceBuilder withAddress(final String anAddress) {
         address = anAddress;
         return this;
     }
 
-    public ServiceBuilder withDescription(final String aDescription) {
+    public FoodServiceBuilder withDescription(final String aDescription) {
         description = aDescription;
         return this;
     }
 
-    public ServiceBuilder withDeliveryZone(int aDeliveryZone) {
+    public FoodServiceBuilder withDeliveryZone(int aDeliveryZone) {
         deliveryZone = aDeliveryZone;
         return this;
     }

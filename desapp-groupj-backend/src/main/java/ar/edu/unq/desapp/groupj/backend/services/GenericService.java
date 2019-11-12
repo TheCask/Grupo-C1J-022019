@@ -61,7 +61,7 @@ public class GenericService<T> implements Serializable {
     }
     
     @Transactional
-    public List<Object> findByPropertyColumn(String propertyColumn, Object object, String compare){
+    public List<T> findByPropertyColumn(String propertyColumn, Object object, String compare){
     	return this.getRepository().findByPropertyColumn(propertyColumn, object, compare);
     }
 }

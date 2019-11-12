@@ -28,8 +28,8 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
 		return count.intValue();
 	}
 	
-	public List<Object> findByPropertyColumn(String propertyColumn, Object object, String compare){
-		return (List<Object>) this.getHibernateTemplate()
+	public List<T> findByPropertyColumn(String propertyColumn, Object object, String compare){
+		return (List<T>) this.getHibernateTemplate()
 		.find("FROM " + this.persistentClass.getName() + " o " + " WHERE " + propertyColumn + " " +compare+ " " + object);
 	}
 

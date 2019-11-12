@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="ar.edu.unq.desapp.groupj.backend.model.FoodService" table="food_services">
+
+        <id name="id" column="id" >
+            <generator class="identity" />
+        </id>
+
+        <property name="name" type="string" column="name" length="100"/>
+
+        <property name="description" type="string" column="description" length="100"/>
+
+        <property name="city" type="string" column="city" length="100"/>
+
+        <property name="address" type="string" column="address" length="100"/>
+
+        <property name="site" type="string" column="site" length="100"/>
+
+        <property name="mail" type="string" column="mail" length="100"/>
+
+        <property name="phone" type="string" column="phone" length="100"/>
+
+        <property name="deliveryZone" type="int" column="deliveryZone"/>
+
+        <list name="menus" table="menus" inverse="false" lazy="false" fetch="select">
+            <key> <column name="food_service_id" not-null="true"> </column> </key>
+            <list-index column="id" base="1"/>
+            <one-to-many class="ar.edu.unq.desapp.groupj.backend.model.Menu" />
+        </list>
+
+    </class>
+
+</hibernate-mapping>

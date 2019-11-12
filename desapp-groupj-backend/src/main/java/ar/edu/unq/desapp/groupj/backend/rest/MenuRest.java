@@ -12,20 +12,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
+import ar.edu.unq.desapp.groupj.backend.model.FoodService;
 import ar.edu.unq.desapp.groupj.backend.model.User;
 import ar.edu.unq.desapp.groupj.backend.model.Menu;
-import ar.edu.unq.desapp.groupj.backend.rest.BaseRest;
 import ar.edu.unq.desapp.groupj.backend.services.MenuService;
 import ar.edu.unq.desapp.groupj.backend.services.UserService;
 
 @Path("/menus")
 public class MenuRest extends BaseRest {
 
-    private MenuService menuService;
     private UserService userService;
+    private MenuService menuService;
 
-    public void setMenuService(final MenuService menuService) { this.menuService = menuService; }
     public void setUserService(final UserService userService) { this.userService = userService; }
+    public void setMenuService(final MenuService menuService) { this.menuService = menuService; }
 
     @GET
     @Path("/getById/{id}")
@@ -119,4 +119,5 @@ public class MenuRest extends BaseRest {
         }
         return Response.ok(menus).build();
     }
+
 }

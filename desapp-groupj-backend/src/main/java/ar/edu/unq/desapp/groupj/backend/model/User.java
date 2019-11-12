@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class User {
     private String address;
     private int credit;
 
-    private List<Service> services = new ArrayList<Service>();
+    private List<FoodService> foodServices = new ArrayList<FoodService>();
 
     public User() {}
 
@@ -52,7 +52,7 @@ public class User {
         else { throw new IllegalArgumentException("The account has insufficient credits or credit to charge is not greater than 0"); }
     }
 
-    public void postService(Service aService) { this.getServices().add(aService); }
+    public void postService(FoodService aService) { this.getFoodServices().add(aService); }
 
     public boolean equals(Object aUser) {
         if (aUser == null || this.getClass() != aUser.getClass()) return false;
@@ -63,7 +63,7 @@ public class User {
     public List<Menu> getMenusByName(String name) {
         List<Menu> results = new ArrayList<Menu>();
 
-        this.getServices().forEach( service -> results.addAll( service.getMenusByName(name) ));
+        this.getFoodServices().forEach(service -> results.addAll( service.getMenusByName(name) ));
 
         return results;
     }
@@ -71,7 +71,7 @@ public class User {
     public List<Menu> getMenusByCategory(MenuCategory category) {
         List<Menu> results = new ArrayList<Menu>();
 
-        this.getServices().forEach( service -> results.addAll( service.getMenusByCategory(category) ) );
+        this.getFoodServices().forEach(service -> results.addAll( service.getMenusByCategory(category) ) );
 
         return results;
     }
@@ -79,16 +79,16 @@ public class User {
     public List<Menu> getMenusByCity(String city) {
         List<Menu> results = new ArrayList<Menu>();
 
-        this.getServices().forEach( service -> results.addAll( service.getMenusByCity(city) ));
+        this.getFoodServices().forEach(service -> results.addAll( service.getMenusByCity(city) ));
 
         return results;
     }
 
-    public Order placeClientOrder(User aClient, Service aService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
-        if( !this.getServices().contains(aService) )
+    public Order placeClientOrder(User aClient, FoodService aFoodService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+        if( !this.getFoodServices().contains(aFoodService) )
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
-        Order anOrder = aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        Order anOrder = aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
         this.chargeCredit((int)(aMenu.getPrice() * amount));
         return anOrder;
     }
@@ -103,7 +103,7 @@ public class User {
     }
 
     public List<Menu> getMenus() {
-        return this.getServices().stream().flatMap(service -> service.getMenus().stream()).collect(Collectors.toList());
+        return this.getFoodServices().stream().flatMap(service -> service.getMenus().stream()).collect(Collectors.toList());
     }
 
     public void notifyBan(Menu aMenu) {
@@ -113,7 +113,7 @@ public class User {
     }
 
     public void confirmOrders() {
-        this.getServices().forEach(service -> service.confirmOrders(this));
+        this.getFoodServices().forEach(service -> { if( service!=null) service.confirmOrders(this); } );
     }
 
     //GETTERS
@@ -126,7 +126,9 @@ public class User {
     public String getPhone() { return this.phone; }
     public String getCity() { return this.city; }
     public String getAddress() { return this.address; }
-    public List<Service> getServices() { return services; }
+    public List<FoodService> getFoodServices() {
+        return this.foodServices;
+    }
 
     public void setId(int id) { this.id = id; }
     public void setFirstName(String firstName) {
@@ -150,5 +152,6 @@ public class User {
     public void setCredit(int credit) {
         this.credit = credit;
     }
+    public void setFoodServices(List<FoodService> foodServices) { this.foodServices=foodServices; }
 
 }

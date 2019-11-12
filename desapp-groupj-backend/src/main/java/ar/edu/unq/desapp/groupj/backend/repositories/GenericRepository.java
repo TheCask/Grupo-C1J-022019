@@ -30,5 +30,5 @@ public interface GenericRepository<T> {
 	
 	List<Object> getElement(Object valueToCompare, String propertyNameToCompare, String propertyColumnToGet);
 
-	List<Object> findByPropertyColumn(String propertyColumn, Object object, String compare);
+	List<T> findByPropertyColumn(String propertyColumn, Object object, String compare);
 }

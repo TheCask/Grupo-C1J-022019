@@ -29,9 +29,9 @@ public class ViandasSystem {
 
     public int chargeCreditToUser(int credit, User aUser) { return aUser.chargeCredit(credit); }
 
-    public void userPostService(User aUser, Service aService) { aUser.postService(aService); }
+    public void userPostService(User aUser, FoodService aFoodService) { aUser.postService(aFoodService); }
 
-    public void addMenuToService(Menu aMenu, Service aService) { aService.addMenu(aMenu); }
+    public void addMenuToService(Menu aMenu, FoodService aFoodService) { aFoodService.addMenu(aMenu); }
 
     public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
         return aUser.withdrawCredit(creditToWithdraw);
@@ -61,11 +61,11 @@ public class ViandasSystem {
         return results;
     }
 
-    public void placeClientOrder(User aClient, User aProvider, Service aService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+    public void placeClientOrder(User aClient, User aProvider, FoodService aFoodService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         if( !this.getUsers().contains(aProvider) || !this.getUsers().contains(aClient) )
             throw new IllegalArgumentException("Usuario no registrado en el sistema.");
 
-         aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+         aProvider.placeClientOrder(aClient, aFoodService,aMenu,deliveryDate,deliveryType,amount);
     }
 
     public Rate clientRatesMenu(User aClient, Menu aMenu, int aValue) {
