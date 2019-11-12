@@ -29,9 +29,9 @@ public class ViandasSystem {
 
     public int chargeCreditToUser(int credit, User aUser) { return aUser.chargeCredit(credit); }
 
-    public void userPostService(User aUser, FoodService aFoodService) { aUser.postService(aFoodService); }
+    public void userPostFoodService(User aUser, FoodService aFoodService) { aUser.postFoodService(aFoodService); }
 
-    public void addMenuToService(Menu aMenu, FoodService aFoodService) { aFoodService.addMenu(aMenu); }
+    public void addMenuToFoodService(Menu aMenu, FoodService aFoodService) { aFoodService.addMenu(aMenu); }
 
     public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
         return aUser.withdrawCredit(creditToWithdraw);

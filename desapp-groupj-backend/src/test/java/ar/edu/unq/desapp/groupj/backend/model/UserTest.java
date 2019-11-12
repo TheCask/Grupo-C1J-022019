@@ -73,59 +73,59 @@ public class UserTest {
     @Test
     public void getMenusByName() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
-        Service aService = mock(Service.class);
+        FoodService aFoodService = mock(FoodService.class);
         String aSearchString = "veggie";
         List<Menu> mockMenus = new ArrayList<Menu>();
 
         mockMenus.add(mock(Menu.class));
-        when(aService.getMenusByName(aSearchString)).thenReturn(mockMenus);
-        aUser.postService(aService);
+        when(aFoodService.getMenusByName(aSearchString)).thenReturn(mockMenus);
+        aUser.postFoodService(aFoodService);
 
         List<Menu> foundMenus = aUser.getMenusByName(aSearchString);
 
         assertEquals( 1, foundMenus.size() );
-        verify( aService, Mockito.times(1)).getMenusByName(aSearchString);
+        verify( aFoodService, Mockito.times(1)).getMenusByName(aSearchString);
     }
 
     @Test
     public void getMenusByCategory() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
-        Service aService = mock(Service.class);
+        FoodService aFoodService = mock(FoodService.class);
         List<Menu> mockMenus = new ArrayList<Menu>();
         MenuCategory category = MenuCategory.Green;
 
         mockMenus.add(mock(Menu.class));
-        when(aService.getMenusByCategory(category)).thenReturn(mockMenus);
-        aUser.postService(aService);
+        when(aFoodService.getMenusByCategory(category)).thenReturn(mockMenus);
+        aUser.postFoodService(aFoodService);
 
         List<Menu> foundMenus = aUser.getMenusByCategory(category);
 
         assertEquals( 1, foundMenus.size() );
-        verify( aService, Mockito.times(1)).getMenusByCategory(category);
+        verify( aFoodService, Mockito.times(1)).getMenusByCategory(category);
     }
 
     @Test
     public void getMenusByCity() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
-        Service aService = mock(Service.class);
+        FoodService aFoodService = mock(FoodService.class);
         List<Menu> mockMenus = new ArrayList<Menu>();
         String city = "Berazategui";
 
         mockMenus.add(mock(Menu.class));
-        when(aService.getMenusByCity(city)).thenReturn(mockMenus);
-        aUser.postService(aService);
+        when(aFoodService.getMenusByCity(city)).thenReturn(mockMenus);
+        aUser.postFoodService(aFoodService);
 
         List<Menu> foundMenus = aUser.getMenusByCity(city);
 
         assertEquals( 1, foundMenus.size() );
-        verify( aService, Mockito.times(1)).getMenusByCity(city);
+        verify( aFoodService, Mockito.times(1)).getMenusByCity(city);
     }
 
     @Test
     public void placeClientOrder() {
         User aProvider = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         User aClient = mock(User.class);
-        Service aService = mock(Service.class);
+        FoodService aFoodService = mock(FoodService.class);
         Menu aMenu = mock(Menu.class);
         LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
@@ -133,11 +133,11 @@ public class UserTest {
 
         when(aMenu.getPrice()).thenReturn(10.0);
 
-        aProvider.postService(aService);
+        aProvider.postFoodService(aFoodService);
 
-        aProvider.placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+        aProvider.placeClientOrder(aClient,aFoodService,aMenu,deliveryDate,deliveryType,amount);
 
-        verify(aService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        verify(aFoodService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
     }
 
     @Test
@@ -147,12 +147,12 @@ public class UserTest {
         when(aMenu.isBanned()).thenReturn(true);
         ArrayList<Menu> mockMenus = new ArrayList<Menu>();
         mockMenus.add(aMenu);
-        Service aService = mock(Service.class);
-        when(aService.getMenus()).thenReturn(mockMenus);
+        FoodService aFoodService = mock(FoodService.class);
+        when(aFoodService.getMenus()).thenReturn(mockMenus);
 
         assertFalse(aProvider.hasBannedMenus());
 
-        aProvider.postService(aService);
+        aProvider.postFoodService(aFoodService);
 
         assertTrue(aProvider.hasBannedMenus());
     }
@@ -161,16 +161,16 @@ public class UserTest {
     public void confirmOrders() {
 
         User aProvider = UserBuilder.aUser().build();
-        Service aService = mock(Service.class);
-        Service otherService = mock(Service.class);
+        FoodService aFoodService = mock(FoodService.class);
+        FoodService otherFoodService = mock(FoodService.class);
 
-        aProvider.postService(aService);
-        aProvider.postService(otherService);
+        aProvider.postFoodService(aFoodService);
+        aProvider.postFoodService(otherFoodService);
 
         aProvider.confirmOrders();
 
-        verify(aService, Mockito.times(1)).confirmOrders(aProvider);
-        verify(otherService, Mockito.times(1)).confirmOrders(aProvider);
+        verify(aFoodService, Mockito.times(1)).confirmOrders(aProvider);
+        verify(otherFoodService, Mockito.times(1)).confirmOrders(aProvider);
 
     }
 }

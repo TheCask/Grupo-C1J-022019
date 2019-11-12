@@ -66,29 +66,29 @@ public class ViandasSystemTest {
     }
 
     @Test
-    public void uploadService() {
-        Service aService = mock(Service.class);
+    public void uploadFoodService() {
+        FoodService aFoodService = mock(FoodService.class);
         User aUser = mock(User.class);
 
-        system.userPostService(aUser, aService);
+        system.userPostFoodService(aUser, aFoodService);
 
-        verify(aUser, Mockito.times(1)).postService(aService);
+        verify(aUser, Mockito.times(1)).postFoodService(aFoodService);
     }
 
     @Test
-    public void addMenuToService() {
-        Service aService = mock(Service.class);
+    public void addMenuToFoodService() {
+        FoodService aFoodService = mock(FoodService.class);
         Menu aMenu = mock(Menu.class);
 
-        system.addMenuToService(aMenu, aService);
+        system.addMenuToFoodService(aMenu, aFoodService);
 
-        verify(aService, Mockito.times(1)).addMenu(aMenu);
+        verify(aFoodService, Mockito.times(1)).addMenu(aMenu);
     }
 
     @Test
     public void getMenusByName() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").withMail("a@a").build();
-        Service aService = ServiceBuilder.aService().withName("PochoFood").build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().withName("PochoFood").build();
         Menu aMenuVeggie1 = mock(Menu.class);
         Menu aMenuMeat = mock(Menu.class);
         Menu aMenuVeggie2 = mock(Menu.class);
@@ -98,10 +98,10 @@ public class ViandasSystemTest {
         when(aMenuVeggie2.getName()).thenReturn("Veggie Cow");
 
         system.registerUser(aUser);
-        system.userPostService(aUser, aService);
-        system.addMenuToService(aMenuVeggie1,aService);
-        system.addMenuToService(aMenuMeat,aService);
-        system.addMenuToService(aMenuVeggie2,aService);
+        system.userPostFoodService(aUser, aFoodService);
+        system.addMenuToFoodService(aMenuVeggie1,aFoodService);
+        system.addMenuToFoodService(aMenuMeat,aFoodService);
+        system.addMenuToFoodService(aMenuVeggie2,aFoodService);
 
         List<Menu> foundMenus = system.getMenusByName("veggie");
 
@@ -113,7 +113,7 @@ public class ViandasSystemTest {
     @Test
     public void getMenusByCategory() {
         User aUser = UserBuilder.aUser().withName("Ricky","Maravilla").withMail("b@b").build();
-        Service aService = ServiceBuilder.aService().withName("PochoFood").build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().withName("PochoFood").build();
         Menu aMenuVeggie1 = mock(Menu.class);
         Menu aMenuMeat = mock(Menu.class);
         Menu aMenuVeggie2 = mock(Menu.class);
@@ -123,10 +123,10 @@ public class ViandasSystemTest {
         when(aMenuVeggie2.getCategory()).thenReturn(MenuCategory.Vegano);
 
         system.registerUser(aUser);
-        system.userPostService(aUser, aService);
-        system.addMenuToService(aMenuVeggie1,aService);
-        system.addMenuToService(aMenuMeat,aService);
-        system.addMenuToService(aMenuVeggie2,aService);
+        system.userPostFoodService(aUser, aFoodService);
+        system.addMenuToFoodService(aMenuVeggie1,aFoodService);
+        system.addMenuToFoodService(aMenuMeat,aFoodService);
+        system.addMenuToFoodService(aMenuVeggie2,aFoodService);
 
         List<Menu> foundMenus = system.getMenusByCategory(MenuCategory.Vegano);
 
@@ -139,14 +139,14 @@ public class ViandasSystemTest {
     public void getMenusByCity() {
         String city = "Bernal";
         User aUser = UserBuilder.aUser().withName("Miguel","Conejito Alejandro").withMail("c@c").build();
-        Service aService = ServiceBuilder.aService().withName("PochoFood").withCity(city).build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().withName("PochoFood").withCity(city).build();
         Menu aMenuVeggie = mock(Menu.class);
         Menu aMenuMeat = mock(Menu.class);
 
         system.registerUser(aUser);
-        system.userPostService(aUser, aService);
-        system.addMenuToService(aMenuVeggie,aService);
-        system.addMenuToService(aMenuMeat,aService);
+        system.userPostFoodService(aUser, aFoodService);
+        system.addMenuToFoodService(aMenuVeggie,aFoodService);
+        system.addMenuToFoodService(aMenuMeat,aFoodService);
 
         List<Menu> foundMenus = system.getMenusByCity(city);
 
@@ -159,7 +159,7 @@ public class ViandasSystemTest {
     public void placeClientOrder() {
         User aProvider = mock(User.class);
         User aClient = mock(User.class);
-        Service aService = mock(Service.class);
+        FoodService aFoodService = mock(FoodService.class);
         Menu aMenu = mock(Menu.class);
         LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
@@ -167,13 +167,13 @@ public class ViandasSystemTest {
         system.registerUser(aProvider);
         system.registerUser(aClient);
 
-        system.placeClientOrder(aClient,aProvider,aService,aMenu,deliveryDate,deliveryType,amount);
+        system.placeClientOrder(aClient,aProvider,aFoodService,aMenu,deliveryDate,deliveryType,amount);
 
-        verify(aProvider, Mockito.times(1)).placeClientOrder(aClient,aService,aMenu,deliveryDate,deliveryType,amount);
+        verify(aProvider, Mockito.times(1)).placeClientOrder(aClient,aFoodService,aMenu,deliveryDate,deliveryType,amount);
     }
 
     @Test
-    public void clientRateServiceWithValidValue() {
+    public void clientRateFoodServiceWithValidValue() {
         int aValue = 3;
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
@@ -185,7 +185,7 @@ public class ViandasSystemTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void clientTryToRateServiceWithInvalidNegativeValue() {
+    public void clientTryToRateFoodServiceWithInvalidNegativeValue() {
         int aValue = -3;
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
@@ -194,7 +194,7 @@ public class ViandasSystemTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void clientTryToRateServiceWithInvalidLowValue() {
+    public void clientTryToRateFoodServiceWithInvalidLowValue() {
         int aValue = 0;
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
@@ -203,7 +203,7 @@ public class ViandasSystemTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void clientTryToRateServiceWithInvalidHighValue() {
+    public void clientTryToRateFoodServiceWithInvalidHighValue() {
         int aValue = 6;
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
@@ -233,15 +233,15 @@ public class ViandasSystemTest {
         when(aMenu.isBanned()).thenReturn(true);
 
         User aProvider = UserBuilder.aUser().build();
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        system.userPostService(aProvider, aService);
-        for (int i = 1; i <= 9; i++) { system.addMenuToService(aMenu, aService); }
+        system.userPostFoodService(aProvider, aFoodService);
+        for (int i = 1; i <= 9; i++) { system.addMenuToFoodService(aMenu, aFoodService); }
 
         assertEquals(aProvider.getMenus().size(), 9);
         assertFalse(aProvider.isBanned());
 
-        system.addMenuToService(aMenu, aService);
+        system.addMenuToFoodService(aMenu, aFoodService);
 
         assertTrue(aProvider.isBanned());
     }
@@ -251,7 +251,7 @@ public class ViandasSystemTest {
         int value = 4;
         User aClient = UserBuilder.aUser().withMail("toti@folni.com").withCredit(100000).build();
         User aProvider = UserBuilder.aUser().build();
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
         Menu aMenu = Menu.Builder.aMenu().
                 withName("Fugazetta Rellena").
                 withDescription("Alta fugazzeta papuuu").
@@ -274,10 +274,10 @@ public class ViandasSystemTest {
 
         system.registerUser(aClient);
         system.registerUser(aProvider);
-        system.userPostService(aProvider, aService);
-        system.addMenuToService(aMenu, aService);
+        system.userPostFoodService(aProvider, aFoodService);
+        system.addMenuToFoodService(aMenu, aFoodService);
 
-        system.placeClientOrder(aClient, aProvider, aService, aMenu, aDeliveryDate, aDeliveryType, value);
+        system.placeClientOrder(aClient, aProvider, aFoodService, aMenu, aDeliveryDate, aDeliveryType, value);
 
         assertEquals(0, system.allRatesFromClient(aClient).size());
         assertEquals(1, system.allOrderDetailsFromClient(aClient).size());

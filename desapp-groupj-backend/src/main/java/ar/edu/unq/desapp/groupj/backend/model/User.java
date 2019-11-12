@@ -52,7 +52,7 @@ public class User {
         else { throw new IllegalArgumentException("The account has insufficient credits or credit to charge is not greater than 0"); }
     }
 
-    public void postService(FoodService aService) { this.getFoodServices().add(aService); }
+    public void postFoodService(FoodService aService) { this.getFoodServices().add(aService); }
 
     public boolean equals(Object aUser) {
         if (aUser == null || this.getClass() != aUser.getClass()) return false;

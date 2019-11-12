@@ -9,60 +9,60 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
-public class ServiceTest {
+public class FoodServiceTest {
 
     @Test
-    public void addSiteToService() {
+    public void addSiteToFoodService() {
         String site = "vegan_meals_now.com";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.addSite(site);
+        aFoodService.addSite(site);
 
-        assertEquals(site, aService.getSite());
+        assertEquals(site, aFoodService.getSite());
     }
 
     @Test
     public void setValidMail() {
         String validMail = "myName@myDomain.com";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.setMail(validMail);
+        aFoodService.setMail(validMail);
 
-        assertEquals(validMail, aService.getMail());
+        assertEquals(validMail, aFoodService.getMail());
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void setInvalidFormatMailWithoutAt() {
         String mailWithoutAt = "mailNameDomain.com";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.setMail(mailWithoutAt);
+        aFoodService.setMail(mailWithoutAt);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void setInvalidFormatMailWithoutDomainDot() {
         String mailWithoutDot = "mail.Name@Domaincom";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.setMail(mailWithoutDot);
+        aFoodService.setMail(mailWithoutDot);
     }
 
     @Test
     public void setValidDescription() {
         String description = "A valid description has to be from 30 to 200 chars long";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.setDescription(description);
+        aFoodService.setDescription(description);
 
-        assertEquals(description, aService.getDescription());
+        assertEquals(description, aFoodService.getDescription());
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void setInvalidShortLengthDescription() {
         String shortDescription = "short description";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.setDescription(shortDescription);
+        aFoodService.setDescription(shortDescription);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -71,76 +71,76 @@ public class ServiceTest {
                 "                                                                                                " +
                 "                                                                                                " +
                 "                                                                                long description";
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        aService.setDescription(longDescription);
+        aFoodService.setDescription(longDescription);
     }
 
     @Test
     public void addMenu() {
         Menu menuMock = mock(Menu.class);
 
-        Service aService = ServiceBuilder.aService().build();
-        assertEquals(0, aService.getMenus().size());
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
+        assertEquals(0, aFoodService.getMenus().size());
 
-        aService.addMenu(menuMock);
-        assertEquals(1, aService.getMenus().size());
-        assertTrue(aService.getMenus().contains(menuMock));
+        aFoodService.addMenu(menuMock);
+        assertEquals(1, aFoodService.getMenus().size());
+        assertTrue(aFoodService.getMenus().contains(menuMock));
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void addMenuToServiceWithMaximumActiveMenus() {
+    public void addMenuToFoodServiceWithMaximumActiveMenus() {
         Menu menuMock = mock(Menu.class);
         when(menuMock.active()).thenReturn(true);
-        Service aService = ServiceBuilder.aService().build();
-        for (int i = 1; i <= 20; i++) { aService.addMenu(menuMock); }
-        assertEquals(20, aService.getMenus().size());
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
+        for (int i = 1; i <= 20; i++) { aFoodService.addMenu(menuMock); }
+        assertEquals(20, aFoodService.getMenus().size());
 
-        aService.addMenu(menuMock);
+        aFoodService.addMenu(menuMock);
     }
 
     @Test
-    public void removeMenuFromService() {
+    public void removeMenuFromFoodService() {
         Menu menuMock = mock(Menu.class);
 
-        Service aService = ServiceBuilder.aService().build();
-        aService.addMenu(menuMock);
-        assertEquals(1, aService.getMenus().size());
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
+        aFoodService.addMenu(menuMock);
+        assertEquals(1, aFoodService.getMenus().size());
 
-        aService.deleteMenu(menuMock);
-        assertFalse(aService.getMenus().contains(menuMock));
-        assertEquals(0, aService.getMenus().size());
+        aFoodService.deleteMenu(menuMock);
+        assertFalse(aFoodService.getMenus().contains(menuMock));
+        assertEquals(0, aFoodService.getMenus().size());
     }
 
     @Test
-    public void updateMenuFromService() {
+    public void updateMenuFromFoodService() {
         Menu menuMock1 = mock(Menu.class);
         Menu menuMock2 = mock(Menu.class);
 
-        Service aService = ServiceBuilder.aService().build();
-        aService.addMenu(menuMock1);
-        assertEquals(1, aService.getMenus().size());
-        assertTrue(aService.getMenus().contains(menuMock1));
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
+        aFoodService.addMenu(menuMock1);
+        assertEquals(1, aFoodService.getMenus().size());
+        assertTrue(aFoodService.getMenus().contains(menuMock1));
 
-        aService.updateMenu(menuMock1, menuMock2);
-        assertFalse(aService.getMenus().contains(menuMock1));
-        assertTrue(aService.getMenus().contains(menuMock2));
-        assertEquals(1, aService.getMenus().size());
+        aFoodService.updateMenu(menuMock1, menuMock2);
+        assertFalse(aFoodService.getMenus().contains(menuMock1));
+        assertTrue(aFoodService.getMenus().contains(menuMock2));
+        assertEquals(1, aFoodService.getMenus().size());
     }
 
     @Test
     public void getMenusByName() {
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
         Menu aMenuPizza = mock(Menu.class);
         Menu aMenuPasta = mock(Menu.class);
 
         when(aMenuPizza.getName()).thenReturn("Si te gusta la Pizza!!");
         when(aMenuPasta.getName()).thenReturn("Pasta base");
 
-        aService.addMenu(aMenuPizza);
-        aService.addMenu(aMenuPasta);
+        aFoodService.addMenu(aMenuPizza);
+        aFoodService.addMenu(aMenuPasta);
 
-        List<Menu> foundMenus = aService.getMenusByName("pizza");
+        List<Menu> foundMenus = aFoodService.getMenusByName("pizza");
 
         assertEquals(1, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuPizza) );
@@ -148,17 +148,17 @@ public class ServiceTest {
 
     @Test
     public void getMenusByCategory() {
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
         Menu aMenuPizza = mock(Menu.class);
         Menu aMenuPasta = mock(Menu.class);
 
         when(aMenuPizza.getCategory()).thenReturn(MenuCategory.Pizza);
         when(aMenuPasta.getCategory()).thenReturn(MenuCategory.Sushi);
 
-        aService.addMenu(aMenuPizza);
-        aService.addMenu(aMenuPasta);
+        aFoodService.addMenu(aMenuPizza);
+        aFoodService.addMenu(aMenuPasta);
 
-        List<Menu> foundMenus = aService.getMenusByCategory(MenuCategory.Pizza);
+        List<Menu> foundMenus = aFoodService.getMenusByCategory(MenuCategory.Pizza);
 
         assertEquals(1, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuPizza) );
@@ -166,14 +166,14 @@ public class ServiceTest {
 
     @Test
     public void getMenusByCity() {
-        Service aService = ServiceBuilder.aService().withCity("Bernal").build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().withCity("Bernal").build();
         Menu aMenuPizza = mock(Menu.class);
         Menu aMenuPasta = mock(Menu.class);
 
-        aService.addMenu(aMenuPizza);
-        aService.addMenu(aMenuPasta);
+        aFoodService.addMenu(aMenuPizza);
+        aFoodService.addMenu(aMenuPasta);
 
-        List<Menu> foundMenus = aService.getMenusByCity("Bernal");
+        List<Menu> foundMenus = aFoodService.getMenusByCity("Bernal");
 
         assertEquals(2, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuPizza) );
@@ -182,16 +182,16 @@ public class ServiceTest {
 
     @Test
     public void placeClientOrder() {
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
         LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 
-        aService.addMenu(aMenu);
+        aFoodService.addMenu(aMenu);
 
-        aService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
 
         verify(aMenu, Mockito.times(1)).placeClientOrder(aClient,deliveryDate,deliveryType,amount);
     }
@@ -199,16 +199,16 @@ public class ServiceTest {
     @Test
     public void confirmOrders() {
 
-        Service aService = ServiceBuilder.aService().build();
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
         User aProvider = mock(User.class);
         Menu aMenu = mock(Menu.class);
         Menu otherMenu = mock(Menu.class);
 
-        aService.addMenu(aMenu);
-        aService.addMenu(otherMenu);
+        aFoodService.addMenu(aMenu);
+        aFoodService.addMenu(otherMenu);
 
-        aService.confirmOrders(aProvider);
+        aFoodService.confirmOrders(aProvider);
 
         verify(aMenu, Mockito.times(1)).confirmOrders(aProvider);
         verify(otherMenu, Mockito.times(1)).confirmOrders(aProvider);
