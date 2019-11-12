@@ -4,7 +4,9 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,7 +23,7 @@ public class User {
     private String address;
     private int credit;
 
-    private List<FoodService> foodServices = new ArrayList<FoodService>();
+    private Set<FoodService> foodServices = new HashSet<FoodService>();
 
     public User() {}
 
@@ -126,7 +128,7 @@ public class User {
     public String getPhone() { return this.phone; }
     public String getCity() { return this.city; }
     public String getAddress() { return this.address; }
-    public List<FoodService> getFoodServices() {
+    public Set<FoodService> getFoodServices() {
         return this.foodServices;
     }
 
@@ -152,6 +154,6 @@ public class User {
     public void setCredit(int credit) {
         this.credit = credit;
     }
-    public void setFoodServices(List<FoodService> foodServices) { this.foodServices=foodServices; }
+    public void setFoodServices(Set<FoodService> foodServices) { this.foodServices=foodServices; }
 
 }

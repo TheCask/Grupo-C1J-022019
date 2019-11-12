@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -41,7 +42,7 @@ public class OrderTest {
 
     @Test
     public void testDetailsAccessors() {
-        List<OrderDetail> details = new ArrayList<OrderDetail>();
+        HashSet<OrderDetail> details = new HashSet<>();
 
         this.order.setDetails(details);
 

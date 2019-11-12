@@ -236,9 +236,14 @@ public class ViandasSystemTest {
         FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
         system.userPostFoodService(aProvider, aFoodService);
-        for (int i = 1; i <= 9; i++) { system.addMenuToFoodService(aMenu, aFoodService); }
 
-        assertEquals(aProvider.getMenus().size(), 9);
+        for (int i = 1; i <= 9; i++) {
+            Menu aMenuBanned = mock(Menu.class);
+            when(aMenuBanned.isBanned()).thenReturn(true);
+            system.addMenuToFoodService(aMenuBanned, aFoodService);
+        }
+
+        assertEquals(9, aProvider.getMenus().size());
         assertFalse(aProvider.isBanned());
 
         system.addMenuToFoodService(aMenu, aFoodService);

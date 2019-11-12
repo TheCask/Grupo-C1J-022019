@@ -2,7 +2,9 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +22,7 @@ public class FoodService {
     private String mail;
     private String phone;
     private int deliveryZone;
-    private List<Menu> menus = new ArrayList<Menu>();
+    private Set<Menu> menus = new HashSet<Menu>();
 
     public FoodService() {}
 
@@ -61,7 +63,7 @@ public class FoodService {
         return this.getMenus().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList());
     }
 
-    public List<Menu> getMenusByCity(String city) {
+    public Set<Menu> getMenusByCity(String city) {
         if( this.city.equals(city) )
             return this.getMenus();
         return null;
@@ -88,7 +90,7 @@ public class FoodService {
     public String getMail() { return mail; }
     public String getPhone() { return phone; }
     public int getDeliveryZone() { return deliveryZone; }
-    public List<Menu> getMenus() {
+    public Set<Menu> getMenus() {
         return this.menus;
     }
 
@@ -106,7 +108,7 @@ public class FoodService {
     }
     public void setPhone(String phone) { this.phone = phone; }
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
-    public void setMenus( List<Menu> menus ) { this.menus = menus; }
+    public void setMenus( HashSet<Menu> menus ) { this.menus = menus; }
     public void setCity( String city ) { this.city = city; }
     public void setAddress( String address ) { this.address = address; }
     public void setSite( String site ) { this.site = site; }

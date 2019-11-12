@@ -8,8 +8,10 @@ import org.mockito.Mockito;
 import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class MenuTest {
@@ -92,7 +94,7 @@ public class MenuTest {
 
     @Test
     public void testDeliveryShiftsAccessors() {
-        List<DeliveryShift> deliveryShifts = new ArrayList<DeliveryShift>();
+        HashSet<DeliveryShift> deliveryShifts = new HashSet<>();
 
         this.menu.setDeliveryShifts(deliveryShifts);
 
@@ -199,7 +201,7 @@ public class MenuTest {
 
     @Test
     public void testNoRates() {
-        List<Rate> rates = new ArrayList<Rate>();
+        HashSet<Rate> rates = new HashSet<>();
 
         this.menu.setRates(rates);
 
@@ -208,7 +210,7 @@ public class MenuTest {
 
     @Test
     public void testAddRates() {
-        List<Rate> rates = new ArrayList<Rate>();
+        HashSet<Rate> rates = new HashSet<>();
 
         this.menu.setRates(rates);
         this.menu.addRate(new Rate(mock(User.class), 2));
@@ -224,10 +226,11 @@ public class MenuTest {
         LocalDate deliveryDate = LocalDate.now().plusDays(5);
         int amount = 10;
 
-        placeClientOrder(deliveryDate,amount);
+        Order anOrder = placeClientOrder(deliveryDate,amount);
 
         assertEquals(1, this.menu.getOrders().size() );
-        assertEquals(amount, this.menu.getOrders().get(0).getRequestedAmount() );
+        assertTrue(this.menu.getOrders().contains(anOrder));
+        assertEquals(amount, anOrder.getRequestedAmount());
     }
 
     @Test
@@ -235,17 +238,18 @@ public class MenuTest {
         LocalDate deliveryDate = LocalDate.now().plusDays(5);
         int amount = 10;
 
-        placeClientOrder(deliveryDate,amount);
+        Order anOrder = placeClientOrder(deliveryDate,amount);
         placeClientOrder(deliveryDate,amount);
 
         assertEquals(1, this.menu.getOrders().size() );
-        assertEquals(amount*2, this.menu.getOrders().get(0).getRequestedAmount() );
+        assertTrue(this.menu.getOrders().contains(anOrder));
+        assertEquals(amount*2, anOrder.getRequestedAmount());
     }
 
-    private void placeClientOrder(LocalDate deliveryDate, int amount) {
+    private Order placeClientOrder(LocalDate deliveryDate, int amount) {
         User aClient = mock(User.class);
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
-        this.menu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+        return this.menu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
     }
 
     @Test (expected = MenuException.class)

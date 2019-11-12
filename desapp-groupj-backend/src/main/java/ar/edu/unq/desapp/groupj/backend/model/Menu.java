@@ -2,7 +2,9 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,7 +31,7 @@ public class Menu {
     private double          deliveryValue;
     private LocalDate       availableFrom;
     private LocalDate       availableTo;
-    private List<DeliveryShift> deliveryShifts;
+    private Set<DeliveryShift> deliveryShifts = new HashSet<>();
     private double          averageDeliveryTime;
     private double          price; //?
     private int             minimumAmount1;
@@ -37,8 +39,8 @@ public class Menu {
     private int             minimumAmount2;
     private double          minimumAmount2Price;
     private int             maximumDailySales;
-    private List<Rate>      rates = new ArrayList<Rate>();
-    private List<Order>     orders = new ArrayList<Order>();
+    private Set<Rate>      rates = new HashSet<Rate>();
+    private Set<Order> orders = new HashSet<Order>();
 
     private Menu() {}
 
@@ -101,11 +103,11 @@ public class Menu {
         this.availableTo = availableTo;
     }
 
-    public List<DeliveryShift> getDeliveryShifts() {
+    public Set<DeliveryShift> getDeliveryShifts() {
         return deliveryShifts;
     }
 
-    public void setDeliveryShifts(List<DeliveryShift> deliveryShifts) {
+    public void setDeliveryShifts(HashSet<DeliveryShift> deliveryShifts) {
         this.deliveryShifts = deliveryShifts;
     }
 
@@ -167,13 +169,13 @@ public class Menu {
         this.maximumDailySales = maximumDailySales;
     }
 
-    public List<Rate> getRates() { return this.rates; }
+    public Set<Rate> getRates() { return this.rates; }
 
-    public void setRates(List<Rate> rates) {
+    public void setRates(HashSet<Rate> rates) {
         this.rates = rates;
     }
 
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return this.orders;
     }
 
@@ -241,7 +243,7 @@ public class Menu {
         private double          deliveryValue;
         private LocalDate       availableFrom;
         private LocalDate       availableTo;
-        private List<DeliveryShift>   deliveryShifts;
+        private HashSet<DeliveryShift>   deliveryShifts;
         private double          averageDeliveryTime;
         private double          price;
         private int             minimumAmount1;
@@ -286,7 +288,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withDeliveryShifts(List<DeliveryShift> deliveryShifts) {
+        public Builder withDeliveryShifts(HashSet<DeliveryShift> deliveryShifts) {
             this.deliveryShifts = deliveryShifts;
             return this;
         }

@@ -1,16 +1,14 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ViandasSystem {
 
     private static ViandasSystem myViandasSystem;
 
-    private List<User> users = new ArrayList<User>();
+    private Set<User> users = new HashSet<User>();
 
     private ViandasSystem() {};
 
@@ -20,12 +18,15 @@ public class ViandasSystem {
     }
 
     public void registerUser(User aUser) {
-
-        if (!this.users.contains(aUser)) { this.users.add(aUser); }
+        if (!this.containsUser(aUser)) { this.users.add(aUser); }
         else { throw new IllegalArgumentException("User already registered"); }
     }
 
-    public List<User> getUsers() { return users; }
+    public boolean containsUser(User aUser) {
+        return this.users.stream().anyMatch(user -> user.equals(aUser));
+    }
+
+    public Set<User> getUsers() { return users; }
 
     public int chargeCreditToUser(int credit, User aUser) { return aUser.chargeCredit(credit); }
 

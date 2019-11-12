@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -93,10 +95,19 @@ public class FoodServiceTest {
         Menu menuMock = mock(Menu.class);
         when(menuMock.active()).thenReturn(true);
         FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
-        for (int i = 1; i <= 20; i++) { aFoodService.addMenu(menuMock); }
+        for (int i = 1; i <= 20; i++) {
+            Menu activeMenu = Menu.Builder.aMenu().
+                    withName("Menu").
+                    withDescription("A Valid description of a menu").
+                    withAvailableFrom(LocalDate.now().minusDays(1)).
+                    withAvailableTo(LocalDate.now().plusDays(1)).
+                    build();
+            aFoodService.addMenu(activeMenu);
+        }
+
         assertEquals(20, aFoodService.getMenus().size());
 
-        aFoodService.addMenu(menuMock);
+        aFoodService.addMenu(mock(Menu.class));
     }
 
     @Test
@@ -173,7 +184,7 @@ public class FoodServiceTest {
         aFoodService.addMenu(aMenuPizza);
         aFoodService.addMenu(aMenuPasta);
 
-        List<Menu> foundMenus = aFoodService.getMenusByCity("Bernal");
+        Set<Menu> foundMenus = aFoodService.getMenusByCity("Bernal");
 
         assertEquals(2, foundMenus.size() );
         assertTrue( foundMenus.contains(aMenuPizza) );

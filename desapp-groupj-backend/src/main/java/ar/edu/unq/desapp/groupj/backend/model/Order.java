@@ -2,12 +2,14 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Order {
     private int id;
     private LocalDate deliveryDate;
-    private List<OrderDetail> details = new ArrayList<OrderDetail>();
+    private Set<OrderDetail> details = new HashSet<OrderDetail>();
 
     private Order() {}
 
@@ -27,11 +29,11 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public List<OrderDetail> getDetails() {
+    public Set<OrderDetail> getDetails() {
         return details;
     }
 
-    public void setDetails(List<OrderDetail> details) {
+    public void setDetails(Set<OrderDetail> details) {
         this.details = details;
     }
 
@@ -72,7 +74,7 @@ public class Order {
     public static class Builder {
         private int id;
         private LocalDate deliveryDate;
-        private List<OrderDetail> details = new ArrayList<OrderDetail>();
+        private Set<OrderDetail> details = new HashSet<>();
 
         private Builder() {}
 
@@ -100,7 +102,7 @@ public class Order {
             return this;
         }
 
-        public Builder withDetails(List<OrderDetail> details) {
+        public Builder withDetails(HashSet<OrderDetail> details) {
             this.details = details;
             return this;
         }

@@ -4,7 +4,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
@@ -108,7 +111,7 @@ public class UserTest {
     public void getMenusByCity() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         FoodService aFoodService = mock(FoodService.class);
-        List<Menu> mockMenus = new ArrayList<Menu>();
+        Set<Menu> mockMenus = new HashSet<Menu>();
         String city = "Berazategui";
 
         mockMenus.add(mock(Menu.class));
@@ -145,7 +148,7 @@ public class UserTest {
         User aProvider = UserBuilder.aUser().build();
         Menu aMenu = mock(Menu.class);
         when(aMenu.isBanned()).thenReturn(true);
-        ArrayList<Menu> mockMenus = new ArrayList<Menu>();
+        Set<Menu> mockMenus = new HashSet<>();
         mockMenus.add(aMenu);
         FoodService aFoodService = mock(FoodService.class);
         when(aFoodService.getMenus()).thenReturn(mockMenus);
