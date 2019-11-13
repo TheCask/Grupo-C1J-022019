@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -107,7 +106,7 @@ public class Menu {
         return deliveryShifts;
     }
 
-    public void setDeliveryShifts(HashSet<DeliveryShift> deliveryShifts) {
+    public void setDeliveryShifts(Set<DeliveryShift> deliveryShifts) {
         this.deliveryShifts = deliveryShifts;
     }
 
@@ -171,7 +170,7 @@ public class Menu {
 
     public Set<Rate> getRates() { return this.rates; }
 
-    public void setRates(HashSet<Rate> rates) {
+    public void setRates(Set<Rate> rates) {
         this.rates = rates;
     }
 
@@ -243,7 +242,7 @@ public class Menu {
         private double          deliveryValue;
         private LocalDate       availableFrom;
         private LocalDate       availableTo;
-        private HashSet<DeliveryShift>   deliveryShifts;
+        private Set<DeliveryShift>   deliveryShifts;
         private double          averageDeliveryTime;
         private double          price;
         private int             minimumAmount1;
@@ -288,7 +287,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withDeliveryShifts(HashSet<DeliveryShift> deliveryShifts) {
+        public Builder withDeliveryShifts(Set<DeliveryShift> deliveryShifts) {
             this.deliveryShifts = deliveryShifts;
             return this;
         }

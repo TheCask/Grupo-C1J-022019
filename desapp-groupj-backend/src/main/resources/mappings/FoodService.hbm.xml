@@ -26,11 +26,10 @@
 
         <property name="deliveryZone" type="int" column="deliveryZone"/>
 
-        <list name="menus" table="menus" inverse="false" lazy="false" fetch="select">
+        <set name="menus" table="menus" inverse="true"  lazy="false" cascade="all">
             <key> <column name="food_service_id" not-null="true"> </column> </key>
-            <list-index column="id" base="1"/>
             <one-to-many class="ar.edu.unq.desapp.groupj.backend.model.Menu" />
-        </list>
+        </set>
 
     </class>
 
