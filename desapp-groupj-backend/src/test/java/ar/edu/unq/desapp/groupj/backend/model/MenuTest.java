@@ -254,7 +254,7 @@ public class MenuTest {
 
     @Test (expected = MenuException.class)
     public void placeClientOrderWithPastDeliveryDate() {
-        LocalDate deliveryDate = LocalDate.now().minusDays(3);;
+        LocalDate deliveryDate = LocalDate.now().minusDays(3);
         int amount = 10;
 
         placeClientOrder(deliveryDate,amount);
@@ -274,17 +274,14 @@ public class MenuTest {
         int menuAmount = 4;
         LocalDate today = LocalDate.now();
 
-        User aProvider = mock(User.class);
-        User aClient = mock(User.class);
-
         Order orderToDeliverToday = mock(Order.class);
         when(orderToDeliverToday.getDeliveryDate()).thenReturn(today);
 
         menu.addOrder(orderToDeliverToday);
 
-        menu.confirmOrders(aProvider);
+        menu.confirmOrders();
 
-        verify(orderToDeliverToday, Mockito.times(1)).confirmOrder(menu, aProvider);
+        verify(orderToDeliverToday, Mockito.times(1)).confirmOrder();
     }
 
     @Test
@@ -294,9 +291,6 @@ public class MenuTest {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
-        User aProvider = mock(User.class);
-        User aClient = mock(User.class);
-
         Order orderToDeliverTomorrow = mock(Order.class);
         when(orderToDeliverTomorrow.getDeliveryDate()).thenReturn(tomorrow);
         Order orderToDeliverYesterday = mock(Order.class);
@@ -305,10 +299,10 @@ public class MenuTest {
         menu.addOrder(orderToDeliverTomorrow);
         menu.addOrder(orderToDeliverYesterday);
 
-        menu.confirmOrders(aProvider);
+        menu.confirmOrders();
 
-        verify(orderToDeliverTomorrow, Mockito.times(0)).confirmOrder(menu, aProvider);
-        verify(orderToDeliverYesterday, Mockito.times(0)).confirmOrder(menu, aProvider);
+        verify(orderToDeliverTomorrow, Mockito.times(0)).confirmOrder();
+        verify(orderToDeliverYesterday, Mockito.times(0)).confirmOrder();
     }
 
 

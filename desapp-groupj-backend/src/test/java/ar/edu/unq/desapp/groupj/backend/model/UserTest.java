@@ -78,7 +78,7 @@ public class UserTest {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         FoodService aFoodService = mock(FoodService.class);
         String aSearchString = "veggie";
-        List<Menu> mockMenus = new ArrayList<Menu>();
+        List<Menu> mockMenus = new ArrayList<>();
 
         mockMenus.add(mock(Menu.class));
         when(aFoodService.getMenusByName(aSearchString)).thenReturn(mockMenus);
@@ -94,7 +94,7 @@ public class UserTest {
     public void getMenusByCategory() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         FoodService aFoodService = mock(FoodService.class);
-        List<Menu> mockMenus = new ArrayList<Menu>();
+        List<Menu> mockMenus = new ArrayList<>();
         MenuCategory category = MenuCategory.Green;
 
         mockMenus.add(mock(Menu.class));
@@ -111,7 +111,7 @@ public class UserTest {
     public void getMenusByCity() {
         User aUser = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         FoodService aFoodService = mock(FoodService.class);
-        Set<Menu> mockMenus = new HashSet<Menu>();
+        Set<Menu> mockMenus = new HashSet<>();
         String city = "Berazategui";
 
         mockMenus.add(mock(Menu.class));
@@ -129,6 +129,7 @@ public class UserTest {
         User aProvider = UserBuilder.aUser().withName("Pocho","La Pantera").build();
         User aClient = mock(User.class);
         FoodService aFoodService = mock(FoodService.class);
+        when(aFoodService.getProvider()).thenReturn(aProvider);
         Menu aMenu = mock(Menu.class);
         LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
@@ -172,8 +173,8 @@ public class UserTest {
 
         aProvider.confirmOrders();
 
-        verify(aFoodService, Mockito.times(1)).confirmOrders(aProvider);
-        verify(otherFoodService, Mockito.times(1)).confirmOrders(aProvider);
+        verify(aFoodService, Mockito.times(1)).confirmOrders();
+        verify(otherFoodService, Mockito.times(1)).confirmOrders();
 
     }
 }

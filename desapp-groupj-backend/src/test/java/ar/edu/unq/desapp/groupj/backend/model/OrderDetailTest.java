@@ -68,11 +68,14 @@ public class OrderDetailTest {
 
         User aProvider = mock(User.class);
         User aClient = mock(User.class);
+        Order anOrder = mock(Order.class);
+        when(anOrder.getProvider()).thenReturn(aProvider);
+
         OrderDetail anOrderDetail = OrderDetail.Builder.anOrderDetail().
-                withUser(aClient).withRequestedAmount(requestedAmount).build();
+                withOrder(anOrder).withUser(aClient).withRequestedAmount(requestedAmount).build();
         LocalDate today = LocalDate.now();
 
-        anOrderDetail.confirmOrderToUser(today, price, aProvider);
+        anOrderDetail.confirmOrderToUser(today, price);
 
         verify(aProvider, Mockito.times(1)).withdrawCredit((int) creditToReturn);
         verify(aClient, Mockito.times(1)).chargeCredit((int) creditToReturn);

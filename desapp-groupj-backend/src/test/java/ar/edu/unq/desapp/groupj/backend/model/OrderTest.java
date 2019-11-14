@@ -97,16 +97,6 @@ public class OrderTest {
         double minimumPrice2ForAMenu = 20;
         double creditToReturnForMinimum2Amount = price - minimumPrice2ForAMenu;
 
-        LocalDate deliveryDate = LocalDate.now();
-        Order anOrder = Order.Builder.anOrder().withDeliveryDate(deliveryDate).build();
-        User aProvider = mock(User.class);
-
-        OrderDetail anOrderDetailWithMinimum1RequestedAmount = mock(OrderDetail.class);
-        when(anOrderDetailWithMinimum1RequestedAmount.getRequestedAmount()).thenReturn(minimumAmount1ForAMenu);
-
-        OrderDetail anOrderDetailWithMinimum2RequestedAmount = mock(OrderDetail.class);
-        when(anOrderDetailWithMinimum2RequestedAmount.getRequestedAmount()).thenReturn(minimumAmount2ForAMenu);
-
         Menu aMenu = mock(Menu.class);
         when(aMenu.getPrice()).thenReturn(price);
         when(aMenu.getMinimumAmount1()).thenReturn(minimumAmount1ForAMenu);
@@ -114,14 +104,25 @@ public class OrderTest {
         when(aMenu.getMinimumAmount2()).thenReturn(minimumAmount2ForAMenu);
         when(aMenu.getMinimumAmount2Price()).thenReturn(minimumPrice2ForAMenu);
 
+        LocalDate deliveryDate = LocalDate.now();
+        Order anOrder = Order.Builder.anOrder().withMenu(aMenu).withDeliveryDate(deliveryDate).build();
+
+        OrderDetail anOrderDetailWithMinimum1RequestedAmount = mock(OrderDetail.class);
+        when(anOrderDetailWithMinimum1RequestedAmount.getRequestedAmount()).thenReturn(minimumAmount1ForAMenu);
+        when(anOrderDetailWithMinimum1RequestedAmount.getOrder()).thenReturn(anOrder);
+
+        OrderDetail anOrderDetailWithMinimum2RequestedAmount = mock(OrderDetail.class);
+        when(anOrderDetailWithMinimum2RequestedAmount.getRequestedAmount()).thenReturn(minimumAmount2ForAMenu);
+        when(anOrderDetailWithMinimum2RequestedAmount.getOrder()).thenReturn(anOrder);
+
         anOrder.addDetail(anOrderDetailWithMinimum1RequestedAmount);
-        anOrder.confirmOrder(aMenu, aProvider);
+        anOrder.confirmOrder();
         verify(anOrderDetailWithMinimum1RequestedAmount, Mockito.times(1)).
-                confirmOrderToUser(deliveryDate, creditToReturnForMinimum1Amount, aProvider);
+                confirmOrderToUser(deliveryDate, creditToReturnForMinimum1Amount);
 
         anOrder.addDetail(anOrderDetailWithMinimum2RequestedAmount);
-        anOrder.confirmOrder(aMenu, aProvider);
+        anOrder.confirmOrder();
         verify(anOrderDetailWithMinimum2RequestedAmount, Mockito.times(1)).
-                confirmOrderToUser(deliveryDate, creditToReturnForMinimum2Amount, aProvider);
+                confirmOrderToUser(deliveryDate, creditToReturnForMinimum2Amount);
     }
 }

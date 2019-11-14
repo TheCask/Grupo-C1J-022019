@@ -8,9 +8,9 @@ public class ViandasSystem {
 
     private static ViandasSystem myViandasSystem;
 
-    private Set<User> users = new HashSet<User>();
+    private Set<User> users = new HashSet<>();
 
-    private ViandasSystem() {};
+    private ViandasSystem() {}
 
     public static ViandasSystem getViandasSystem() {
         if (myViandasSystem == null) { myViandasSystem = new ViandasSystem(); }
@@ -32,14 +32,17 @@ public class ViandasSystem {
 
     public void userPostFoodService(User aUser, FoodService aFoodService) { aUser.postFoodService(aFoodService); }
 
-    public void addMenuToFoodService(Menu aMenu, FoodService aFoodService) { aFoodService.addMenu(aMenu); }
+    public void addMenuToFoodService(Menu aMenu, FoodService aFoodService) {
+        aFoodService.addMenu(aMenu);
+        aMenu.setService(aFoodService);
+    }
 
     public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
         return aUser.withdrawCredit(creditToWithdraw);
     }
 
     public List<Menu> getMenusByName(String name) {
-        List<Menu> results = new ArrayList<Menu>();
+        List<Menu> results = new ArrayList<>();
 
         this.getUsers().forEach( user -> results.addAll( user.getMenusByName(name) ));
 
@@ -47,7 +50,7 @@ public class ViandasSystem {
     }
 
     public List<Menu> getMenusByCategory(MenuCategory category) {
-        List<Menu> results = new ArrayList<Menu>();
+        List<Menu> results = new ArrayList<>();
 
         this.getUsers().forEach( user -> results.addAll( user.getMenusByCategory(category) ));
 
@@ -55,7 +58,7 @@ public class ViandasSystem {
     }
 
     public List<Menu> getMenusByCity(String city) {
-        List<Menu> results = new ArrayList<Menu>();
+        List<Menu> results = new ArrayList<>();
 
         this.getUsers().forEach( user -> results.addAll( user.getMenusByCity(city) ));
 

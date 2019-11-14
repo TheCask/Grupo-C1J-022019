@@ -24,6 +24,7 @@ public class Menu {
     private static final int MINIMUM_DAYS_TO_DELIVERY = 2;
 
     private int             id;
+    private FoodService     service;
     private String          name;
     private String          description;
     private MenuCategory    category;
@@ -39,8 +40,9 @@ public class Menu {
     private int             minimumAmount2;
     private double          minimumAmount2Price;
     private int             maximumDailySales;
-    private Set<Rate>      rates = new HashSet<Rate>();
-    private Set<Order> orders = new HashSet<Order>();
+    private Set<Rate>       rates = new HashSet<>();
+    private Set<Order>      orders = new HashSet<>();
+
 
     private Menu() {}
 
@@ -175,6 +177,12 @@ public class Menu {
         this.rates = rates;
     }
 
+    public FoodService getService() { return this.service; }
+
+    public void setService(FoodService aService) { this.service = aService; }
+
+    public User getProvider() { return this.getService().getProvider(); }
+
     public Set<Order> getOrders() {
         return this.orders;
     }
@@ -210,13 +218,14 @@ public class Menu {
         Order anOrder;
 
         if( ordersInDeliveryDate.size() == 0 ) {
-            anOrder = Order.Builder.anOrder().withDeliveryDate(deliveryDate).build();
+            anOrder = Order.Builder.anOrder().withMenu(this).withDeliveryDate(deliveryDate).build();
             this.addOrder(anOrder);
         }
         else
             anOrder = ordersInDeliveryDate.get(0);
 
         OrderDetail anOrderDetail = OrderDetail.Builder.anOrderDetail().
+                withOrder(anOrder).
                 withUser(aClient).
                 withDeliveryType(deliveryType).
                 withRequestedAmount(amount).
@@ -229,14 +238,15 @@ public class Menu {
 
     public void cancelAllOrders() { this.orders.forEach(order -> order.cancelOrder()); }
 
-    public void confirmOrders(User aProvider) {
+    public void confirmOrders() {
         Stream<Order> ordersToConfirmToday = this.getOrders().stream().
                 filter(order -> order.getDeliveryDate().getDayOfYear() == LocalDate.now().getDayOfYear());
 
-        ordersToConfirmToday.forEach(order -> order.confirmOrder(this, aProvider));
+        ordersToConfirmToday.forEach(order -> order.confirmOrder());
     }
 
     public static class Builder {
+        private FoodService     service;
         private String          name;
         private String          description;
         private MenuCategory    category;
@@ -256,6 +266,11 @@ public class Menu {
 
         public static Builder aMenu() {
             return new Builder();
+        }
+
+        public Builder withService(FoodService aService) {
+            this.service = aService;
+            return this;
         }
 
         public Builder withName(String name) {
@@ -331,6 +346,7 @@ public class Menu {
         public Menu build() {
             Menu menu = new Menu();
 
+            menu.setService(this.service);
             menu.setName(this.name);
             menu.setDescription(this.description);
             menu.setCategory(this.category);

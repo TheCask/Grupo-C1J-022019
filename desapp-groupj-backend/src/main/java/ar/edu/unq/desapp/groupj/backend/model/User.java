@@ -23,7 +23,7 @@ public class User {
     private String address;
     private int credit;
 
-    private Set<FoodService> foodServices = new HashSet<FoodService>();
+    private Set<FoodService> foodServices = new HashSet<>();
 
     public User() {}
 
@@ -54,7 +54,10 @@ public class User {
         else { throw new IllegalArgumentException("The account has insufficient credits or credit to charge is not greater than 0"); }
     }
 
-    public void postFoodService(FoodService aService) { this.getFoodServices().add(aService); }
+    public void postFoodService(FoodService aService) {
+        aService.setProvider(this);
+        this.getFoodServices().add(aService);
+    }
 
     public boolean equals(Object aUser) {
         if (aUser == null || this.getClass() != aUser.getClass()) return false;
@@ -63,7 +66,7 @@ public class User {
     }
 
     public List<Menu> getMenusByName(String name) {
-        List<Menu> results = new ArrayList<Menu>();
+        List<Menu> results = new ArrayList<>();
 
         this.getFoodServices().forEach(service -> results.addAll( service.getMenusByName(name) ));
 
@@ -71,7 +74,7 @@ public class User {
     }
 
     public List<Menu> getMenusByCategory(MenuCategory category) {
-        List<Menu> results = new ArrayList<Menu>();
+        List<Menu> results = new ArrayList<>();
 
         this.getFoodServices().forEach(service -> results.addAll( service.getMenusByCategory(category) ) );
 
@@ -79,7 +82,7 @@ public class User {
     }
 
     public List<Menu> getMenusByCity(String city) {
-        List<Menu> results = new ArrayList<Menu>();
+        List<Menu> results = new ArrayList<>();
 
         this.getFoodServices().forEach(service -> results.addAll( service.getMenusByCity(city) ));
 
@@ -87,7 +90,7 @@ public class User {
     }
 
     public Order placeClientOrder(User aClient, FoodService aFoodService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
-        if( !this.getFoodServices().contains(aFoodService) )
+        if( !aFoodService.getProvider().equals(this)) // this.getFoodServices().contains(aFoodService)
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
         Order anOrder = aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
@@ -115,7 +118,7 @@ public class User {
     }
 
     public void confirmOrders() {
-        this.getFoodServices().forEach(service -> { if( service!=null) service.confirmOrders(this); } );
+        this.getFoodServices().forEach(service -> { if( service!=null) service.confirmOrders(); } );
     }
 
     //GETTERS

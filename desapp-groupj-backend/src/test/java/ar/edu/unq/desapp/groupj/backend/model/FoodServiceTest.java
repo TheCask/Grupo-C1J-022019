@@ -193,9 +193,13 @@ public class FoodServiceTest {
 
     @Test
     public void placeClientOrder() {
-        FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
+        User aProvider = mock(User.class);
+        FoodService aFoodService = FoodServiceBuilder.aFoodService().withProvider(aProvider).build();
+
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
+        when(aMenu.getService()).thenReturn(aFoodService);
+
         LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
@@ -212,16 +216,15 @@ public class FoodServiceTest {
 
         FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
 
-        User aProvider = mock(User.class);
         Menu aMenu = mock(Menu.class);
         Menu otherMenu = mock(Menu.class);
 
         aFoodService.addMenu(aMenu);
         aFoodService.addMenu(otherMenu);
 
-        aFoodService.confirmOrders(aProvider);
+        aFoodService.confirmOrders();
 
-        verify(aMenu, Mockito.times(1)).confirmOrders(aProvider);
-        verify(otherMenu, Mockito.times(1)).confirmOrders(aProvider);
+        verify(aMenu, Mockito.times(1)).confirmOrders();
+        verify(otherMenu, Mockito.times(1)).confirmOrders();
     }
 }

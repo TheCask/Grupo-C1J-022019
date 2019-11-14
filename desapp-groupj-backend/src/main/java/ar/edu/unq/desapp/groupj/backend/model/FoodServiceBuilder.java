@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 public class FoodServiceBuilder {
 
+    private User provider;
     private String name = "no name";
     private String city = "no city";
     private String mail = "no@mail.com";
@@ -15,7 +16,12 @@ public class FoodServiceBuilder {
     }
 
     public FoodService build() {
-        return new FoodService(name, city, address, description, mail, phone, deliveryZone);
+        return new FoodService(provider, name, city, address, description, mail, phone, deliveryZone);
+    }
+
+    public FoodServiceBuilder withProvider(final User aProvider) {
+        provider = aProvider;
+        return this;
     }
 
     public FoodServiceBuilder withName(final String aName) {

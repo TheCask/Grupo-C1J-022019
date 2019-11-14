@@ -4,12 +4,21 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class OrderDetail {
+    private Order order;
     private User user;
     private LocalTime deliveryTime;
     private DeliveryType deliveryType;
     private int requestedAmount;
 
     private OrderDetail() {}
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public User getUser() {
         return user;
@@ -43,17 +52,18 @@ public class OrderDetail {
         this.requestedAmount = requestedAmount;
     }
 
-    public void confirmOrderToUser(LocalDate deliveryDate, double creditToReturn, User aProvider) {
+    public void confirmOrderToUser(LocalDate deliveryDate, double creditToReturn) {
         if (creditToReturn !=0) {
             double credit = creditToReturn * this.getRequestedAmount();
             this.getUser().chargeCredit((int)credit);
-            aProvider.withdrawCredit((int)credit);
+            this.getOrder().getProvider().withdrawCredit((int)credit);
         }
         // TODO notify provider and client
     }
 
 
     public static class Builder {
+        private Order order;
         private User user;
         private LocalTime deliveryTime;
         private DeliveryType deliveryType;
@@ -68,12 +78,18 @@ public class OrderDetail {
         public OrderDetail build() {
             OrderDetail detail = new OrderDetail();
 
+            detail.setOrder(this.order);
             detail.setUser(this.user);
             detail.setDeliveryTime(this.deliveryTime);
             detail.setDeliveryType(this.deliveryType);
             detail.setRequestedAmount(this.requestedAmount);
 
             return detail;
+        }
+
+        public Builder withOrder(Order order) {
+            this.order = order;
+            return this;
         }
 
         public Builder withUser(User user) {

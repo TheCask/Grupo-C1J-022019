@@ -14,6 +14,7 @@ public class FoodService {
     private static final int MAX_MENUS = 20;
 
     private int id;
+    private User provider;
     private String name;
     private String city;
     private String address;
@@ -22,11 +23,12 @@ public class FoodService {
     private String mail;
     private String phone;
     private int deliveryZone;
-    private Set<Menu> menus = new HashSet<Menu>();
+    private Set<Menu> menus = new HashSet<>();
 
     public FoodService() {}
 
-    public FoodService(String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
+    public FoodService(User provider, String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
+        this.provider = provider;
         this.name = name;
         this.city = city;
         this.address = address;
@@ -42,7 +44,7 @@ public class FoodService {
     }
 
     public void addMenu(Menu aMenu) {
-        if (this.menus.stream().filter(x -> x.active()).count() >= this.MAX_MENUS) {
+        if (this.menus.stream().filter(x -> x.active()).count() >= MAX_MENUS) {
             throw new IllegalArgumentException("Se alcanzó el límite máximo de menus válidos");
         }
         this.menus.add(aMenu);
@@ -70,17 +72,18 @@ public class FoodService {
     }
 
     public Order placeClientOrder(User aClient, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
-        if( !this.getMenus().contains(aMenu) )
+        if( !aMenu.getService().equals(this)) //this.getMenus().contains(aMenu)
             throw new IllegalArgumentException("Menu no forma parte del servicio.");
 
         return aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
     }
 
-    public void confirmOrders(User aProvider) {
-        this.getMenus().forEach(menu -> menu.confirmOrders(aProvider));
+    public void confirmOrders() {
+        this.getMenus().forEach(menu -> menu.confirmOrders());
     }
 
     // GETTERS
+    public User getProvider() { return provider; }
     public int getId() { return id; }
     public String getName() { return name; }
     public String getCity() { return city; }
@@ -95,7 +98,7 @@ public class FoodService {
     }
 
     // SETTERS
-
+    public void setProvider(User provider) { this.provider = provider; }
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setDescription(String description) {

@@ -7,11 +7,21 @@ import java.util.List;
 import java.util.Set;
 
 public class Order {
+
     private int id;
+    private Menu menu;
     private LocalDate deliveryDate;
-    private Set<OrderDetail> details = new HashSet<OrderDetail>();
+    private Set<OrderDetail> details = new HashSet<>();
 
     private Order() {}
+
+    public Menu getMenu() {
+        return this.menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
 
     public int getId() {
         return this.id;
@@ -45,6 +55,8 @@ public class Order {
         this.details.remove(detail);
     }
 
+    public User getProvider() { return this.getMenu().getProvider(); }
+
     public int getRequestedAmount() {
         return this.details.stream().
                 map( x -> x.getRequestedAmount() ).
@@ -55,10 +67,11 @@ public class Order {
         //TODO
     }
 
-    public void confirmOrder(Menu aMenu, User aProvider) {
+    public void confirmOrder() {
         int requestedAmount = this.getDetails().stream().
                 reduce(0, (partialAmount, detail) -> partialAmount + detail.getRequestedAmount(), Integer::sum);
         final double creditToReturn;
+        Menu aMenu = this.getMenu();
 
         if (requestedAmount >= aMenu.getMinimumAmount2()) {
             creditToReturn = aMenu.getPrice() - aMenu.getMinimumAmount2Price();
@@ -68,11 +81,12 @@ public class Order {
         }
         else { creditToReturn = 0; }
 
-        this.getDetails().forEach(detail -> detail.confirmOrderToUser(this.deliveryDate, creditToReturn, aProvider));
+        this.getDetails().forEach(detail -> detail.confirmOrderToUser(this.deliveryDate, creditToReturn));
     }
 
     public static class Builder {
         private int id;
+        private Menu menu;
         private LocalDate deliveryDate;
         private Set<OrderDetail> details = new HashSet<>();
 
@@ -86,10 +100,16 @@ public class Order {
             Order order = new Order();
 
             order.setId(this.id);
+            order.setMenu(this.menu);
             order.setDeliveryDate(this.deliveryDate);
             order.setDetails(this.details);
 
             return order;
+        }
+
+        public Builder withMenu(Menu menu) {
+            this.menu = menu;
+            return this;
         }
 
         public Builder withId(int id) {
