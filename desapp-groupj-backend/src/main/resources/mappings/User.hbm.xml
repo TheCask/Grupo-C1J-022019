@@ -24,11 +24,10 @@
 
         <property name="credit" type="int" column="credit" length="100"/>
 
-        <list name="foodServices" table="food_services" inverse="false" lazy="false" fetch="select">
+        <set name="foodServices" table="food_services" inverse="true" lazy="false" cascade="all">
             <key> <column name="user_id" not-null="true"> </column> </key>
-            <list-index column="id" base="1"/>
             <one-to-many class="ar.edu.unq.desapp.groupj.backend.model.FoodService" />
-        </list>
+        </set>
 
     </class>
 

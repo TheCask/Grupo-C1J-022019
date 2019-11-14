@@ -1,12 +1,10 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FoodService {
     private static final int MIN_DESCRIPTION_LENGTH = 30;
@@ -111,7 +109,7 @@ public class FoodService {
     }
     public void setPhone(String phone) { this.phone = phone; }
     public void setDeliveryZone(int deliveryZone) { this.deliveryZone = deliveryZone; }
-    public void setMenus( HashSet<Menu> menus ) { this.menus = menus; }
+    public void setMenus( Set<Menu> menus ) { this.menus = menus; }
     public void setCity( String city ) { this.city = city; }
     public void setAddress( String address ) { this.address = address; }
     public void setSite( String site ) { this.site = site; }
