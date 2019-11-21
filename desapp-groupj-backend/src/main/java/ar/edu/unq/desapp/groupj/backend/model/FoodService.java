@@ -43,6 +43,8 @@ public class FoodService {
     )
     private Set<Menu> menus = new HashSet<>();
 
+    private String imageUrl;
+
     public FoodService() {}
 
     public FoodService(User provider, String name, String city, String address, String description, String mail, String phone, int deliveryZone) {
@@ -116,6 +118,7 @@ public class FoodService {
     public Set<Menu> getMenus() {
         return this.menus;
     }
+    public String getImageUrl() { return this.imageUrl; }
 
     // SETTERS
     public void setProvider(User provider) { this.provider = provider; }
@@ -135,4 +138,5 @@ public class FoodService {
     public void setCity( String city ) { this.city = city; }
     public void setAddress( String address ) { this.address = address; }
     public void setSite( String site ) { this.site = site; }
+    public void setImageUrl(String imageUrl) { this.imageUrl=imageUrl; }
 }
