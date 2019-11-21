@@ -1,19 +1,26 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.*;
 
+@Entity
+@Table(name="users")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     private static final int BANNED_MENUS_TO_BE_BANNED = 10;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String lastName;
@@ -23,6 +30,12 @@ public class User {
     private String address;
     private int credit;
 
+    @OneToMany(
+            mappedBy = "provider",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<FoodService> foodServices = new HashSet<>();
 
     public User() {}
@@ -131,6 +144,7 @@ public class User {
     public String getPhone() { return this.phone; }
     public String getCity() { return this.city; }
     public String getAddress() { return this.address; }
+    @JsonManagedReference
     public Set<FoodService> getFoodServices() {
         return this.foodServices;
     }

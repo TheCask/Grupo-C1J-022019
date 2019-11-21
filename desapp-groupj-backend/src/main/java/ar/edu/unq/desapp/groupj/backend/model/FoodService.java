@@ -1,18 +1,31 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name="food_services")
 public class FoodService {
     private static final int MIN_DESCRIPTION_LENGTH = 30;
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final int MAX_MENUS = 20;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User provider;
+
     private String name;
     private String city;
     private String address;
@@ -21,6 +34,13 @@ public class FoodService {
     private String mail;
     private String phone;
     private int deliveryZone;
+
+    @OneToMany(
+            mappedBy = "service",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<Menu> menus = new HashSet<>();
 
     public FoodService() {}
@@ -81,6 +101,7 @@ public class FoodService {
     }
 
     // GETTERS
+    @JsonBackReference
     public User getProvider() { return provider; }
     public int getId() { return id; }
     public String getName() { return name; }
@@ -91,6 +112,7 @@ public class FoodService {
     public String getMail() { return mail; }
     public String getPhone() { return phone; }
     public int getDeliveryZone() { return deliveryZone; }
+    @JsonManagedReference
     public Set<Menu> getMenus() {
         return this.menus;
     }

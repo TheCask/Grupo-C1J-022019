@@ -1,5 +1,10 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Entity
+@Table(name="menus")
 public class Menu {
     private static final int MIN_NAME_LENGTH = 4;
     private static final int MAX_NAME_LENGTH = 30;
@@ -22,16 +29,28 @@ public class Menu {
     private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
     private static final int MINIMUM_DAYS_TO_DELIVERY = 2;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int             id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "food_service_id")
     private FoodService     service;
+
     private String          name;
     private String          description;
+    @Transient
     private MenuCategory    category;
     private String          city;
     private double          deliveryValue;
+    @Transient
     private LocalDate       availableFrom;
+    @Transient
     private LocalDate       availableTo;
+
+    @Transient
     private Set<DeliveryShift> deliveryShifts = new HashSet<>();
+
     private double          averageDeliveryTime;
     private double          price; //?
     private int             minimumAmount1;
@@ -39,7 +58,11 @@ public class Menu {
     private int             minimumAmount2;
     private double          minimumAmount2Price;
     private int             maximumDailySales;
+
+    @Transient
     private Set<Rate>       rates = new HashSet<>();
+
+    @Transient
     private Set<Order>      orders = new HashSet<>();
 
 
@@ -176,6 +199,7 @@ public class Menu {
         this.rates = rates;
     }
 
+    @JsonBackReference
     public FoodService getService() { return this.service; }
 
     public void setService(FoodService aService) { this.service = aService; }

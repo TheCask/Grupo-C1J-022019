@@ -51,6 +51,13 @@
 		<property name="entityCacheStrategies" ref="persistence.hibernateClassCacheProperties" />
 		<property name="collectionCacheStrategies" ref="persistence.hibernateCollectionCacheProperties" />
 -->
+		<property name="annotatedClasses">
+			<list>
+				<value>ar.edu.unq.desapp.groupj.backend.model.User</value>
+				<value>ar.edu.unq.desapp.groupj.backend.model.FoodService</value>
+				<value>ar.edu.unq.desapp.groupj.backend.model.Menu</value>
+			</list>
+		</property>
 
 		<property name="hibernateProperties">
 			<props>
