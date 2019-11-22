@@ -10,7 +10,7 @@ public class UserService extends GenericService<User> {
 	private static final long serialVersionUID = -2932116622242535843L;
 	private User loggedUser;
 	
-	@Transactional
+	//@Transactional
 	public User findBySocialId(String socialId) {
 		List<User> results = this.findByPropertyLikeValue("mail", socialId);
 		if( results.size() > 0 )
@@ -18,7 +18,7 @@ public class UserService extends GenericService<User> {
 		return null;
 	}
 	
-	@Transactional
+	//@Transactional
 	public Integer getUserId(String mail){
 		return (Integer) this.getProperty(mail,"mail","id").get(0);
 	}

@@ -30,9 +30,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 	<jaxrs:server id="viandasYa" address="/"  >
 		<jaxrs:serviceBeans>
 			<ref bean="userRest" />
+			<ref bean="foodServiceRest" />
             <ref bean="menuRest" />
-			<!--ref bean="abcRest" /-->
-			<!--ref bean="xyzRest" /-->
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="json" value="application/json" />
@@ -49,6 +48,10 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
 	<bean id="userRest" class="ar.edu.unq.desapp.groupj.backend.rest.UserRest">
 		<property name="userService" ref="services.user" />
+	</bean>
+
+	<bean id="foodServiceRest" class="ar.edu.unq.desapp.groupj.backend.rest.FoodServiceRest">
+		<property name="foodServiceService" ref="services.foodService" />
 	</bean>
 
     <bean id="menuRest" class="ar.edu.unq.desapp.groupj.backend.rest.MenuRest">

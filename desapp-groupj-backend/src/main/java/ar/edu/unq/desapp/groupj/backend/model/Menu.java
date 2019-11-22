@@ -65,6 +65,8 @@ public class Menu {
     @Transient
     private Set<Order>      orders = new HashSet<>();
 
+    private String          imageUrl;
+
 
     private Menu() {}
 
@@ -209,6 +211,10 @@ public class Menu {
     public Set<Order> getOrders() {
         return this.orders;
     }
+
+    public String getImageUrl() { return this.imageUrl; }
+
+    public void setImageUrl( String imageUrl ) { this.imageUrl = imageUrl; }
 
     public void addOrder(Order anOrder) { this.orders.add(anOrder); }
 
