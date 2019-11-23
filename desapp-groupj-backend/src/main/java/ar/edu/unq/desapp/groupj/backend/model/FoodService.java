@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -36,7 +35,7 @@ public class FoodService {
     private int deliveryZone;
 
     @OneToMany(
-            mappedBy = "service",
+            mappedBy = "foodService",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -92,7 +91,7 @@ public class FoodService {
     }
 
     public Order placeClientOrder(User aClient, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
-        if( !aMenu.getService().equals(this)) //this.getMenus().contains(aMenu)
+        if( !aMenu.getFoodService().equals(this)) //this.getMenus().contains(aMenu)
             throw new IllegalArgumentException("Menu no forma parte del servicio.");
 
         return aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);

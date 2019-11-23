@@ -148,7 +148,7 @@ public class UserTest {
     public void hasBannedMenus(){
         User aProvider = UserBuilder.aUser().build();
         Menu aMenu = mock(Menu.class);
-        when(aMenu.isBanned()).thenReturn(true);
+        when(aMenu.banned()).thenReturn(true);
         Set<Menu> mockMenus = new HashSet<>();
         mockMenus.add(aMenu);
         FoodService aFoodService = mock(FoodService.class);

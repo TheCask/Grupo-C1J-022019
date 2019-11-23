@@ -34,7 +34,7 @@ public class ViandasSystem {
 
     public void addMenuToFoodService(Menu aMenu, FoodService aFoodService) {
         aFoodService.addMenu(aMenu);
-        aMenu.setService(aFoodService);
+        aMenu.setFoodService(aFoodService);
     }
 
     public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
@@ -75,7 +75,7 @@ public class ViandasSystem {
     public Rate clientRatesMenu(User aClient, Menu aMenu, int aValue) {
         Rate aRate = new Rate(aClient, aValue);
         aMenu.addRate(aRate);
-        if (aMenu.isBanned()) { this.banMenu(aMenu); }
+        if (aMenu.banned()) { this.banMenu(aMenu); }
         return aRate;
     }
 

@@ -198,7 +198,7 @@ public class FoodServiceTest {
 
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
-        when(aMenu.getService()).thenReturn(aFoodService);
+        when(aMenu.getFoodService()).thenReturn(aFoodService);
 
         LocalDate deliveryDate = LocalDate.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;

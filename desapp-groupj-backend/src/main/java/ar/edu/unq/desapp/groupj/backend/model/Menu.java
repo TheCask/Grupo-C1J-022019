@@ -2,7 +2,6 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -35,7 +34,7 @@ public class Menu {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "food_service_id")
-    private FoodService     service;
+    private FoodService foodService;
 
     private String          name;
     private String          description;
@@ -202,11 +201,12 @@ public class Menu {
     }
 
     @JsonBackReference
-    public FoodService getService() { return this.service; }
+    public FoodService getFoodService() { return this.foodService; }
 
-    public void setService(FoodService aService) { this.service = aService; }
+    public void setFoodService(FoodService aService) { this.foodService = aService; }
 
-    public User getProvider() { return this.getService().getProvider(); }
+    @JsonBackReference
+    public User getProvider() { return this.getFoodService().getProvider(); }
 
     public Set<Order> getOrders() {
         return this.orders;
@@ -222,13 +222,16 @@ public class Menu {
         this.rates.add(rate);
     }
 
+    @JsonIgnore
     public int getRateCount() { return this.rates.size(); }
 
+    @JsonIgnore
     public int getAverageRate() {
+        int rateCount = getRateCount();
         int rateSum = this.rates.stream().
                                 map( x -> x.getValue() ).
                                 reduce(0,Integer::sum );
-        return rateSum / getRateCount();
+        return rateSum / (rateCount>0?rateCount:1);
     }
 
     public boolean active() {
@@ -236,7 +239,7 @@ public class Menu {
         return now.compareTo(this.availableFrom) >= 0 && now.compareTo(this.availableTo) <= 0;
     }
 
-    public boolean isBanned() { return (this.getAverageRate() <= 2 && this.getRateCount() >= 20); }
+    public boolean banned() { return (this.getAverageRate() <= 2 && this.getRateCount() >= 20); }
 
     public Order placeClientOrder(User aClient, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
         ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
@@ -375,7 +378,7 @@ public class Menu {
         public Menu build() {
             Menu menu = new Menu();
 
-            menu.setService(this.service);
+            menu.setFoodService(this.service);
             menu.setName(this.name);
             menu.setDescription(this.description);
             menu.setCategory(this.category);

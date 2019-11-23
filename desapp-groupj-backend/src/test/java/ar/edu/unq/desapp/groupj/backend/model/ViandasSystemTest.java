@@ -218,19 +218,19 @@ public class ViandasSystemTest {
         Menu aMenu = mock(Menu.class);
         when(aMenu.getAverageRate()).thenReturn(1);
         when(aMenu.getRateCount()).thenReturn(21);
-        when(aMenu.isBanned()).thenCallRealMethod();
+        when(aMenu.banned()).thenCallRealMethod();
         int aValue = 1;
 
         system.clientRatesMenu(aClient, aMenu, aValue);
 
-        verify(aMenu, Mockito.times(1)).isBanned();
+        verify(aMenu, Mockito.times(1)).banned();
         verify(aMenu, Mockito.times(1)).cancelAllOrders();
     }
 
     @Test
     public void newBannedMenuBanProvider() {
         Menu aMenu = mock(Menu.class);
-        when(aMenu.isBanned()).thenReturn(true);
+        when(aMenu.banned()).thenReturn(true);
 
         User aProvider = UserBuilder.aUser().build();
         FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
@@ -239,7 +239,7 @@ public class ViandasSystemTest {
 
         for (int i = 1; i <= 9; i++) {
             Menu aMenuBanned = mock(Menu.class);
-            when(aMenuBanned.isBanned()).thenReturn(true);
+            when(aMenuBanned.banned()).thenReturn(true);
             system.addMenuToFoodService(aMenuBanned, aFoodService);
         }
 

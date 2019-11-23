@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -112,14 +111,16 @@ public class User {
     }
 
     public boolean isBanned() {
-        return this.getMenus().stream().filter(menu -> menu.isBanned()).count() >= BANNED_MENUS_TO_BE_BANNED;
+        return this.getMenus().stream().filter(menu -> menu.banned()).count() >= BANNED_MENUS_TO_BE_BANNED;
     }
 
     public boolean hasBannedMenus() {
         return this.getMenus().stream().
-                reduce(false, (partialIsBanned, menu) -> partialIsBanned || menu.isBanned(), Boolean::logicalOr);
+                reduce(false, (partialIsBanned, menu) -> partialIsBanned || menu.banned(), Boolean::logicalOr);
     }
 
+    //@JsonIgnore
+    @JsonManagedReference
     public List<Menu> getMenus() {
         return this.getFoodServices().stream().flatMap(service -> service.getMenus().stream()).collect(Collectors.toList());
     }
