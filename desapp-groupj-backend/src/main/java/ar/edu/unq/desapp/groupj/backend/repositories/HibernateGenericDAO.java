@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -81,7 +82,22 @@ public abstract class HibernateGenericDAO<T> extends HibernateDaoSupport impleme
 		criteria.add( Restrictions.like(propertyName, value) );
 		return (List<T>)this.getHibernateTemplate().findByCriteria(criteria);
 	}
-	
+
+	public List<T> findByTextInProperties(final List<String> propertiesNames, final String value, final boolean ignoreCase) {
+		String searchString = "%"+value+"%";
+		DetachedCriteria criteria = DetachedCriteria.forClass(this.persistentClass);
+		Criterion lastCriterion = Restrictions.like(propertiesNames.get(0),"").ignoreCase();
+
+		for( int i = 0; i < propertiesNames.size(); i++ ) {
+			lastCriterion = Restrictions.or( lastCriterion, (ignoreCase?Restrictions.like(propertiesNames.get(i), searchString).ignoreCase():Restrictions.like(propertiesNames.get(i), searchString)) );
+		}
+
+		criteria.add( lastCriterion );
+
+		return (List<T>)this.getHibernateTemplate().findByCriteria(criteria);
+	}
+
+
 	public List<Object> getElement(Object valorAComparar, String propertyNameToCompare, String propertyColumnToGet){
 		DetachedCriteria criteria = DetachedCriteria.forClass(this.persistentClass);
 		criteria.setProjection(Projections.property(propertyColumnToGet));

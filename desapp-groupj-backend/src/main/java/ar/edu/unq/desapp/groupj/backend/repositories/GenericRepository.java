@@ -27,6 +27,8 @@ public interface GenericRepository<T> {
 	List<T> findByExample(T exampleObject);
 	
 	List<T> findByPropertyLikeValue(String propertyName, String value);
+
+	List<T> findByTextInProperties(List<String> propertiesNames, String value, boolean ignoreCase);
 	
 	List<Object> getElement(Object valueToCompare, String propertyNameToCompare, String propertyColumnToGet);
 

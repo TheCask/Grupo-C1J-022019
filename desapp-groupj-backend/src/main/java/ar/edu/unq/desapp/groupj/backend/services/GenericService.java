@@ -53,9 +53,13 @@ public class GenericService<T> implements Serializable {
     public List<T> findByPropertyLikeValue(String propertyName, String value) {
     	return this.getRepository().findByPropertyLikeValue(propertyName, value);
     }
+
+    @Transactional
+    public List<T> findByTextInProperties( List<String> propertiesNames, String searchValue, boolean ignoreCase) {
+        return this.getRepository().findByTextInProperties(propertiesNames,searchValue,ignoreCase);
+    }
     
     @Transactional
-    //public List<Integer> getProperty(String mail){
     public List<Object> getProperty(Object valorAComparar, String propertyNameToCompare, String propertyColumnToGet){
     	return this.getRepository().getElement(valorAComparar,propertyNameToCompare,propertyColumnToGet);
     }

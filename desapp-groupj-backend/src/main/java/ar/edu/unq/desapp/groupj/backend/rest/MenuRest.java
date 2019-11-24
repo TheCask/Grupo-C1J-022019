@@ -94,10 +94,10 @@ public class MenuRest extends BaseRest {
     }
 
     @GET
-    @Path("/getByName/{name}")
+    @Path("/getByText/{searchValue}")
     @Produces("application/json")
-    public Response findMenusByName(@PathParam("name") final String name) {
-        List<Menu> menus = menuService.findByName(name);
+    public Response findMenusByText(@PathParam("searchValue") final String searchValue) {
+        List<Menu> menus = menuService.findByText(searchValue);
         if (menus==null || menus.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
