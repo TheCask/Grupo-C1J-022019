@@ -1,17 +1,44 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Entity
+@Table(name="order_details")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderDetail {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id")
     private Order order;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
     private LocalTime deliveryTime;
     private DeliveryType deliveryType;
     private int requestedAmount;
 
     private OrderDetail() {}
 
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @JsonBackReference
     public Order getOrder() {
         return order;
     }

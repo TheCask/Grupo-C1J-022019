@@ -57,6 +57,8 @@
 				<value>ar.edu.unq.desapp.groupj.backend.model.User</value>
 				<value>ar.edu.unq.desapp.groupj.backend.model.FoodService</value>
 				<value>ar.edu.unq.desapp.groupj.backend.model.Menu</value>
+				<value>ar.edu.unq.desapp.groupj.backend.model.Order</value>
+				<value>ar.edu.unq.desapp.groupj.backend.model.OrderDetail</value>
 			</list>
 		</property>
 
@@ -121,6 +123,10 @@
 	</bean>
 
 	<bean id="persistence.menuRepository" class="ar.edu.unq.desapp.groupj.backend.repositories.MenuRepository" >
+		<property name="sessionFactory" ref="persistence.sessionFactory" />
+	</bean>
+
+	<bean id="persistence.orderRepository" class="ar.edu.unq.desapp.groupj.backend.repositories.OrderRepository" >
 		<property name="sessionFactory" ref="persistence.sessionFactory" />
 	</bean>
 

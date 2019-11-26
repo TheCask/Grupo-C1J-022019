@@ -14,6 +14,6 @@ public class OrderBuilderTest {
                 withDetails(null).
                 build();
 
-        assertEquals(1, order.getId());
+        assertEquals(1, (int)order.getId());
     }
 }

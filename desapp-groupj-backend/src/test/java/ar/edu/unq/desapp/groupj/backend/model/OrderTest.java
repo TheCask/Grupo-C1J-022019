@@ -28,7 +28,7 @@ public class OrderTest {
 
         this.order.setId(id);
 
-        assertEquals(id, order.getId());
+        assertEquals(id, (int)order.getId());
     }
 
     @Test

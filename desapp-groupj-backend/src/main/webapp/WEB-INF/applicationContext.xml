@@ -32,6 +32,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 			<ref bean="userRest" />
 			<ref bean="foodServiceRest" />
             <ref bean="menuRest" />
+			<ref bean="orderRest" />
 		</jaxrs:serviceBeans>
 		<jaxrs:extensionMappings>
 			<entry key="json" value="application/json" />
@@ -58,5 +59,9 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
         <property name="menuService" ref="services.menu" />
 		<property name="userService" ref="services.user" />
     </bean>
+
+	<bean id="orderRest" class="ar.edu.unq.desapp.groupj.backend.rest.OrderRest">
+		<property name="orderService" ref="services.order" />
+	</bean>
 
 </beans>

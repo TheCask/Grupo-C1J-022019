@@ -1,16 +1,37 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name="orders")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Order {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @OneToOne
+    @JoinColumn(name = "menu_id")
     private Menu menu;
+
     private LocalDate deliveryDate;
+
+    @OneToMany(
+            mappedBy = "order",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<OrderDetail> details = new HashSet<>();
 
     private Order() {}
@@ -23,11 +44,11 @@ public class Order {
         this.menu = menu;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
        this.id = id;
     }
 
@@ -39,6 +60,7 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
+    @JsonManagedReference
     public Set<OrderDetail> getDetails() {
         return details;
     }
@@ -55,6 +77,7 @@ public class Order {
         this.details.remove(detail);
     }
 
+    @JsonIgnore
     public User getProvider() { return this.getMenu().getProvider(); }
 
     public int getRequestedAmount() {

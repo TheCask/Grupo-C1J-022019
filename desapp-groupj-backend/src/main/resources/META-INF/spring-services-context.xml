@@ -11,6 +11,7 @@
 		<property name="userService" ref="services.user" />
 		<property name="foodServiceService" ref="services.foodService" />
 		<property name="menuService" ref="services.menu" />
+		<property name="orderService" ref="services.order" />
 	</bean>
 
 	<bean id="services.user" class="ar.edu.unq.desapp.groupj.backend.services.UserService">
@@ -23,6 +24,10 @@
 
 	<bean id="services.menu" class="ar.edu.unq.desapp.groupj.backend.services.MenuService">
 		<property name="repository" ref="persistence.menuRepository" />
+	</bean>
+
+	<bean id="services.order" class="ar.edu.unq.desapp.groupj.backend.services.OrderService">
+		<property name="repository" ref="persistence.orderRepository" />
 	</bean>
 
 </beans>

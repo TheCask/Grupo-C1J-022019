@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
+import ar.edu.unq.desapp.groupj.backend.model.FoodService;
 import ar.edu.unq.desapp.groupj.backend.model.User;
 import ar.edu.unq.desapp.groupj.backend.model.Menu;
 import ar.edu.unq.desapp.groupj.backend.services.MenuService;
@@ -43,7 +44,6 @@ public class MenuRest extends BaseRest {
     @Produces("application/json")
     @UserAuthenticationRequired
     public Response createMenu(final Menu menu){
-
         try{
             menu.setId( (Integer)menuService.save(menu) );
         }
@@ -117,6 +117,17 @@ public class MenuRest extends BaseRest {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(menus).build();
+    }
+
+    @GET
+    @Path("/getFoodServiceByMenuId/{id}")
+    @Produces("application/json")
+    public Response getFoodServiceByMenuId(@PathParam("id") final Integer id) {
+        FoodService foodService = menuService.getFoodServiceByMenuId(id);
+        if (foodService==null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(foodService).build();
     }
 
 }

@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.unq.desapp.groupj.backend.model.FoodService;
 import ar.edu.unq.desapp.groupj.backend.model.User;
 import ar.edu.unq.desapp.groupj.backend.model.Menu;
 import org.hibernate.criterion.DetachedCriteria;
@@ -30,6 +31,12 @@ public class MenuService extends GenericService<Menu> {
         if( results.size() > 0 )
             return results;
         return null;
+    }
+
+    @Transactional
+    public FoodService getFoodServiceByMenuId(int menuId) {
+        Menu menu = this.findById(menuId);
+        return (menu!=null?menu.getFoodService():null);
     }
 }
 

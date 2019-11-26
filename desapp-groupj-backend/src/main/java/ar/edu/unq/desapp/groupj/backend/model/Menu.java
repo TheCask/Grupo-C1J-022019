@@ -30,7 +30,7 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int             id;
+    private Integer         id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "food_service_id")
@@ -69,7 +69,7 @@ public class Menu {
 
     private Menu() {}
 
-    public int getId() { return this.id; }
+    public Integer getId() { return this.id; }
 
     public void setId(Integer save) { this.id = save; }
 
