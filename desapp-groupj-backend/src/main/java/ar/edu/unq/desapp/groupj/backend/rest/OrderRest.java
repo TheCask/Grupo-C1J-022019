@@ -58,6 +58,21 @@ public class OrderRest extends BaseRest {
         return Response.ok(orderDetails).build();
     }
 
+    @PUT
+    @Path("/details/create")
+    @Consumes("application/json")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response createOrderDetail(final OrderDetail orderDetail){
+        try{
+            orderDetail.setId( (Integer)orderService.createOrderDetail(orderDetail) );
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.NOT_FOUND).entity("Unable to create order detail: " + exception.getMessage() ).build();
+        }
+        return Response.ok(orderDetail).build();
+    }
+
     @GET
     @Path("/getById/{id}")
     @Produces("application/json")
