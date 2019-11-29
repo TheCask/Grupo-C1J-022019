@@ -1,7 +1,14 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import ar.edu.unq.desapp.groupj.backend.json.LocalDateDeserializer;
+import ar.edu.unq.desapp.groupj.backend.json.LocalDateSerializer;
+import ar.edu.unq.desapp.groupj.backend.json.LocalTimeDeserializer;
+import ar.edu.unq.desapp.groupj.backend.json.LocalTimeSerializer;
+import ar.edu.unq.desapp.groupj.backend.repositories.converters.LocalTimeAttributeConverter;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,7 +31,9 @@ public class OrderDetail {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Convert(converter = LocalTimeAttributeConverter.class )
     private LocalTime deliveryTime;
+
     private DeliveryType deliveryType;
     private int requestedAmount;
 
@@ -55,10 +64,12 @@ public class OrderDetail {
         this.user = user;
     }
 
+    @JsonSerialize(using = LocalTimeSerializer.class)
     public LocalTime getDeliveryTime() {
         return deliveryTime;
     }
 
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     public void setDeliveryTime(LocalTime deliveryTime) {
         this.deliveryTime = deliveryTime;
     }

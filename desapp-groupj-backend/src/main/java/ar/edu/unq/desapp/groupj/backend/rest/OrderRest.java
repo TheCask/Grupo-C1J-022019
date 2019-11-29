@@ -1,17 +1,17 @@
 package ar.edu.unq.desapp.groupj.backend.rest;
 
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
-import ar.edu.unq.desapp.groupj.backend.model.Menu;
 import ar.edu.unq.desapp.groupj.backend.model.Order;
 import ar.edu.unq.desapp.groupj.backend.model.OrderDetail;
 import ar.edu.unq.desapp.groupj.backend.services.OrderService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.time.LocalDate;
 import java.util.List;
 
 @Path("/orders")
-public class OrderRest {
+public class OrderRest extends BaseRest {
 
     private OrderService orderService;
 
@@ -32,6 +32,21 @@ public class OrderRest {
         return Response.ok(order).build();
     }
 
+    @PUT
+    @Path("/update")
+    @Consumes("application/json")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response updateOrder(final Order order){
+        try{
+            orderService.update(order);
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.NOT_FOUND).entity("Unable to update order: " + exception.getMessage() ).build();
+        }
+        return Response.ok(order).build();
+    }
+
     @GET
     @Path("/details/getByUserId/{id}")
     @Produces("application/json")
@@ -42,7 +57,6 @@ public class OrderRest {
         }
         return Response.ok(orderDetails).build();
     }
-
 
     @GET
     @Path("/getById/{id}")
@@ -55,6 +69,17 @@ public class OrderRest {
         return Response.ok(order).build();
     }
 
-
+    @GET
+    @Path("/getByMenuIdAndDeliveryDate/{menuId}/{deliveryDate}")
+    @Produces("application/json")
+    public Response getByMenuIdAndDeliveryDate(@PathParam("menuId") final Integer menuId,
+                                               @PathParam("deliveryDate") final String deliveryDate) {
+        LocalDate _deliveryDate = LocalDate.parse(deliveryDate);
+        Order order = orderService.getOrderByMenuIdAndDeliveryDate(menuId,_deliveryDate);
+        if (order==null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(order).build();
+    }
 
 }

@@ -1,14 +1,18 @@
 package ar.edu.unq.desapp.groupj.backend.model;
 
+import ar.edu.unq.desapp.groupj.backend.json.LocalDateDeserializer;
+import ar.edu.unq.desapp.groupj.backend.json.LocalDateSerializer;
+import ar.edu.unq.desapp.groupj.backend.repositories.converters.LocalDateAttributeConverter;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,6 +28,7 @@ public class Order {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
+    @Convert(converter = LocalDateAttributeConverter.class )
     private LocalDate deliveryDate;
 
     @OneToMany(
@@ -36,6 +41,7 @@ public class Order {
 
     private Order() {}
 
+    //@JsonBackReference
     public Menu getMenu() {
         return this.menu;
     }
@@ -52,15 +58,17 @@ public class Order {
        this.id = id;
     }
 
+    @JsonSerialize(using = LocalDateSerializer.class)
     public LocalDate getDeliveryDate() {
         return this.deliveryDate;
     }
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    @JsonManagedReference
+    //@JsonManagedReference
     public Set<OrderDetail> getDetails() {
         return details;
     }

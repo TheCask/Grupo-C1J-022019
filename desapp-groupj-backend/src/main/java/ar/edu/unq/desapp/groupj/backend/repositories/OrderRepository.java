@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.groupj.backend.model.Order;
 import ar.edu.unq.desapp.groupj.backend.model.OrderDetail;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 public class OrderRepository extends HibernateGenericDAO<Order> implements GenericRepository<Order> {
@@ -18,23 +19,33 @@ public class OrderRepository extends HibernateGenericDAO<Order> implements Gener
     @Override
     public Serializable save(Order order) {
         Serializable orderId;
-        List<Order> existingOrders = (List<Order>) this.getHibernateTemplate()
-                .find(" FROM orders o WHERE menu_id = " + order.getMenu().getId().toString() + " and deliveryDate = '" + order.getDeliveryDate().toString() + "'");
+        Order existingOrder = getOrderByMenuIdAndDeliveryDate(order.getMenu().getId(), order.getDeliveryDate() );
 
-        if( existingOrders.size() > 0 ) {
-            orderId = existingOrders.get(0).getId();
-            order.setId((Integer)orderId);
+        if( existingOrder != null ) {
+            orderId = existingOrder.getId();
+            order.setId(existingOrder.getId());
             super.update(order);
         }
-        else
+        else {
             orderId = super.save(order);
+        }
 
         return orderId;
     }
 
+    public Order getOrderByMenuIdAndDeliveryDate(Integer menuId, LocalDate deliveryDate ) {
+        List<Order> existingOrders = (List<Order>) this.getHibernateTemplate()
+                .find(" FROM Order o WHERE menu_id = " + menuId.toString() + " and deliveryDate = '" + deliveryDate.toString() + "'");
+
+        if( existingOrders.size() > 0 )
+            return existingOrders.get(0);
+
+        return null;
+    }
+
     public List<OrderDetail> getOrderDetailsByUserId(Integer userId) {
         return (List<OrderDetail>) this.getHibernateTemplate()
-                .find(" FROM orders_details o WHERE user_id = " + userId.toString() );
+                .find(" FROM OrderDetail o WHERE user_id = " + userId.toString() );
     }
 
 }

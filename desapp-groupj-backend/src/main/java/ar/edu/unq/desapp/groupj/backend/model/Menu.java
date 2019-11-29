@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -208,6 +209,7 @@ public class Menu {
     @JsonBackReference
     public User getProvider() { return this.getFoodService().getProvider(); }
 
+    @JsonManagedReference
     public Set<Order> getOrders() {
         return this.orders;
     }
