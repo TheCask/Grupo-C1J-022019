@@ -69,6 +69,7 @@ public class Order {
     }
 
     //@JsonManagedReference
+    @JsonIgnore
     public Set<OrderDetail> getDetails() {
         return details;
     }

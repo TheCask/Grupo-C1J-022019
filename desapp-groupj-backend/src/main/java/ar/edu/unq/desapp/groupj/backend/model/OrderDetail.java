@@ -47,7 +47,7 @@ public class OrderDetail {
         this.id = id;
     }
 
-    @JsonBackReference
+    //@JsonBackReference
     public Order getOrder() {
         return order;
     }
