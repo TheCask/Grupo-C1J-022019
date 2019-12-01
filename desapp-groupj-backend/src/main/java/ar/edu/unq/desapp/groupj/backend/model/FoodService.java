@@ -5,6 +5,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -90,11 +91,13 @@ public class FoodService {
         return null;
     }
 
-    public Order placeClientOrder(User aClient, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+    public Order placeClientOrder( User aClient, Menu aMenu,
+                                   LocalDate deliveryDate, LocalTime deliveryTime,
+                                   DeliveryType deliveryType, int amount) {
         if( !aMenu.getFoodService().equals(this)) //this.getMenus().contains(aMenu)
             throw new IllegalArgumentException("Menu no forma parte del servicio.");
 
-        return aMenu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+        return aMenu.placeClientOrder(aClient,deliveryDate,deliveryTime, deliveryType,amount);
     }
 
     public void confirmOrders() {

@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Test;
 import org.mockito.Mockito;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -132,6 +133,7 @@ public class UserTest {
         when(aFoodService.getProvider()).thenReturn(aProvider);
         Menu aMenu = mock(Menu.class);
         LocalDate deliveryDate = LocalDate.now();
+        LocalTime deliveryTime = LocalTime.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 
@@ -139,9 +141,9 @@ public class UserTest {
 
         aProvider.postFoodService(aFoodService);
 
-        aProvider.placeClientOrder(aClient,aFoodService,aMenu,deliveryDate,deliveryType,amount);
+        aProvider.placeClientOrder(aClient,aFoodService,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
 
-        verify(aFoodService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        verify(aFoodService, Mockito.times(1)).placeClientOrder(aClient,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
     }
 
     @Test

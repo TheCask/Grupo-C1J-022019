@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -209,7 +210,7 @@ public class Menu {
     @JsonBackReference
     public User getProvider() { return this.getFoodService().getProvider(); }
 
-    @JsonManagedReference
+    @JsonIgnore
     public Set<Order> getOrders() {
         return this.orders;
     }
@@ -243,7 +244,8 @@ public class Menu {
 
     public boolean banned() { return (this.getAverageRate() <= 2 && this.getRateCount() >= 20); }
 
-    public Order placeClientOrder(User aClient, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+    public Order placeClientOrder( User aClient, LocalDate deliveryDate, LocalTime deliverytime,
+                                   DeliveryType deliveryType, int amount) {
         ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
 
         aClient.withdrawCredit( (int)(this.getPrice() * amount) );
@@ -261,6 +263,7 @@ public class Menu {
         OrderDetail anOrderDetail = OrderDetail.Builder.anOrderDetail().
                 withOrder(anOrder).
                 withUser(aClient).
+                withDeliveryTime(deliverytime).
                 withDeliveryType(deliveryType).
                 withRequestedAmount(amount).
                 build();

@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -101,11 +102,13 @@ public class User {
         return results;
     }
 
-    public Order placeClientOrder(User aClient, FoodService aFoodService, Menu aMenu, LocalDate deliveryDate, DeliveryType deliveryType, int amount) {
+    public Order placeClientOrder(User aClient, FoodService aFoodService,
+                                  Menu aMenu, LocalDate deliveryDate,
+                                  LocalTime deliveryTime, DeliveryType deliveryType, int amount) {
         if( !aFoodService.getProvider().equals(this)) // this.getFoodServices().contains(aFoodService)
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
-        Order anOrder = aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        Order anOrder = aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
         this.chargeCredit((int)(aMenu.getPrice() * amount));
         return anOrder;
     }

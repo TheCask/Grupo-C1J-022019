@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import org.junit.Test;
 import org.mockito.Mockito;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
@@ -201,14 +202,15 @@ public class FoodServiceTest {
         when(aMenu.getFoodService()).thenReturn(aFoodService);
 
         LocalDate deliveryDate = LocalDate.now();
+        LocalTime deliveryTime = LocalTime.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 
         aFoodService.addMenu(aMenu);
 
-        aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryType,amount);
+        aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
 
-        verify(aMenu, Mockito.times(1)).placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+        verify(aMenu, Mockito.times(1)).placeClientOrder(aClient,deliveryDate,deliveryTime,deliveryType,amount);
     }
 
     @Test

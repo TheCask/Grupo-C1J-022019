@@ -26,8 +26,22 @@
 		<property name="repository" ref="persistence.menuRepository" />
 	</bean>
 
+	<bean id="services.email" class="ar.edu.unq.desapp.groupj.backend.services.EmailSenderService">
+		<property name="smtpServer" value="#{ systemEnvironment['VIANDASYA_EMAIL_SMTP_SERVER'] }" />
+		<property name="smtpPort" value="#{ systemEnvironment['VIANDASYA_EMAIL_SMTP_PORT'] }" />
+		<property name="smtpAuth" value="#{ systemEnvironment['VIANDASYA_EMAIL_SMTP_AUTH'] }" />
+		<property name="smtpStartTLS" value="#{ systemEnvironment['VIANDASYA_EMAIL_START_TLS'] }" />
+		<property name="userName" value="#{ systemEnvironment['VIANDASYA_EMAIL_USER'] }" />
+		<property name="password" value="#{ systemEnvironment['VIANDASYA_EMAIL_PASSWORD'] }" />
+		<property name="from" value="#{ systemEnvironment['VIANDASYA_EMAIL_FROM'] }" />
+	</bean>
+
 	<bean id="services.order" class="ar.edu.unq.desapp.groupj.backend.services.OrderService">
 		<property name="repository" ref="persistence.orderRepository" />
+		<property name="userService" ref="services.user" />
+		<property name="foodServiceService" ref="services.foodService" />
+		<property name="menuService" ref="services.menu" />
+		<property name="emailSenderService" ref="services.email" />
 	</bean>
 
 </beans>

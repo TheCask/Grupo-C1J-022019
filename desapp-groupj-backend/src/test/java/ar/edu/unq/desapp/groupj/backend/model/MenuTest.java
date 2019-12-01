@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 
 import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -224,9 +225,10 @@ public class MenuTest {
     @Test
     public void placeClientNonExistingOrder() {
         LocalDate deliveryDate = LocalDate.now().plusDays(5);
+        LocalTime deliveryTime = LocalTime.now();
         int amount = 10;
 
-        Order anOrder = placeClientOrder(deliveryDate,amount);
+        Order anOrder = placeClientOrder(deliveryDate,deliveryTime,amount);
 
         assertEquals(1, this.menu.getOrders().size() );
         assertTrue(this.menu.getOrders().contains(anOrder));
@@ -236,36 +238,39 @@ public class MenuTest {
     @Test
     public void placeClientExistingOrder() {
         LocalDate deliveryDate = LocalDate.now().plusDays(5);
+        LocalTime deliveryTime = LocalTime.now();
         int amount = 10;
 
-        Order anOrder = placeClientOrder(deliveryDate,amount);
-        placeClientOrder(deliveryDate,amount);
+        Order anOrder = placeClientOrder(deliveryDate,deliveryTime,amount);
+        placeClientOrder(deliveryDate,deliveryTime,amount);
 
         assertEquals(1, this.menu.getOrders().size() );
         assertTrue(this.menu.getOrders().contains(anOrder));
         assertEquals(amount*2, anOrder.getRequestedAmount());
     }
 
-    private Order placeClientOrder(LocalDate deliveryDate, int amount) {
+    private Order placeClientOrder(LocalDate deliveryDate, LocalTime deliveryTime, int amount) {
         User aClient = mock(User.class);
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
-        return this.menu.placeClientOrder(aClient,deliveryDate,deliveryType,amount);
+        return this.menu.placeClientOrder(aClient,deliveryDate,deliveryTime,deliveryType,amount);
     }
 
     @Test (expected = MenuException.class)
     public void placeClientOrderWithPastDeliveryDate() {
         LocalDate deliveryDate = LocalDate.now().minusDays(3);
+        LocalTime deliveryTime = LocalTime.now();
         int amount = 10;
 
-        placeClientOrder(deliveryDate,amount);
+        placeClientOrder(deliveryDate,deliveryTime,amount);
     }
 
     @Test (expected = MenuException.class)
     public void placeClientOrderWithDeliveryDateLessThan48hs() {
         LocalDate deliveryDate = LocalDate.now().plusDays(1);
+        LocalTime deliveryTime = LocalTime.now();
         int amount = 10;
 
-        placeClientOrder(deliveryDate,amount);
+        placeClientOrder(deliveryDate,deliveryTime,amount);
     }
 
     @Test

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -162,14 +163,15 @@ public class ViandasSystemTest {
         FoodService aFoodService = mock(FoodService.class);
         Menu aMenu = mock(Menu.class);
         LocalDate deliveryDate = LocalDate.now();
+        LocalTime deliveryTime = LocalTime.now();
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
         system.registerUser(aProvider);
         system.registerUser(aClient);
 
-        system.placeClientOrder(aClient,aProvider,aFoodService,aMenu,deliveryDate,deliveryType,amount);
+        system.placeClientOrder(aClient,aProvider,aFoodService,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
 
-        verify(aProvider, Mockito.times(1)).placeClientOrder(aClient,aFoodService,aMenu,deliveryDate,deliveryType,amount);
+        verify(aProvider, Mockito.times(1)).placeClientOrder(aClient,aFoodService,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
     }
 
     @Test
@@ -275,6 +277,7 @@ public class ViandasSystemTest {
                 build();
 
         LocalDate aDeliveryDate = LocalDate.now().plusDays(3);
+        LocalTime aDeliveryTime = LocalTime.now();
         DeliveryType aDeliveryType = DeliveryType.DeliverToAddress;
 
         system.registerUser(aClient);
@@ -282,7 +285,7 @@ public class ViandasSystemTest {
         system.userPostFoodService(aProvider, aFoodService);
         system.addMenuToFoodService(aMenu, aFoodService);
 
-        system.placeClientOrder(aClient, aProvider, aFoodService, aMenu, aDeliveryDate, aDeliveryType, value);
+        system.placeClientOrder(aClient, aProvider, aFoodService, aMenu, aDeliveryDate, aDeliveryTime, aDeliveryType, value);
 
         assertEquals(0, system.allRatesFromClient(aClient).size());
         assertEquals(1, system.allOrderDetailsFromClient(aClient).size());

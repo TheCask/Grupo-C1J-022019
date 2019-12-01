@@ -1,13 +1,18 @@
 package ar.edu.unq.desapp.groupj.backend.rest;
 
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
+import ar.edu.unq.desapp.groupj.backend.model.DeliveryType;
 import ar.edu.unq.desapp.groupj.backend.model.Order;
 import ar.edu.unq.desapp.groupj.backend.model.OrderDetail;
+import ar.edu.unq.desapp.groupj.backend.services.FoodServiceService;
+import ar.edu.unq.desapp.groupj.backend.services.MenuService;
 import ar.edu.unq.desapp.groupj.backend.services.OrderService;
+import ar.edu.unq.desapp.groupj.backend.services.UserService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Path("/orders")
@@ -30,6 +35,29 @@ public class OrderRest extends BaseRest {
             return Response.status(Response.Status.NOT_FOUND).entity("Unable to create order: " + exception.getMessage() ).build();
         }
         return Response.ok(order).build();
+    }
+
+    @PUT
+    @Path("/clientPlaceOrder/{clientId}/{menuId}/{deliveryDate}/{deliveryTime}/{deliveryType}/{requestedAmount}")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response clientPlaceOrder( @PathParam("clientId") final Integer clientId,
+                                      @PathParam("menuId") final Integer menuId,
+                                      @PathParam("deliveryDate") final String sDeliveryDate,
+                                      @PathParam("deliveryTime") final String sDeliveryTime,
+                                      @PathParam("deliveryType") final DeliveryType deliveryType,
+                                      @PathParam("requestedAmount") final Integer requestedAmount ){
+        Order newOrder;
+
+        try{
+            LocalDate deliveryDate = LocalDate.parse(sDeliveryDate);
+            LocalTime deliveryTime = LocalTime.parse(sDeliveryTime);
+            newOrder = this.orderService.clientPlaceOrder( clientId, menuId, deliveryDate, deliveryTime, deliveryType, requestedAmount );
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to create order: " + exception.getMessage() ).build();
+        }
+        return Response.ok(newOrder).build();
     }
 
     @PUT
