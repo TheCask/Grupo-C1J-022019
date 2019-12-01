@@ -53,7 +53,7 @@ public class Menu {
     private Set<DeliveryShift> deliveryShifts = new HashSet<>();
 
     private double          averageDeliveryTime;
-    private double          price; //?
+    private double          price;
     private int             minimumAmount1;
     private double          minimumAmount1Price;
     private int             minimumAmount2;
@@ -248,7 +248,7 @@ public class Menu {
                                    DeliveryType deliveryType, int amount) {
         ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
 
-        aClient.withdrawCredit( (int)(this.getPrice() * amount) );
+        aClient.withdrawCredit( (int)computeTotalCost( amount, deliveryType ) );
 
         List<Order> ordersInDeliveryDate = this.orders.stream().filter( order -> order.getDeliveryDate()==deliveryDate ).collect(Collectors.toList());
         Order anOrder;
@@ -280,6 +280,19 @@ public class Menu {
                 filter(order -> order.getDeliveryDate().getDayOfYear() == LocalDate.now().getDayOfYear());
 
         ordersToConfirmToday.forEach(order -> order.confirmOrder());
+    }
+
+    public double computeTotalCost( Integer quantity, DeliveryType deliveryType ) {
+        return (quantity * computePriceForQuantity(quantity)) + computeDeliveryCost(deliveryType);
+    }
+
+    public double computePriceForQuantity( Integer quantity ) {
+        return (quantity < this.getMinimumAmount1() ? this.getPrice() :
+                (quantity >= this.getMinimumAmount2()? this.getMinimumAmount2Price() : this.getMinimumAmount1Price() ));
+    }
+
+    public double computeDeliveryCost( DeliveryType deliveryType ) {
+        return ( deliveryType==DeliveryType.DeliverToAddress ? this.getDeliveryValue() : 0 );
     }
 
     public static class Builder {

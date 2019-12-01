@@ -8,7 +8,7 @@ public class UserBuilder {
     private String phone = "0000-00000000";
     private String city = "no city";
     private String address = "no address";
-    private int credit = 0;
+    private Integer credit = 0;
 
     public static UserBuilder aUser() {
         return new UserBuilder();

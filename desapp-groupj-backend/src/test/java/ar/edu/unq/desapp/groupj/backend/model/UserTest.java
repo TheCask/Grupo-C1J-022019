@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class UserTest {
     @Test
     public void chargeCreditToAccount5000() {
-        int credit = 5000;
+        Integer credit = 5000;
         User aUser = UserBuilder.aUser().withCredit(0).build();
 
         aUser.chargeCredit(credit);
@@ -137,7 +137,7 @@ public class UserTest {
         DeliveryType deliveryType = DeliveryType.DeliverToAddress;
         int amount = 10;
 
-        when(aMenu.getPrice()).thenReturn(10.0);
+        when(aMenu.computeTotalCost(amount,deliveryType)).thenReturn(10.0);
 
         aProvider.postFoodService(aFoodService);
 

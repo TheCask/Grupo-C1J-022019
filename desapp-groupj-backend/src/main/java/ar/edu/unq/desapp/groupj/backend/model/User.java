@@ -21,14 +21,14 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String mail;
     private String phone;
     private String city;
     private String address;
-    private int credit;
+    private Integer credit;
 
     @OneToMany(
             mappedBy = "provider",
@@ -109,7 +109,9 @@ public class User {
             throw new IllegalArgumentException("Servicio no publicado por el usuario proveedor.");
 
         Order anOrder = aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
-        this.chargeCredit((int)(aMenu.getPrice() * amount));
+
+        this.chargeCredit( (int)aMenu.computeTotalCost(amount, deliveryType) );
+
         return anOrder;
     }
 
@@ -140,8 +142,8 @@ public class User {
 
     //GETTERS
 
-    public int getId() { return this.id; }
-    public int getCredit() { return this.credit; }
+    public Integer getId() { return this.id; }
+    public Integer getCredit() { return this.credit; }
     public String getFirstName() { return this.firstName; }
     public String getLastName() { return this.lastName; }
     public String getMail() { return this.mail; }
@@ -153,7 +155,7 @@ public class User {
         return this.foodServices;
     }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -172,7 +174,7 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setCredit(int credit) {
+    public void setCredit(Integer credit) {
         this.credit = credit;
     }
     public void setFoodServices(Set<FoodService> foodServices) { this.foodServices=foodServices; }
