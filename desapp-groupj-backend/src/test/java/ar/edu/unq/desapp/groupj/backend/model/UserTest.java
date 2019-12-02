@@ -17,8 +17,8 @@ import static org.mockito.Mockito.when;
 public class UserTest {
     @Test
     public void chargeCreditToAccount5000() {
-        Integer credit = 5000;
-        User aUser = UserBuilder.aUser().withCredit(0).build();
+        Double credit = 5000.0;
+        User aUser = UserBuilder.aUser().withCredit(0.0).build();
 
         aUser.chargeCredit(credit);
 
@@ -27,40 +27,40 @@ public class UserTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void tryToChargeNegativeCreditToAccount() {
-        int negativeCredit = -5000;
-        User aUser = UserBuilder.aUser().withCredit(0).build();
+        Double negativeCredit = -5000.0;
+        User aUser = UserBuilder.aUser().withCredit(0.0).build();
 
         aUser.chargeCredit(negativeCredit);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void tryToChargeZeroCreditToAccount() {
-        int zeroCredit = 0;
-        User aUser = UserBuilder.aUser().withCredit(0).build();
+        Double zeroCredit = 0.0;
+        User aUser = UserBuilder.aUser().withCredit(0.0).build();
 
         aUser.chargeCredit(zeroCredit);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void tryToWithdrawCreditFromEmptyAccount() {
-        int credit = 5000;
-        User aUser = UserBuilder.aUser().withCredit(0).build();
+        Double credit = 5000.0;
+        User aUser = UserBuilder.aUser().withCredit(0.0).build();
 
         aUser.withdrawCredit(credit);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void tryToWithdrawNegativeCreditFromAccount() {
-        int negativeCredit = -5000;
-        User aUser = UserBuilder.aUser().withCredit(6000).build();
+        Double negativeCredit = -5000.0;
+        User aUser = UserBuilder.aUser().withCredit(6000.0).build();
 
         aUser.withdrawCredit(negativeCredit);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void tryToWithdrawZeroCreditFromAccount() {
-        int zeroCredit = 0;
-        User aUser = UserBuilder.aUser().withCredit(6000).build();
+        Double zeroCredit = 0.0;
+        User aUser = UserBuilder.aUser().withCredit(6000.0).build();
 
         aUser.withdrawCredit(zeroCredit);
     }

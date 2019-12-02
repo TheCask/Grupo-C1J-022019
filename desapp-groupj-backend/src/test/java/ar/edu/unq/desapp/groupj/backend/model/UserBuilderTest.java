@@ -17,7 +17,7 @@ public class UserBuilderTest {
 
     @Test
     public void testCreateUserWithCredit() {
-        Integer credit = 3000;
+        Double credit = 3000.0;
 
         User aUser = UserBuilder.aUser().withCredit(credit).build();
 

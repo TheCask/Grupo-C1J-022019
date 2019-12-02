@@ -29,7 +29,7 @@ public class ViandasSystem {
 
     public Set<User> getUsers() { return users; }
 
-    public int chargeCreditToUser(int credit, User aUser) { return aUser.chargeCredit(credit); }
+    public Double chargeCreditToUser(Double credit, User aUser) { return aUser.chargeCredit(credit); }
 
     public void userPostFoodService(User aUser, FoodService aFoodService) { aUser.postFoodService(aFoodService); }
 
@@ -38,7 +38,7 @@ public class ViandasSystem {
         aMenu.setFoodService(aFoodService);
     }
 
-    public int withdrawCreditFromUser(int creditToWithdraw, User aUser) {
+    public Double withdrawCreditFromUser(Double creditToWithdraw, User aUser) {
         return aUser.withdrawCredit(creditToWithdraw);
     }
 

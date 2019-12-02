@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.groupj.backend.model;
 import ar.edu.unq.desapp.groupj.backend.json.LocalTimeDeserializer;
 import ar.edu.unq.desapp.groupj.backend.json.LocalTimeSerializer;
 import ar.edu.unq.desapp.groupj.backend.repositories.converters.LocalTimeAttributeConverter;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -10,6 +11,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name="order_details")
@@ -90,11 +92,12 @@ public class OrderDetail {
     public void confirmOrderToUser(LocalDate deliveryDate, double creditToReturn) {
         if (creditToReturn !=0) {
             double credit = creditToReturn * this.getRequestedAmount();
-            this.getUser().chargeCredit((int)credit);
-            this.getOrder().getProvider().withdrawCredit((int)credit);
+            this.getUser().chargeCredit(credit);
+            this.getOrder().getProvider().withdrawCredit(credit);
         }
         // TODO notify provider and client
     }
+
 
 
     public static class Builder {

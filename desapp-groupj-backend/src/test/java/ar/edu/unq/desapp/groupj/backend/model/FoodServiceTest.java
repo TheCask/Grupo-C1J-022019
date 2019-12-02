@@ -102,6 +102,13 @@ public class FoodServiceTest {
                     withDescription("A Valid description of a menu").
                     withAvailableFrom(LocalDate.now().minusDays(1)).
                     withAvailableTo(LocalDate.now().plusDays(1)).
+                    withPrice(90.0).
+                    withDeliveryValue(10.0).
+                    withMinimumAmount1(13).
+                    withMinimumAmount1Price(78.0).
+                    withMaximumDailySales(50).
+                    withMinimumAmount2(50).
+                    withMinimumAmount2Price(70.0).
                     build();
             aFoodService.addMenu(activeMenu);
         }

@@ -16,7 +16,7 @@ public class MenuBuilderTest {
                     withAvailableFrom(LocalDate.now()).
                     withAvailableTo(LocalDate.now()).
                     withDeliveryShifts(null).
-                    withAverageDeliveryTime(1).
+                    withAverageDeliveryTime(1.0).
                     withPrice(100.0).
                     withMinimumAmount1(13).
                     withMinimumAmount1Price(78.0).
@@ -30,7 +30,7 @@ public class MenuBuilderTest {
 
     @Test (expected = MenuException.class)
     public void createAnInvalidZeroPriceMenu() {
-        int invalidZeroPrice = 0;
+        Double invalidZeroPrice = 0.0;
 
         Menu.Builder.aMenu().
                 withName("Fugazetta Rellena").
@@ -39,11 +39,14 @@ public class MenuBuilderTest {
                 withAvailableFrom(LocalDate.now()).
                 withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
-                withAverageDeliveryTime(1).
+                withDeliveryValue(10.0).
+                withAverageDeliveryTime(1.0).
                 withPrice(invalidZeroPrice).
                 withMinimumAmount1(13).
                 withMinimumAmount1Price(78.0).
                 withMaximumDailySales(50).
+                withMinimumAmount2(50).
+                withMinimumAmount2Price(1000.0).
                 build();
     }
 
@@ -59,11 +62,14 @@ public class MenuBuilderTest {
                 withAvailableFrom(LocalDate.now()).
                 withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
-                withAverageDeliveryTime(1).
+                withDeliveryValue(10.0).
+                withAverageDeliveryTime(1.0).
                 withPrice(validPrice).
                 withMinimumAmount1(13).
                 withMinimumAmount1Price(invalidMin1PriceGreaterThanPrice).
                 withMaximumDailySales(50).
+                withMinimumAmount2(50).
+                withMinimumAmount2Price(1000.0).
                 build();
     }
 
@@ -80,7 +86,8 @@ public class MenuBuilderTest {
                 withAvailableFrom(LocalDate.now()).
                 withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
-                withAverageDeliveryTime(1).
+                withDeliveryValue(10.0).
+                withAverageDeliveryTime(1.0).
                 withPrice(validPrice).
                 withMinimumAmount1(13).
                 withMinimumAmount1Price(validMin1Price).
@@ -92,8 +99,8 @@ public class MenuBuilderTest {
 
     @Test (expected = MenuException.class)
     public void createAnInvalidMin1AmountGreaterThanMin2AmountMenu() {
-        int invalidMin1AmountGreaterThanMin2Amount = 69;
-        int validMin2Amount = 40;
+        Integer invalidMin1AmountGreaterThanMin2Amount = 69;
+        Integer validMin2Amount = 40;
 
         Menu.Builder.aMenu().
                 withName("Fugazetta Rellena").
@@ -102,7 +109,8 @@ public class MenuBuilderTest {
                 withAvailableFrom(LocalDate.now()).
                 withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
-                withAverageDeliveryTime(1).
+                withDeliveryValue(10.0).
+                withAverageDeliveryTime(1.0).
                 withPrice(100.0).
                 withMinimumAmount1(invalidMin1AmountGreaterThanMin2Amount).
                 withMinimumAmount1Price(78.0).

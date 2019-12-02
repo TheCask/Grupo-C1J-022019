@@ -28,7 +28,7 @@ public class User {
     private String phone;
     private String city;
     private String address;
-    private Integer credit;
+    private Double credit;
 
     @OneToMany(
             mappedBy = "provider",
@@ -40,7 +40,7 @@ public class User {
 
     public User() {}
 
-    public User(String firstName, String lastName, String mail, String phone, String city, String address, int credit) {
+    public User(String firstName, String lastName, String mail, String phone, String city, String address, Double credit) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setMail(mail);
@@ -50,16 +50,16 @@ public class User {
         this.setCredit(credit);
     }
 
-    public int chargeCredit(int credit) {
-        if (credit > 0) {
+    public Double chargeCredit(Double credit) {
+        if (credit > 0.0) {
             this.setCredit(this.getCredit() + credit);
             return this.getCredit();
         }
         else { throw new IllegalArgumentException("The credit to charge has to be greater than 0"); }
     }
 
-    public int withdrawCredit(int credit) {
-        int newCredit = this.getCredit() - credit;
+    public Double withdrawCredit(Double credit) {
+        Double newCredit = this.getCredit() - credit;
         if (newCredit >= 0 && newCredit < this.getCredit()) {
             this.setCredit(this.getCredit() - credit);
             return this.getCredit();
@@ -110,7 +110,7 @@ public class User {
 
         Order anOrder = aFoodService.placeClientOrder(aClient,aMenu,deliveryDate,deliveryTime,deliveryType,amount);
 
-        this.chargeCredit( (int)aMenu.computeTotalCost(amount, deliveryType) );
+        this.chargeCredit( aMenu.computeTotalCost(amount, deliveryType) );
 
         return anOrder;
     }
@@ -143,7 +143,7 @@ public class User {
     //GETTERS
 
     public Integer getId() { return this.id; }
-    public Integer getCredit() { return this.credit; }
+    public Double getCredit() { return this.credit; }
     public String getFirstName() { return this.firstName; }
     public String getLastName() { return this.lastName; }
     public String getMail() { return this.mail; }
@@ -174,7 +174,7 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setCredit(Integer credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
     public void setFoodServices(Set<FoodService> foodServices) { this.foodServices=foodServices; }

@@ -64,7 +64,7 @@ public class OrderDetailTest {
 
         double price = 10.0;
         int requestedAmount = 10;
-        double creditToReturn = price * requestedAmount;
+        Double creditToReturn = price * requestedAmount;
 
         User aProvider = mock(User.class);
         User aClient = mock(User.class);
@@ -77,7 +77,7 @@ public class OrderDetailTest {
 
         anOrderDetail.confirmOrderToUser(today, price);
 
-        verify(aProvider, Mockito.times(1)).withdrawCredit((int) creditToReturn);
-        verify(aClient, Mockito.times(1)).chargeCredit((int) creditToReturn);
+        verify(aProvider, Mockito.times(1)).withdrawCredit( creditToReturn);
+        verify(aClient, Mockito.times(1)).chargeCredit( creditToReturn);
     }
 }

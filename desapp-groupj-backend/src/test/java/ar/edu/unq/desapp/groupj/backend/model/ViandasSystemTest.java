@@ -44,23 +44,23 @@ public class ViandasSystemTest {
 
     @Test
     public void chargeCreditToUser() {
-        int credit = 555;
+        Double credit = 555.0;
         User aUser = mock(User.class);
-        when(aUser.chargeCredit(anyInt())).thenReturn(anyInt());
+        when(aUser.chargeCredit(anyDouble())).thenReturn(anyDouble());
 
         system.chargeCreditToUser(credit, aUser);
 
-        verify(aUser, Mockito.times(1)).chargeCredit(anyInt());
+        verify(aUser, Mockito.times(1)).chargeCredit(anyDouble());
     }
 
     @Test
     public void withdrawCreditFromUser() {
-        int creditToWithdraw = 555;
-        int newCredit = 125;
+        Double creditToWithdraw = 555.0;
+        Double newCredit = 125.0;
         User aUser = mock(User.class);
-        when(aUser.withdrawCredit(anyInt())).thenReturn(newCredit);
+        when(aUser.withdrawCredit(anyDouble())).thenReturn(newCredit);
 
-        int expectedCredit = system.withdrawCreditFromUser(creditToWithdraw, aUser);
+        Double expectedCredit = system.withdrawCreditFromUser(creditToWithdraw, aUser);
 
         verify(aUser, Mockito.times(1)).withdrawCredit(creditToWithdraw);
         assertEquals(newCredit, expectedCredit);
@@ -256,7 +256,7 @@ public class ViandasSystemTest {
     @Test
     public void clientHasMenusToRate() {
         int value = 4;
-        User aClient = UserBuilder.aUser().withMail("toti@folni.com").withCredit(100000).build();
+        User aClient = UserBuilder.aUser().withMail("toti@folni.com").withCredit(100000.0).build();
         User aProvider = UserBuilder.aUser().build();
         FoodService aFoodService = FoodServiceBuilder.aFoodService().build();
         Menu aMenu = Menu.Builder.aMenu().
@@ -267,7 +267,7 @@ public class ViandasSystemTest {
                 withAvailableFrom(LocalDate.now()).
                 withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
-                withAverageDeliveryTime(1).
+                withAverageDeliveryTime(1.0).
                 withPrice(100.0).
                 withMinimumAmount1(13).
                 withMinimumAmount1Price(78.0).

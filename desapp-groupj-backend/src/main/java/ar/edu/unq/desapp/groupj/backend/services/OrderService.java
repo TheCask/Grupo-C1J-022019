@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OrderService extends GenericService<Order> {
@@ -49,6 +50,7 @@ public class OrderService extends GenericService<Order> {
         Order newOrder = provider.placeClientOrder( client, menu.getFoodService(),
                                                 menu, deliveryDate, deliveryTime,
                                                 deliveryType, requestedAmount );
+        String purchaseDescription = composePurchaseEmailText(newOrder.getDetails().iterator().next());
 
         this.userService.save(client);
         this.userService.save(provider);
@@ -64,8 +66,24 @@ public class OrderService extends GenericService<Order> {
         }
 
         this.emailSenderService.backgroundSend( client.getMail(), provider.getMail(),
-                "Compraste en ViandasYa!", "*** Detalles en construccion ***" );
+                "Compraste en ViandasYa!",  purchaseDescription );
 
         return (existingOrder==null?newOrder:existingOrder);
     }
+
+    private String composePurchaseEmailText(OrderDetail orderDetail) {
+        Menu menu = orderDetail.getOrder().getMenu();
+        User provider = menu.getProvider();
+        String description = "Hola " + orderDetail.getUser().getFirstName() + "!!\n\n" +
+                "Compraste " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
+                " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n" +
+                "Tu pedido estará listo el " + orderDetail.getOrder().getDeliveryDate().format(DateTimeFormatter.ISO_DATE) + " a las " + orderDetail.getDeliveryTime().format(DateTimeFormatter.ISO_LOCAL_TIME) + ".\n" +
+                "El costo de la comida comprada es $" + menu.computePriceForQuantity(orderDetail.getRequestedAmount()) * orderDetail.getRequestedAmount() + ".\n" +
+                (orderDetail.getDeliveryType()==DeliveryType.DeliverToAddress? "El costo de envio es $"+menu.computeDeliveryCost(orderDetail.getDeliveryType()) + ".\n" :
+                        "Elegiste retirarlo vos, asi que no hay costos de envio.\n") +
+                "El costo total de tu compra es $" + menu.computeTotalCost(orderDetail.getRequestedAmount(),orderDetail.getDeliveryType()) + ".\n" +
+                "\n\nGracias por tu compra!!\n\n\nViandasYa!";
+        return description;
+    }
+
 }

@@ -16,19 +16,19 @@ import java.util.stream.Stream;
 @Entity
 @Table(name="menus")
 public class Menu {
-    private static final int MIN_NAME_LENGTH = 4;
-    private static final int MAX_NAME_LENGTH = 30;
-    private static final int MIN_DESCRIPTION_LENGTH = 20;
-    private static final int MAX_DESCRIPTION_LENGTH = 40;
-    private static final double MIN_DELIVERY_VALUE = 10.0;
-    private static final double MAX_DELIVERY_VALUE = 40.0;
-    private static final int BOTTOM_MINIMUM_AMOUNT_1 = 10;
-    private static final int TOP_MINIMUM_AMOUNT_1 = 70;
-    private static final int BOTTOM_MINIMUM_AMOUNT_2 = 40;
-    private static final int TOP_MINIMUM_AMOUNT_2 = 150;
-    private static final double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
-    private static final double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
-    private static final int MINIMUM_DAYS_TO_DELIVERY = 2;
+    private static final Integer MIN_NAME_LENGTH = 4;
+    private static final Integer MAX_NAME_LENGTH = 30;
+    private static final Integer MIN_DESCRIPTION_LENGTH = 20;
+    private static final Integer MAX_DESCRIPTION_LENGTH = 40;
+    private static final Double MIN_DELIVERY_VALUE = 10.0;
+    private static final Double MAX_DELIVERY_VALUE = 40.0;
+    private static final Integer BOTTOM_MINIMUM_AMOUNT_1 = 10;
+    private static final Integer TOP_MINIMUM_AMOUNT_1 = 70;
+    private static final Integer BOTTOM_MINIMUM_AMOUNT_2 = 40;
+    private static final Integer TOP_MINIMUM_AMOUNT_2 = 150;
+    private static final Double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
+    private static final Double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
+    private static final Integer MINIMUM_DAYS_TO_DELIVERY = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class Menu {
     @Transient
     private MenuCategory    category;
     private String          city;
-    private double          deliveryValue;
+    private Double          deliveryValue;
     @Transient
     private LocalDate       availableFrom;
     @Transient
@@ -52,13 +52,13 @@ public class Menu {
     @Transient
     private Set<DeliveryShift> deliveryShifts = new HashSet<>();
 
-    private double          averageDeliveryTime;
-    private double          price;
-    private int             minimumAmount1;
-    private double          minimumAmount1Price;
-    private int             minimumAmount2;
-    private double          minimumAmount2Price;
-    private int             maximumDailySales;
+    private Double          averageDeliveryTime;
+    private Double          price;
+    private Integer             minimumAmount1;
+    private Double          minimumAmount1Price;
+    private Integer             minimumAmount2;
+    private Double          minimumAmount2Price;
+    private Integer             maximumDailySales;
 
     @Transient
     private Set<Rate>       rates = new HashSet<>();
@@ -105,11 +105,11 @@ public class Menu {
 
     public void setCity(String city) { this.city = city; }
 
-    public double getDeliveryValue() {
+    public Double getDeliveryValue() {
         return deliveryValue;
     }
 
-    public void setDeliveryValue(double deliveryValue) {
+    public void setDeliveryValue(Double deliveryValue) {
         ValidatorsUtils.validateDoubleValue(deliveryValue,MIN_DELIVERY_VALUE,MAX_DELIVERY_VALUE,"Delivery Value");
         this.deliveryValue = deliveryValue;
     }
@@ -138,61 +138,61 @@ public class Menu {
         this.deliveryShifts = deliveryShifts;
     }
 
-    public double getAverageDeliveryTime() {
+    public Double getAverageDeliveryTime() {
         return averageDeliveryTime;
     }
 
-    public void setAverageDeliveryTime(double averageDeliveryTime) {
+    public void setAverageDeliveryTime(Double averageDeliveryTime) {
         this.averageDeliveryTime = averageDeliveryTime;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) { this.price = price; }
+    public void setPrice(Double price) { this.price = price; }
 
-    public int getMinimumAmount1() {
+    public Integer getMinimumAmount1() {
         return minimumAmount1;
     }
 
-    public void setMinimumAmount1(int minimumAmount1) {
+    public void setMinimumAmount1(Integer minimumAmount1) {
         ValidatorsUtils.validateIntValue(minimumAmount1,BOTTOM_MINIMUM_AMOUNT_1,TOP_MINIMUM_AMOUNT_1,"Minimum Amount 1");
         this.minimumAmount1 = minimumAmount1;
     }
 
-    public double getMinimumAmount1Price() {
+    public Double getMinimumAmount1Price() {
         return minimumAmount1Price;
     }
 
-    public void setMinimumAmount1Price(double minimumAmount1Price) {
+    public void setMinimumAmount1Price(Double minimumAmount1Price) {
         ValidatorsUtils.validateDoubleValue(minimumAmount1Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount1Price = minimumAmount1Price;
     }
 
-    public int getMinimumAmount2() {
+    public Integer getMinimumAmount2() {
         return minimumAmount2;
     }
 
-    public void setMinimumAmount2(int minimumAmount2) {
+    public void setMinimumAmount2(Integer minimumAmount2) {
         ValidatorsUtils.validateIntValue(minimumAmount2,BOTTOM_MINIMUM_AMOUNT_2,TOP_MINIMUM_AMOUNT_2,"Minimum Amount 2");
         this.minimumAmount2 = minimumAmount2;
     }
 
-    public double getMinimumAmount2Price() {
+    public Double getMinimumAmount2Price() {
         return minimumAmount2Price;
     }
 
-    public void setMinimumAmount2Price(double minimumAmount2Price) {
+    public void setMinimumAmount2Price(Double minimumAmount2Price) {
         ValidatorsUtils.validateDoubleValue(minimumAmount2Price,BOTTOM_MINIMUM_AMOUNT_PRICE,TOP_MINIMUM_AMOUNT_PRICE,"Minimum Amount 1 Price");
         this.minimumAmount2Price = minimumAmount2Price;
     }
 
-    public int getMaximumDailySales() {
+    public Integer getMaximumDailySales() {
         return maximumDailySales;
     }
 
-    public void setMaximumDailySales(int maximumDailySales) {
+    public void setMaximumDailySales(Integer maximumDailySales) {
         this.maximumDailySales = maximumDailySales;
     }
 
@@ -226,12 +226,12 @@ public class Menu {
     }
 
     @JsonIgnore
-    public int getRateCount() { return this.rates.size(); }
+    public Integer getRateCount() { return this.rates.size(); }
 
     @JsonIgnore
-    public int getAverageRate() {
-        int rateCount = getRateCount();
-        int rateSum = this.rates.stream().
+    public Integer getAverageRate() {
+        Integer rateCount = getRateCount();
+        Integer rateSum = this.rates.stream().
                                 map( x -> x.getValue() ).
                                 reduce(0,Integer::sum );
         return rateSum / (rateCount>0?rateCount:1);
@@ -245,10 +245,10 @@ public class Menu {
     public boolean banned() { return (this.getAverageRate() <= 2 && this.getRateCount() >= 20); }
 
     public Order placeClientOrder( User aClient, LocalDate deliveryDate, LocalTime deliverytime,
-                                   DeliveryType deliveryType, int amount) {
+                                   DeliveryType deliveryType, Integer amount) {
         ValidatorsUtils.validateDeliveryDate(deliveryDate,MINIMUM_DAYS_TO_DELIVERY);
 
-        aClient.withdrawCredit( (int)computeTotalCost( amount, deliveryType ) );
+        aClient.withdrawCredit( computeTotalCost( amount, deliveryType ) );
 
         List<Order> ordersInDeliveryDate = this.orders.stream().filter( order -> order.getDeliveryDate()==deliveryDate ).collect(Collectors.toList());
         Order anOrder;
@@ -282,16 +282,16 @@ public class Menu {
         ordersToConfirmToday.forEach(order -> order.confirmOrder());
     }
 
-    public double computeTotalCost( Integer quantity, DeliveryType deliveryType ) {
+    public Double computeTotalCost( Integer quantity, DeliveryType deliveryType ) {
         return (quantity * computePriceForQuantity(quantity)) + computeDeliveryCost(deliveryType);
     }
 
-    public double computePriceForQuantity( Integer quantity ) {
+    public Double computePriceForQuantity( Integer quantity ) {
         return (quantity < this.getMinimumAmount1() ? this.getPrice() :
                 (quantity >= this.getMinimumAmount2()? this.getMinimumAmount2Price() : this.getMinimumAmount1Price() ));
     }
 
-    public double computeDeliveryCost( DeliveryType deliveryType ) {
+    public Double computeDeliveryCost( DeliveryType deliveryType ) {
         return ( deliveryType==DeliveryType.DeliverToAddress ? this.getDeliveryValue() : 0 );
     }
 
@@ -300,17 +300,17 @@ public class Menu {
         private String          name;
         private String          description;
         private MenuCategory    category;
-        private double          deliveryValue;
+        private Double          deliveryValue;
         private LocalDate       availableFrom;
         private LocalDate       availableTo;
         private Set<DeliveryShift>   deliveryShifts;
-        private double          averageDeliveryTime;
-        private double          price;
-        private int             minimumAmount1;
-        private double          minimumAmount1Price;
-        private int             minimumAmount2;
-        private double          minimumAmount2Price;
-        private int             maximumDailySales;
+        private Double          averageDeliveryTime;
+        private Double          price;
+        private Integer             minimumAmount1;
+        private Double          minimumAmount1Price;
+        private Integer             minimumAmount2;
+        private Double          minimumAmount2Price;
+        private Integer             maximumDailySales;
 
         private Builder(){}
 
@@ -338,7 +338,7 @@ public class Menu {
             return this;
         }
 
-        public Builder withDeliveryValue(double deliveryValue) {
+        public Builder withDeliveryValue(Double deliveryValue) {
             this.deliveryValue = deliveryValue;
             return this;
         }
@@ -358,37 +358,37 @@ public class Menu {
             return this;
         }
 
-        public Builder withAverageDeliveryTime(int averageDeliveryTime) {
+        public Builder withAverageDeliveryTime(Double averageDeliveryTime) {
             this.averageDeliveryTime = averageDeliveryTime;
             return this;
         }
 
-        public Builder withPrice(double price) {
+        public Builder withPrice(Double price) {
             this.price = price;
             return this;
         }
 
-        public Builder withMinimumAmount1(int minimumAmount1) {
+        public Builder withMinimumAmount1(Integer minimumAmount1) {
             this.minimumAmount1 = minimumAmount1;
             return this;
         }
 
-        public Builder withMinimumAmount1Price(double minimumAmount1Price) {
+        public Builder withMinimumAmount1Price(Double minimumAmount1Price) {
             this.minimumAmount1Price = minimumAmount1Price;
             return this;
         }
 
-        public Builder withMinimumAmount2(int minimumAmount2) {
+        public Builder withMinimumAmount2(Integer minimumAmount2) {
             this.minimumAmount2 = minimumAmount2;
             return this;
         }
 
-        public Builder withMinimumAmount2Price(double minimumAmount2Price) {
+        public Builder withMinimumAmount2Price(Double minimumAmount2Price) {
             this.minimumAmount2Price = minimumAmount2Price;
             return this;
         }
 
-        public Builder withMaximumDailySales(int maximumDailySales) {
+        public Builder withMaximumDailySales(Integer maximumDailySales) {
             this.maximumDailySales = maximumDailySales;
             return this;
         }

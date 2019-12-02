@@ -29,7 +29,7 @@ public class MenuTest {
                 withAvailableFrom(LocalDate.now()).
                 withAvailableTo(LocalDate.now()).
                 withDeliveryShifts(null).
-                withAverageDeliveryTime(1).
+                withAverageDeliveryTime(1.0).
                 withPrice(100.0).
                 withMinimumAmount1(13).
                 withMinimumAmount1Price(78.0).
@@ -122,7 +122,7 @@ public class MenuTest {
 
     @Test
     public void testMinimumAmount1Accessors() {
-        int amount = 13;
+        Integer amount = 13;
 
         this.menu.setMinimumAmount1(amount);
 
@@ -140,7 +140,7 @@ public class MenuTest {
 
     @Test
     public void testMinimumAmount2Accessors() {
-        int amount = 43;
+        Integer amount = 43;
 
         this.menu.setMinimumAmount2(amount);
 
@@ -149,7 +149,7 @@ public class MenuTest {
 
     @Test
     public void testMinimumAmount2PriceAccessors() {
-        double price = 76.9;
+        Double price = 76.9;
 
         this.menu.setMinimumAmount2Price(price);
 
@@ -158,7 +158,7 @@ public class MenuTest {
 
     @Test
     public void testMaximumDailySalesAccessors() {
-        int sales = 10;
+        Integer sales = 10;
 
         this.menu.setMaximumDailySales(sales);
 
@@ -187,7 +187,7 @@ public class MenuTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidMinimumAmount1PriceRaisesException() {
-        this.menu.setMinimumAmount1Price(2000);
+        this.menu.setMinimumAmount1Price(2000.0);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -197,7 +197,7 @@ public class MenuTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetInvalidMinimumAmount2PriceRaisesException() {
-        this.menu.setMinimumAmount2Price(2000);
+        this.menu.setMinimumAmount2Price(2000.0);
     }
 
     @Test
@@ -206,7 +206,7 @@ public class MenuTest {
 
         this.menu.setRates(rates);
 
-        assertEquals(0, this.menu.getRateCount());
+        assertEquals((Integer)0, this.menu.getRateCount());
     }
 
     @Test
@@ -218,8 +218,8 @@ public class MenuTest {
         this.menu.addRate(new Rate(mock(User.class), 2));
         this.menu.addRate(new Rate(mock(User.class), 2));
 
-        assertEquals(3, this.menu.getRateCount());
-        assertEquals(2, this.menu.getAverageRate());
+        assertEquals((Integer)3, this.menu.getRateCount());
+        assertEquals((Integer)2, this.menu.getAverageRate());
     }
 
     @Test
