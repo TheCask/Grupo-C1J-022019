@@ -40,6 +40,11 @@ public class OrderService extends GenericService<Order> {
     }
 
     @Transactional
+    public void updateOrderDetail(final OrderDetail detail) {
+        ((OrderRepository)this.getRepository()).updateOrderDetail(detail);
+    }
+
+    @Transactional
     public Order clientPlaceOrder( Integer clientId, Integer menuId,
                                   LocalDate deliveryDate, LocalTime deliveryTime,
                                   DeliveryType deliveryType, Integer requestedAmount ) {
@@ -52,8 +57,8 @@ public class OrderService extends GenericService<Order> {
                                                 deliveryType, requestedAmount );
         String purchaseDescription = composePurchaseEmailText(newOrder.getDetails().iterator().next());
 
-        this.userService.save(client);
-        this.userService.save(provider);
+        this.userService.update(client);
+        this.userService.update(provider);
 
         if( existingOrder == null )
             newOrder.setId( (Integer)this.save(newOrder) );
@@ -71,6 +76,31 @@ public class OrderService extends GenericService<Order> {
         return (existingOrder==null?newOrder:existingOrder);
     }
 
+    @Transactional
+    public OrderDetail cancelOrderDetail( Integer orderDetailId ) {
+        OrderDetail orderDetail = getOrderDetailById(orderDetailId);
+        User provider = orderDetail.getOrder().getProvider();
+        User client = orderDetail.getUser();
+
+        orderDetail.cancel();
+
+        provider.transferToUser(client,orderDetail.getTotalCost());
+
+        this.userService.update(provider);
+        this.userService.update(client);
+        this.updateOrderDetail(orderDetail);
+
+        this.emailSenderService.backgroundSend( client.getMail(), provider.getMail(),
+                "Cancelaste tu compra en ViandasYa!",  composeCancelationEmailText(orderDetail) );
+
+        return orderDetail;
+    }
+
+    @Transactional
+    public OrderDetail getOrderDetailById(Integer orderDetailId) {
+        return ((OrderRepository)this.getRepository()).getOrderDetailById(orderDetailId);
+    }
+
     private String composePurchaseEmailText(OrderDetail orderDetail) {
         Menu menu = orderDetail.getOrder().getMenu();
         User provider = menu.getProvider();
@@ -83,6 +113,17 @@ public class OrderService extends GenericService<Order> {
                         "Elegiste retirarlo vos, asi que no hay costos de envio.\n") +
                 "El costo total de tu compra es $" + menu.computeTotalCost(orderDetail.getRequestedAmount(),orderDetail.getDeliveryType()) + ".\n" +
                 "\n\nGracias por tu compra!!\n\n\nViandasYa!";
+        return description;
+    }
+
+    private String composeCancelationEmailText(OrderDetail orderDetail) {
+        Menu menu = orderDetail.getOrder().getMenu();
+        User provider = menu.getProvider();
+        String description = "Hola " + orderDetail.getUser().getFirstName() + "!!\n\n" +
+                "Cancelaste tu pedido de " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
+                " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n" +
+                "Ya te hicimos el reembolso por los $" + menu.computeTotalCost(orderDetail.getRequestedAmount(),orderDetail.getDeliveryType()) + " que habias pagado.\n" +
+                "\n\nSegui disfruntando de ViandasYa!";
         return description;
     }
 

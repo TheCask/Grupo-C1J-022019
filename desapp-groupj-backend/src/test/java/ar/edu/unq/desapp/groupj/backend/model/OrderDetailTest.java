@@ -52,7 +52,7 @@ public class OrderDetailTest {
 
     @Test
     public void testRequestedAmountAccessors() {
-        int requestedAmount = 15;
+        Integer requestedAmount = 15;
 
         this.orderDetail.setRequestedAmount(requestedAmount);
 

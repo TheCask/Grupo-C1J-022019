@@ -2,8 +2,8 @@ package ar.edu.unq.desapp.groupj.backend.model;
 
 import ar.edu.unq.desapp.groupj.backend.json.LocalTimeDeserializer;
 import ar.edu.unq.desapp.groupj.backend.json.LocalTimeSerializer;
+import ar.edu.unq.desapp.groupj.backend.model.exception.OrderDetailException;
 import ar.edu.unq.desapp.groupj.backend.repositories.converters.LocalTimeAttributeConverter;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -11,7 +11,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name="order_details")
@@ -34,7 +33,10 @@ public class OrderDetail {
     private LocalTime deliveryTime;
 
     private DeliveryType deliveryType;
-    private int requestedAmount;
+
+    private Integer requestedAmount;
+
+    private OrderStatus status = OrderStatus.Pending;
 
     private OrderDetail() {}
 
@@ -81,11 +83,11 @@ public class OrderDetail {
         this.deliveryType = deliveryType;
     }
 
-    public int getRequestedAmount() {
+    public Integer getRequestedAmount() {
         return requestedAmount;
     }
 
-    public void setRequestedAmount(int requestedAmount) {
+    public void setRequestedAmount(Integer requestedAmount) {
         this.requestedAmount = requestedAmount;
     }
 
@@ -98,6 +100,22 @@ public class OrderDetail {
         // TODO notify provider and client
     }
 
+    public OrderStatus getStatus() { return this.status; }
+    public void setStatus(OrderStatus status) { this.status = status; }
+
+    public void cancel() {
+        if( this.getStatus() == OrderStatus.Pending ) {
+            this.setStatus(OrderStatus.Cancelled);
+        }
+        else {
+            throw new OrderDetailException("Order can't be cancelled as it is " + this.getStatus().toString() );
+        }
+    }
+
+    public Double getTotalCost() {
+        return getOrder().getMenu().computeTotalCost(getRequestedAmount(),getDeliveryType());
+    }
+
 
 
     public static class Builder {
@@ -105,7 +123,8 @@ public class OrderDetail {
         private User user;
         private LocalTime deliveryTime;
         private DeliveryType deliveryType;
-        private int requestedAmount;
+        private Integer requestedAmount;
+        private OrderStatus status;
 
         private Builder() {}
 
@@ -121,6 +140,7 @@ public class OrderDetail {
             detail.setDeliveryTime(this.deliveryTime);
             detail.setDeliveryType(this.deliveryType);
             detail.setRequestedAmount(this.requestedAmount);
+            detail.setStatus(this.status);
 
             return detail;
         }
@@ -145,8 +165,13 @@ public class OrderDetail {
             return this;
         }
 
-        public Builder withRequestedAmount(int requestedAmount) {
+        public Builder withRequestedAmount(Integer requestedAmount) {
             this.requestedAmount = requestedAmount;
+            return this;
+        }
+
+        public Builder withStatus(OrderStatus status) {
+            this.status = status;
             return this;
         }
     }

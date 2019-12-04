@@ -75,6 +75,21 @@ public class OrderRest extends BaseRest {
         return Response.ok(order).build();
     }
 
+    @PUT
+    @Path("/details/cancel/{orderDetailId}")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response cancelOrderDetail(@PathParam("orderDetailId") final Integer orderDetailId){
+        OrderDetail cancelledOrder;
+        try{
+            cancelledOrder = orderService.cancelOrderDetail(orderDetailId);
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.NOT_FOUND).entity("Unable to cancel order: " + exception.getMessage() ).build();
+        }
+        return Response.ok(cancelledOrder).build();
+    }
+
     @GET
     @Path("/details/getByUserId/{id}")
     @Produces("application/json")

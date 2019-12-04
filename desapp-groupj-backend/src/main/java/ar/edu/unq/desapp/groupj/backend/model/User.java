@@ -67,6 +67,11 @@ public class User {
         else { throw new IllegalArgumentException("The account has insufficient credits or credit to charge is not greater than 0"); }
     }
 
+    public void transferToUser(User user, Double credit) {
+        this.withdrawCredit(credit);
+        user.chargeCredit(credit);
+    }
+
     public void postFoodService(FoodService aService) {
         aService.setProvider(this);
         this.getFoodServices().add(aService);

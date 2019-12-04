@@ -116,6 +116,7 @@ public class Order {
         this.getDetails().forEach(detail -> detail.confirmOrderToUser(this.deliveryDate, creditToReturn));
     }
 
+
     public static class Builder {
         private int id;
         private Menu menu;

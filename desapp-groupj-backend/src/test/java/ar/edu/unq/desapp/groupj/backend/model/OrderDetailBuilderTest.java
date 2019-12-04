@@ -15,6 +15,6 @@ public class OrderDetailBuilderTest {
                 withRequestedAmount(1).
                 build();
 
-        assertEquals(1, orderDetail.getRequestedAmount());
+        assertEquals((Integer)1, orderDetail.getRequestedAmount());
     }
 }

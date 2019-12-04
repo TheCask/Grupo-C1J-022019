@@ -28,7 +28,7 @@ public class Menu {
     private static final Integer TOP_MINIMUM_AMOUNT_2 = 150;
     private static final Double BOTTOM_MINIMUM_AMOUNT_PRICE = 0.0;
     private static final Double TOP_MINIMUM_AMOUNT_PRICE = 1000.0;
-    private static final Integer MINIMUM_DAYS_TO_DELIVERY = 2;
+    public static final Integer MINIMUM_DAYS_TO_DELIVERY = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -266,6 +266,7 @@ public class Menu {
                 withDeliveryTime(deliverytime).
                 withDeliveryType(deliveryType).
                 withRequestedAmount(amount).
+                withStatus(OrderStatus.Pending).
                 build();
 
         anOrder.addDetail(anOrderDetail);
