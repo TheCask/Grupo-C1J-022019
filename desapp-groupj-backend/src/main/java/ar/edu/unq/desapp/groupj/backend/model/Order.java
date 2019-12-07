@@ -39,6 +39,8 @@ public class Order {
     )
     private Set<OrderDetail> details = new HashSet<>();
 
+    private OrderStatus status = OrderStatus.Pending;
+
     private Order() {}
 
     //@JsonBackReference
@@ -86,6 +88,9 @@ public class Order {
         this.details.remove(detail);
     }
 
+    public OrderStatus getStatus() { return this.status; }
+    public void setStatus( OrderStatus status ) { this.status = status; }
+
     @JsonIgnore
     public User getProvider() { return this.getMenu().getProvider(); }
 
@@ -100,8 +105,7 @@ public class Order {
     }
 
     public void confirmOrder() {
-        int requestedAmount = this.getDetails().stream().
-                reduce(0, (partialAmount, detail) -> partialAmount + detail.getRequestedAmount(), Integer::sum);
+        int requestedAmount = requestedAmount();
         final double creditToReturn;
         Menu aMenu = this.getMenu();
 
@@ -114,6 +118,16 @@ public class Order {
         else { creditToReturn = 0; }
 
         this.getDetails().forEach(detail -> detail.confirmOrderToUser(this.deliveryDate, creditToReturn));
+    }
+
+    public int requestedAmount() {
+        return this.getDetails().stream().
+                reduce(0, (partialAmount, detail) -> partialAmount + (detail.getStatus()!=OrderStatus.Cancelled?detail.getRequestedAmount():0),
+                        Integer::sum);
+    }
+
+    public boolean hasEnoughOrdersToProduce() {
+        return ( requestedAmount() >= getMenu().getMinimumAmount1() );
     }
 
 

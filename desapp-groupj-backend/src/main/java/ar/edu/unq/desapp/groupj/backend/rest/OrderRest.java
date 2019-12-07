@@ -82,7 +82,7 @@ public class OrderRest extends BaseRest {
     public Response cancelOrderDetail(@PathParam("orderDetailId") final Integer orderDetailId){
         OrderDetail cancelledOrder;
         try{
-            cancelledOrder = orderService.cancelOrderDetail(orderDetailId);
+            cancelledOrder = orderService.userCancelOrderDetail(orderDetailId);
         }
         catch(Exception exception){
             return Response.status(Response.Status.NOT_FOUND).entity("Unable to cancel order: " + exception.getMessage() ).build();
@@ -138,6 +138,21 @@ public class OrderRest extends BaseRest {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(order).build();
+    }
+
+    @PUT
+    @Path("/runDailyClosure/{daysToOrderClosure}")
+    @Produces("application/json")
+    public Response runDailyClosure(@PathParam("daysToOrderClosure") final Integer daysToOrderClosure){
+
+        try{
+            this.orderService.runDailyClosure(daysToOrderClosure);
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Problemas running daily close: " + exception.getMessage() ).build();
+        }
+
+        return Response.ok().build();
     }
 
 }

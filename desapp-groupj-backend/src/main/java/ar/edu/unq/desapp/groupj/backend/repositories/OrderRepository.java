@@ -2,9 +2,11 @@ package ar.edu.unq.desapp.groupj.backend.repositories;
 
 import ar.edu.unq.desapp.groupj.backend.model.Order;
 import ar.edu.unq.desapp.groupj.backend.model.OrderDetail;
+import ar.edu.unq.desapp.groupj.backend.model.OrderStatus;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OrderRepository extends HibernateGenericDAO<Order> implements GenericRepository<Order> {
@@ -72,4 +74,11 @@ public class OrderRepository extends HibernateGenericDAO<Order> implements Gener
         this.getHibernateTemplate().flush();
     }
 
+    public List<Order> getPendingOrdersByDaysToClosure(Integer daysToOrderClosure) {
+        LocalDate closureDate = LocalDate.now().plusDays(daysToOrderClosure);
+        List<Order> existingOrders = (List<Order>) this.getHibernateTemplate()
+                .find(" FROM Order o WHERE status=" + Integer.toString(OrderStatus.Pending.ordinal()) + " and deliveryDate <= '" + closureDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + "'" );
+
+        return existingOrders;
+    }
 }

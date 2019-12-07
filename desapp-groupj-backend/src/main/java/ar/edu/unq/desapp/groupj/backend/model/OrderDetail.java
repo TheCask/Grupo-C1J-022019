@@ -112,8 +112,24 @@ public class OrderDetail {
         }
     }
 
+    public void confirm() {
+        if( this.getStatus() == OrderStatus.Pending ) {
+            this.setStatus(OrderStatus.Confirmed);
+        }
+        else {
+            throw new OrderDetailException("Order can't be cancelled as it is " + this.getStatus().toString() );
+        }
+    }
+
     public Double getTotalCost() {
         return getOrder().getMenu().computeTotalCost(getRequestedAmount(),getDeliveryType());
+    }
+
+    public Double computeRefund() {
+        Order order = getOrder();
+        Menu menu = order.getMenu();
+        return menu.computeTotalCost(getRequestedAmount(),getDeliveryType()) -
+                ((getRequestedAmount() * menu.computePriceForQuantity(order.getRequestedAmount())) + menu.computeDeliveryCost(getDeliveryType()));
     }
 
 

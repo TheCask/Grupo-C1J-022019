@@ -8,9 +8,25 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OrderService extends GenericService<Order> {
+
+    private class DailyClosureTask extends TimerTask {
+        private OrderService orderService;
+        private Integer daysToOrderClosure;
+        public DailyClosureTask(OrderService service, Integer daysToOrderClosure ) {
+            this.orderService = service;
+            this.daysToOrderClosure = daysToOrderClosure;
+        }
+        @Override
+        public void run() {
+            this.orderService.runDailyClosure(this.daysToOrderClosure);
+        }
+    }
 
     private static final long serialVersionUID = -2796236622242535843L;
 
@@ -23,6 +39,15 @@ public class OrderService extends GenericService<Order> {
     public void setFoodServiceService( FoodServiceService service ) { this.foodServiceService = service; }
     public void setMenuService( MenuService service ) { this.menuService = service; }
     public void setEmailSenderService( EmailSenderService service ) { this.emailSenderService = service; }
+
+    private Timer dailyClosureTimer;
+
+    public OrderService() {
+        this.dailyClosureTimer = new Timer();
+        this.dailyClosureTimer.schedule( new DailyClosureTask(this,2),
+                computeNextDailyClosureRun() );
+    }
+
 
     @Transactional
     public List<OrderDetail> getOrderDetailsByUserId(Integer userId) {
@@ -77,8 +102,15 @@ public class OrderService extends GenericService<Order> {
     }
 
     @Transactional
-    public OrderDetail cancelOrderDetail( Integer orderDetailId ) {
-        OrderDetail orderDetail = getOrderDetailById(orderDetailId);
+    public OrderDetail userCancelOrderDetail( Integer orderDetailId ) {
+        return cancelOrderDetail( getOrderDetailById(orderDetailId),
+                "Cancelaste tu compra en ViandasYa!",
+                "Cancelaste tu pedido" );
+    }
+
+    private OrderDetail cancelOrderDetail( OrderDetail orderDetail,
+                                           String notificationSubject,
+                                           String notificationCause ) {
         User provider = orderDetail.getOrder().getProvider();
         User client = orderDetail.getUser();
 
@@ -91,14 +123,73 @@ public class OrderService extends GenericService<Order> {
         this.updateOrderDetail(orderDetail);
 
         this.emailSenderService.backgroundSend( client.getMail(), provider.getMail(),
-                "Cancelaste tu compra en ViandasYa!",  composeCancelationEmailText(orderDetail) );
+                notificationSubject,  composeCancelationEmailText(orderDetail,notificationCause) );
 
         return orderDetail;
+    }
+
+    private void systemCancelOrderDetail( OrderDetail orderDetail ) {
+        cancelOrderDetail( orderDetail,
+                "Se cancelo tu compra en ViandasYa!" ,
+                "Por no cumplirse la demanda minima tuvimos que cancelar tu pedido" );
     }
 
     @Transactional
     public OrderDetail getOrderDetailById(Integer orderDetailId) {
         return ((OrderRepository)this.getRepository()).getOrderDetailById(orderDetailId);
+    }
+
+    @Transactional
+    public synchronized void runDailyClosure(Integer daysToOrderClosure) {
+        List<Order> orders = ((OrderRepository)this.getRepository()).getPendingOrdersByDaysToClosure(daysToOrderClosure);
+
+        orders.forEach( order -> {
+            if( !order.hasEnoughOrdersToProduce() ) cancelOrder(order);
+            else confirmOrder(order);
+            update(order);
+        });
+    }
+
+    private void cancelOrder( Order order ) {
+        order.getDetails().forEach( detail -> {
+            if( detail.getStatus() == OrderStatus.Pending )
+                systemCancelOrderDetail(detail);
+        });
+        order.setStatus( OrderStatus.Cancelled );
+    }
+
+    private void confirmOrder( Order order ) {
+        order.getDetails().forEach( detail -> {
+            if( detail.getStatus() == OrderStatus.Pending )
+                systemConfirmOrderDetail(detail);
+        });
+        order.setStatus( OrderStatus.Confirmed );
+    }
+
+    private void systemConfirmOrderDetail(OrderDetail orderDetail) {
+        User provider = orderDetail.getOrder().getProvider();
+        User client = orderDetail.getUser();
+
+        orderDetail.confirm();
+
+        Double creditToRefund = orderDetail.computeRefund();
+        if( creditToRefund > 0.0 ) {
+            provider.transferToUser(client, creditToRefund);
+
+            this.userService.update(provider);
+            this.userService.update(client);
+        }
+
+        this.updateOrderDetail(orderDetail);
+
+        this.emailSenderService.backgroundSend( client.getMail(), provider.getMail(),
+                "Tu pedido fue confirmado!",  composeConfirmationEmailText(orderDetail,creditToRefund) );
+
+    }
+
+    private Date computeNextDailyClosureRun() {
+        LocalDate nextRunTime = LocalDate.now().plusDays(1);
+        return new Date(nextRunTime.getYear(),nextRunTime.getMonthValue(),nextRunTime.getDayOfMonth());
     }
 
     private String composePurchaseEmailText(OrderDetail orderDetail) {
@@ -116,14 +207,26 @@ public class OrderService extends GenericService<Order> {
         return description;
     }
 
-    private String composeCancelationEmailText(OrderDetail orderDetail) {
+    private String composeCancelationEmailText(OrderDetail orderDetail, String notificationCause ) {
         Menu menu = orderDetail.getOrder().getMenu();
         User provider = menu.getProvider();
         String description = "Hola " + orderDetail.getUser().getFirstName() + "!!\n\n" +
-                "Cancelaste tu pedido de " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
+                notificationCause + " de " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
                 " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n" +
                 "Ya te hicimos el reembolso por los $" + menu.computeTotalCost(orderDetail.getRequestedAmount(),orderDetail.getDeliveryType()) + " que habias pagado.\n" +
                 "\n\nSegui disfruntando de ViandasYa!";
+        return description;
+    }
+
+    private String composeConfirmationEmailText(OrderDetail orderDetail, Double refundedCredit) {
+        Menu menu = orderDetail.getOrder().getMenu();
+        User provider = menu.getProvider();
+        String description = "Hola " + orderDetail.getUser().getFirstName() + "!!\n\n" +
+                "Confirmamos para entrega tu pedido de " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
+                " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n\n" +
+                "Tu pedido estará listo el " + orderDetail.getOrder().getDeliveryDate().format(DateTimeFormatter.ISO_DATE) + " a las " + orderDetail.getDeliveryTime().format(DateTimeFormatter.ISO_LOCAL_TIME) + ".\n" +
+                (refundedCredit>0?"Dada la demanda que recibio el menu, te hemos reintegrado $" + refundedCredit.toString() + ".\n":"") +
+                "\n\nGracias por tu compra!!\n\n\nViandasYa!";
         return description;
     }
 
