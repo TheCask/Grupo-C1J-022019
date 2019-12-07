@@ -29,6 +29,7 @@ public class FoodServiceRest extends BaseRest {
     @GET
     @Path("/getByUserId/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getFoodServicesByUserId(@PathParam("id") final Integer id) {
         List<FoodService> foodServices = foodServiceService.findByUserId(id);
         if (foodServices.isEmpty()) {
@@ -52,6 +53,7 @@ public class FoodServiceRest extends BaseRest {
     @Path("/create")
     @Consumes("application/json")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response createFoodService(final FoodService foodService){
 
         try{

@@ -7,7 +7,9 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<aop:aspectj-autoproxy />
-	
+
 	<bean id="corsAspect" class="ar.edu.unq.desapp.groupj.backend.aspects.CorsAspect"/>
+
+	<bean id="userAuthAspect" class="ar.edu.unq.desapp.groupj.backend.aspects.UserAuthAspect"/>
 
 </beans>

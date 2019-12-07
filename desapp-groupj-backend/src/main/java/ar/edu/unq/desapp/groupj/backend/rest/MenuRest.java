@@ -30,6 +30,7 @@ public class MenuRest extends BaseRest {
     @GET
     @Path("/getById/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getMenuById(@PathParam("id") final Integer id) {
         Menu menu = menuService.findById(id);
         if (menu==null) {
@@ -48,7 +49,7 @@ public class MenuRest extends BaseRest {
             menu.setId( (Integer)menuService.save(menu) );
         }
         catch(Exception exception){
-            return Response.status(Response.Status.NOT_FOUND).entity("Unable to create menu: " + exception.getMessage() ).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to create menu: " + exception.getMessage() ).build();
         }
         return Response.ok(menu).build();
     }
@@ -107,6 +108,7 @@ public class MenuRest extends BaseRest {
     @GET
     @Path("/getByUserId/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response findMenusByUserId(@PathParam("id") final Integer id) { //returns user's menus list
         User user = userService.findById(id);
         if (user==null) {

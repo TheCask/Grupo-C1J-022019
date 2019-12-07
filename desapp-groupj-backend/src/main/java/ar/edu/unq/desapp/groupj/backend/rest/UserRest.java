@@ -62,6 +62,7 @@ public class UserRest extends BaseRest {
 	@GET
 	@Path("/getAll")
 	@Produces("application/json")
+	@UserAuthenticationRequired
 	public Response getAllUsers() {
 		List<User> users = userService.retriveAll();
 		if (users.isEmpty()) {

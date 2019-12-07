@@ -108,6 +108,7 @@ public class OrderRest extends BaseRest {
     @GET
     @Path("/details/getByUserId/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getOrderDetailsByUserId(@PathParam("id") final Integer id) { //returns user's menus list
         List<OrderDetail> orderDetails = orderService.getOrderDetailsByUserId(id);
         if (orderDetails==null || orderDetails.isEmpty()) {
@@ -134,6 +135,7 @@ public class OrderRest extends BaseRest {
     @GET
     @Path("/getById/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getOrderById(@PathParam("id") final Integer id) {
         Order order = orderService.findById(id);
         if (order==null) {
@@ -145,6 +147,7 @@ public class OrderRest extends BaseRest {
     @GET
     @Path("/getByMenuIdAndDeliveryDate/{menuId}/{deliveryDate}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getByMenuIdAndDeliveryDate(@PathParam("menuId") final Integer menuId,
                                                @PathParam("deliveryDate") final String deliveryDate) {
         LocalDate _deliveryDate = LocalDate.parse(deliveryDate);
@@ -158,6 +161,7 @@ public class OrderRest extends BaseRest {
     @PUT
     @Path("/runDailyClosure/{daysToOrderClosure}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response runDailyClosure(@PathParam("daysToOrderClosure") final Integer daysToOrderClosure){
 
         try{
