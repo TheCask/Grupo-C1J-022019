@@ -90,6 +90,21 @@ public class OrderRest extends BaseRest {
         return Response.ok(cancelledOrder).build();
     }
 
+    @PUT
+    @Path("/details/confirmReception/{orderDetailId}")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response confirmReception(@PathParam("orderDetailId") final Integer orderDetailId){
+        OrderDetail cancelledOrder;
+        try{
+            cancelledOrder = orderService.userConfirmReceptionOrderDetail(orderDetailId);
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.NOT_FOUND).entity("Unable to confirm order reception: " + exception.getMessage() ).build();
+        }
+        return Response.ok(cancelledOrder).build();
+    }
+
     @GET
     @Path("/details/getByUserId/{id}")
     @Produces("application/json")

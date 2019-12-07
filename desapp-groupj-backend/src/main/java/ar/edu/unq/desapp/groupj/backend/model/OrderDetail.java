@@ -104,21 +104,15 @@ public class OrderDetail {
     public void setStatus(OrderStatus status) { this.status = status; }
 
     public void cancel() {
-        if( this.getStatus() == OrderStatus.Pending ) {
-            this.setStatus(OrderStatus.Cancelled);
-        }
-        else {
-            throw new OrderDetailException("Order can't be cancelled as it is " + this.getStatus().toString() );
-        }
+        changeStatus( OrderStatus.Pending, OrderStatus.Cancelled );
     }
 
     public void confirm() {
-        if( this.getStatus() == OrderStatus.Pending ) {
-            this.setStatus(OrderStatus.Confirmed);
-        }
-        else {
-            throw new OrderDetailException("Order can't be cancelled as it is " + this.getStatus().toString() );
-        }
+        changeStatus( OrderStatus.Pending, OrderStatus.Confirmed );
+    }
+
+    public void confirmReception() {
+        changeStatus( OrderStatus.Confirmed, OrderStatus.Delivered );
     }
 
     public Double getTotalCost() {
@@ -132,6 +126,15 @@ public class OrderDetail {
                 ((getRequestedAmount() * menu.computePriceForQuantity(order.getRequestedAmount())) + menu.computeDeliveryCost(getDeliveryType()));
     }
 
+
+    private void changeStatus( OrderStatus from, OrderStatus to ) {
+        if( this.getStatus() == from ) {
+            this.setStatus(to);
+        }
+        else {
+            throw new OrderDetailException("Order can't be changed to status '" + to.toString() + "' as it is not currently '" + from.toString() + "'. Now it is '" + this.getStatus().toString() + "'." );
+        }
+    }
 
 
     public static class Builder {

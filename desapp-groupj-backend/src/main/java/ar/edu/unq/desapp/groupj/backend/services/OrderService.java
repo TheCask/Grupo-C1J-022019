@@ -108,6 +108,22 @@ public class OrderService extends GenericService<Order> {
                 "Cancelaste tu pedido" );
     }
 
+    @Transactional
+    public OrderDetail userConfirmReceptionOrderDetail( Integer orderDetailId ) {
+        OrderDetail orderDetail = getOrderDetailById(orderDetailId);
+        User provider = orderDetail.getOrder().getProvider();
+        User client = orderDetail.getUser();
+
+        orderDetail.confirmReception();
+
+        this.updateOrderDetail(orderDetail);
+
+        this.emailSenderService.backgroundSend( client.getMail(), provider.getMail(),
+                "Recibiste tu pedido de ViandasYa!",  composeOrderDeliveredEmailText(orderDetail) );
+
+        return orderDetail;
+    }
+
     private OrderDetail cancelOrderDetail( OrderDetail orderDetail,
                                            String notificationSubject,
                                            String notificationCause ) {
@@ -226,7 +242,17 @@ public class OrderService extends GenericService<Order> {
                 " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n\n" +
                 "Tu pedido estará listo el " + orderDetail.getOrder().getDeliveryDate().format(DateTimeFormatter.ISO_DATE) + " a las " + orderDetail.getDeliveryTime().format(DateTimeFormatter.ISO_LOCAL_TIME) + ".\n" +
                 (refundedCredit>0?"Dada la demanda que recibio el menu, te hemos reintegrado $" + refundedCredit.toString() + ".\n":"") +
-                "\n\nGracias por tu compra!!\n\n\nViandasYa!";
+                "\n\nAvisanos cuando lo recibas.\n\n\nViandasYa!";
+        return description;
+    }
+
+    private String composeOrderDeliveredEmailText(OrderDetail orderDetail) {
+        Menu menu = orderDetail.getOrder().getMenu();
+        User provider = menu.getProvider();
+        String description = "Hola " + orderDetail.getUser().getFirstName() + "!!\n\n" +
+                "Recibimos tu aviso de que ya recibiste tu pedido de " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
+                " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n\n" +
+                "\n\nSegui disfruntando de ViandasYa!";
         return description;
     }
 
