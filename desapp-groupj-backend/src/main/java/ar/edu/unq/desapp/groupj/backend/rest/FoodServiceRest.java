@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.groupj.backend.rest;
 
+import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationNotRequired;
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
 import ar.edu.unq.desapp.groupj.backend.model.FoodService;
 import ar.edu.unq.desapp.groupj.backend.services.FoodServiceService;
@@ -18,6 +19,7 @@ public class FoodServiceRest extends BaseRest {
     @GET
     @Path("/getById/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getFoodServiceById(@PathParam("id") final Integer id) {
         FoodService foodService = foodServiceService.findById(id);
         if (foodService==null) {
@@ -41,6 +43,7 @@ public class FoodServiceRest extends BaseRest {
     @GET
     @Path("/getAll")
     @Produces("application/json")
+    @UserAuthenticationNotRequired
     public Response getAllFoodServices() {
         List<FoodService> foodServices = foodServiceService.retriveAll();
         if (foodServices.isEmpty()) {

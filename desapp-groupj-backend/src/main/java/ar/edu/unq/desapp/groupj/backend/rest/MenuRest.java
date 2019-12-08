@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationNotRequired;
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
 import ar.edu.unq.desapp.groupj.backend.model.FoodService;
 import ar.edu.unq.desapp.groupj.backend.model.User;
@@ -86,6 +87,7 @@ public class MenuRest extends BaseRest {
     @GET
     @Path("/getAll")
     @Produces("application/json")
+    @UserAuthenticationNotRequired
     public Response getAllMenus() {
         List<Menu> menus = menuService.retriveAll();
         if (menus==null || menus.isEmpty()) {
@@ -97,6 +99,7 @@ public class MenuRest extends BaseRest {
     @GET
     @Path("/getByText/{searchValue}")
     @Produces("application/json")
+    @UserAuthenticationNotRequired
     public Response findMenusByText(@PathParam("searchValue") final String searchValue) {
         List<Menu> menus = menuService.findByText(searchValue);
         if (menus==null || menus.isEmpty()) {
@@ -124,6 +127,7 @@ public class MenuRest extends BaseRest {
     @GET
     @Path("/getFoodServiceByMenuId/{id}")
     @Produces("application/json")
+    @UserAuthenticationRequired
     public Response getFoodServiceByMenuId(@PathParam("id") final Integer id) {
         FoodService foodService = menuService.getFoodServiceByMenuId(id);
         if (foodService==null) {
