@@ -6,8 +6,6 @@ import java.util.List;
 import ar.edu.unq.desapp.groupj.backend.model.FoodService;
 import ar.edu.unq.desapp.groupj.backend.model.User;
 import ar.edu.unq.desapp.groupj.backend.model.Menu;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 public class MenuService extends GenericService<Menu> {

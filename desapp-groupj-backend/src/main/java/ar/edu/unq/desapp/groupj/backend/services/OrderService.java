@@ -35,9 +35,13 @@ public class OrderService extends GenericService<Order> {
     private MenuService menuService;
     private EmailSenderService emailSenderService;
 
+    @Transactional
     public void setUserService( UserService service ) { this.userService = service; }
+    @Transactional
     public void setFoodServiceService( FoodServiceService service ) { this.foodServiceService = service; }
+    @Transactional
     public void setMenuService( MenuService service ) { this.menuService = service; }
+    @Transactional
     public void setEmailSenderService( EmailSenderService service ) { this.emailSenderService = service; }
 
     private Timer dailyClosureTimer;

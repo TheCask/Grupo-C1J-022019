@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
 import ar.edu.unq.desapp.groupj.backend.model.User;
-import ar.edu.unq.desapp.groupj.backend.rest.BaseRest;
 import ar.edu.unq.desapp.groupj.backend.services.UserService;
 
 
@@ -55,7 +54,7 @@ public class UserRest extends BaseRest {
 	@Produces("application/json")
 	@UserAuthenticationRequired
 	public Response getUserIdByMail(@PathParam("mail") final String mail){
-		Integer userId = userService.getUserId(mail);
+		Integer userId = userService.findUserId(mail);
 		if (userId==null) {
 			return Response.status(Response.Status.NOT_FOUND).entity("Unregistered user " + mail).build();
 		}

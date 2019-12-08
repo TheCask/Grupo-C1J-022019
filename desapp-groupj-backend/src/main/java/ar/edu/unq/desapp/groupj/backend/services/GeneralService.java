@@ -1,5 +1,10 @@
 package ar.edu.unq.desapp.groupj.backend.services;
 
+import ar.edu.unq.desapp.groupj.backend.services.FoodServiceService;
+import ar.edu.unq.desapp.groupj.backend.services.MenuService;
+import ar.edu.unq.desapp.groupj.backend.services.OrderService;
+import ar.edu.unq.desapp.groupj.backend.services.UserService;
+
 public class GeneralService {
 
 	private UserService userService;
