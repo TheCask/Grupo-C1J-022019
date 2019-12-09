@@ -43,7 +43,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 			<ref bean="jacksonProvider" />
 		</jaxrs:providers>
 		<jaxrs:features>
-			<cxf:logging />
+			<cxf:logging/>
 		</jaxrs:features>
 	</jaxrs:server>
 
