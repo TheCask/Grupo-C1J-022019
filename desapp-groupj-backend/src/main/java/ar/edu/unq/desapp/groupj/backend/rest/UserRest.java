@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationNotRequired;
 import ar.edu.unq.desapp.groupj.backend.auth.UserAuthenticationRequired;
 import ar.edu.unq.desapp.groupj.backend.model.User;
 import ar.edu.unq.desapp.groupj.backend.services.UserService;
@@ -28,7 +29,7 @@ public class UserRest extends BaseRest {
 	@GET
 	@Path("/getById/{id}")
 	@Produces("application/json")
-	@UserAuthenticationRequired
+	@UserAuthenticationNotRequired
 	public Response getUserById(@PathParam("id") final Integer id) {
 		User user = userService.findById(id);
 		if (user==null) {
@@ -40,7 +41,7 @@ public class UserRest extends BaseRest {
 	@GET
 	@Path("/getBySocialId/{socialId}")
 	@Produces("application/json")
-	@UserAuthenticationRequired
+	@UserAuthenticationNotRequired
 	public Response getUserBySocialId(@PathParam("socialId") final String socialId) {
 		User user = userService.findBySocialId(socialId);
 		if (user==null) {
@@ -52,7 +53,7 @@ public class UserRest extends BaseRest {
 	@GET
 	@Path("{mail}/getId")
 	@Produces("application/json")
-	@UserAuthenticationRequired
+	@UserAuthenticationNotRequired
 	public Response getUserIdByMail(@PathParam("mail") final String mail){
 		Integer userId = userService.findUserId(mail);
 		if (userId==null) {
@@ -77,7 +78,7 @@ public class UserRest extends BaseRest {
 	@Path("/create")
 	@Consumes("application/json")
 	@Produces("application/json")
-	@UserAuthenticationRequired
+	@UserAuthenticationNotRequired
 	public Response createUser(final User user){
 		
 		try{
