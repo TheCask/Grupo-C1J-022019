@@ -174,4 +174,20 @@ public class OrderRest extends BaseRest {
         return Response.ok().build();
     }
 
+    @PUT
+    @Path("/details/rate/{userId}/{orderDetailId}/{value}")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response rateOrderDetail(@PathParam("userId") final Integer userId,
+                                    @PathParam("orderDetailId") final Integer orderDetailId,
+                                    @PathParam("value") final Integer value ) {
+        try{
+            this.orderService.rateOrderDetail(userId,orderDetailId,value);
+        }
+        catch(Exception exception){
+            return Response.status(Response.Status.NOT_FOUND).entity("Unable to rate order: " + exception.getMessage() ).build();
+        }
+        return Response.ok().build();
+    }
+
 }

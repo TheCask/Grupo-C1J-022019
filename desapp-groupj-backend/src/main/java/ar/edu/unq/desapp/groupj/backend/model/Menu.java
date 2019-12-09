@@ -60,7 +60,12 @@ public class Menu {
     private Double          minimumAmount2Price;
     private Integer             maximumDailySales;
 
-    @Transient
+    @OneToMany(
+            mappedBy = "menu",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<Rate>       rates = new HashSet<>();
 
     @Transient
@@ -196,6 +201,7 @@ public class Menu {
         this.maximumDailySales = maximumDailySales;
     }
 
+    @JsonManagedReference
     public Set<Rate> getRates() { return this.rates; }
 
     public void setRates(Set<Rate> rates) {

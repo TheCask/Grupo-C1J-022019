@@ -214,9 +214,9 @@ public class MenuTest {
         HashSet<Rate> rates = new HashSet<>();
 
         this.menu.setRates(rates);
-        this.menu.addRate(new Rate(mock(User.class), 2));
-        this.menu.addRate(new Rate(mock(User.class), 2));
-        this.menu.addRate(new Rate(mock(User.class), 2));
+        this.menu.addRate(new Rate(this.menu, mock(User.class), 2));
+        this.menu.addRate(new Rate(this.menu, mock(User.class), 2));
+        this.menu.addRate(new Rate(this.menu, mock(User.class), 2));
 
         assertEquals((Integer)3, this.menu.getRateCount());
         assertEquals((Integer)2, this.menu.getAverageRate());

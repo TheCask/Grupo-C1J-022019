@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unq.desapp.groupj.backend.model.FoodService;
+import ar.edu.unq.desapp.groupj.backend.model.Rate;
 import ar.edu.unq.desapp.groupj.backend.model.User;
 import ar.edu.unq.desapp.groupj.backend.model.Menu;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,12 @@ public class MenuService extends GenericService<Menu> {
     public FoodService getFoodServiceByMenuId(int menuId) {
         Menu menu = this.findById(menuId);
         return (menu!=null?menu.getFoodService():null);
+    }
+
+    @Transactional
+    public void rateMenu( Menu menu, User user, Integer value ) {
+        menu.addRate( new Rate( menu, user, value ) );
+        update(menu);
     }
 }
 

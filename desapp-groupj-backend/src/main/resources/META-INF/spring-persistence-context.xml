@@ -59,6 +59,7 @@
 				<value>ar.edu.unq.desapp.groupj.backend.model.Menu</value>
 				<value>ar.edu.unq.desapp.groupj.backend.model.Order</value>
 				<value>ar.edu.unq.desapp.groupj.backend.model.OrderDetail</value>
+				<value>ar.edu.unq.desapp.groupj.backend.model.Rate</value>
 			</list>
 		</property>
 

@@ -128,6 +128,23 @@ public class OrderService extends GenericService<Order> {
         return orderDetail;
     }
 
+    @Transactional
+    public OrderDetail rateOrderDetail( Integer clientId, Integer orderDetailId, Integer value ) {
+        OrderDetail orderDetail = getOrderDetailById(orderDetailId);
+        User client = this.userService.findById(clientId);
+        User provider = orderDetail.getOrder().getMenu().getProvider();
+
+        this.menuService.rateMenu( orderDetail.getOrder().getMenu(), client, value );
+
+        orderDetail.setStatus(OrderStatus.Rated);
+        updateOrderDetail( orderDetail );
+
+        this.emailSenderService.backgroundSend( provider.getMail(), "",
+                "Calificaron tu menu!",  composeOrderRatedEmailText(orderDetail,value) );
+
+        return orderDetail;
+    }
+
     private OrderDetail cancelOrderDetail( OrderDetail orderDetail,
                                            String notificationSubject,
                                            String notificationCause ) {
@@ -257,6 +274,17 @@ public class OrderService extends GenericService<Order> {
                 "Recibimos tu aviso de que ya recibiste tu pedido de " + orderDetail.getRequestedAmount() + " unidad(es) del menu '" + menu.getName() + "'" +
                 " ofrecido por el vendedor " + provider.getFirstName() + " " + provider.getLastName() + " (en copia de este mail).\n\n" +
                 "\n\nSegui disfruntando de ViandasYa!";
+        return description;
+    }
+
+    private String composeOrderRatedEmailText(OrderDetail orderDetail, Integer rate) {
+        Menu menu = orderDetail.getOrder().getMenu();
+        User provider = menu.getProvider();
+        User client = orderDetail.getUser();
+        String description = "Hola " + provider.getFirstName() + "!!\n\n" +
+                "Recibiste una calificacion de " + rate + " puntos de parte del usuario " +
+                client.getFirstName() + " " + client.getLastName() + " por su compra del menu '" + menu.getName() + "'." +
+                "\n\nGracias por seguir confiando en ViandasYa!";
         return description;
     }
 

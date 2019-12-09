@@ -176,7 +176,7 @@ public class ViandasSystemTest {
 
     @Test
     public void clientRateFoodServiceWithValidValue() {
-        int aValue = 3;
+        Integer aValue = 3;
         User aClient = mock(User.class);
         Menu aMenu = mock(Menu.class);
 

@@ -77,7 +77,7 @@ public class ViandasSystem {
     }
 
     public Rate clientRatesMenu(User aClient, Menu aMenu, int aValue) {
-        Rate aRate = new Rate(aClient, aValue);
+        Rate aRate = new Rate(aMenu, aClient, aValue);
         aMenu.addRate(aRate);
         if (aMenu.banned()) { this.banMenu(aMenu); }
         return aRate;
