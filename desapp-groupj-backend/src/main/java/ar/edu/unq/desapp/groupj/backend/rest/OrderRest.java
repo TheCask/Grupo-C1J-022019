@@ -109,8 +109,20 @@ public class OrderRest extends BaseRest {
     @Path("/details/getByUserId/{id}")
     @Produces("application/json")
     @UserAuthenticationRequired
-    public Response getOrderDetailsByUserId(@PathParam("id") final Integer id) { //returns user's menus list
+    public Response getOrderDetailsByUserId(@PathParam("id") final Integer id) {
         List<OrderDetail> orderDetails = orderService.getOrderDetailsByUserId(id);
+        if (orderDetails==null || orderDetails.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(orderDetails).build();
+    }
+
+    @GET
+    @Path("/details/getByProviderId/{id}")
+    @Produces("application/json")
+    @UserAuthenticationRequired
+    public Response getOrderDetailsByProviderId(@PathParam("id") final Integer id) {
+        List<OrderDetail> orderDetails = orderService.getOrderDetailsByProviderId(id);
         if (orderDetails==null || orderDetails.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

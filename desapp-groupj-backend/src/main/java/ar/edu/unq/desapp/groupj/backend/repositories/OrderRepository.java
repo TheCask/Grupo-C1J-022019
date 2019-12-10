@@ -50,6 +50,12 @@ public class OrderRepository extends HibernateGenericDAO<Order> implements Gener
                 .find(" FROM OrderDetail o WHERE user_id = " + userId.toString() );
     }
 
+    public List<OrderDetail> getOrderDetailsByProviderId(Integer providerId) {
+        return (List<OrderDetail>) this.getHibernateTemplate()
+                .find(" FROM OrderDetail od WHERE od.order.menu.foodService.provider.id = " +
+                        providerId.toString() );
+    }
+
     public OrderDetail getOrderDetailById(Integer orderDetailId) {
         List<OrderDetail> details = (List<OrderDetail>) this.getHibernateTemplate()
                 .find(" FROM OrderDetail o WHERE id = " + orderDetailId.toString() );

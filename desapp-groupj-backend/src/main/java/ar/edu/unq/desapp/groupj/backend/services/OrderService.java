@@ -59,6 +59,11 @@ public class OrderService extends GenericService<Order> {
     }
 
     @Transactional
+    public List<OrderDetail> getOrderDetailsByProviderId(Integer userId) {
+        return ((OrderRepository)this.getRepository()).getOrderDetailsByProviderId(userId);
+    }
+
+    @Transactional
     public Order getOrderByMenuIdAndDeliveryDate(Integer menuId, LocalDate deliveryDate ) {
         return ((OrderRepository)this.getRepository()).getOrderByMenuIdAndDeliveryDate(menuId,deliveryDate);
     }
